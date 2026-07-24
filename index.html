@@ -40,80 +40,100 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            width: 100%;
         }
 
-        /* EFEITO NÉVOA DE LUXO (ATRÁS DA LOGO) */
+        /* EFEITO DE PULSO (NÉVOA) EXATAMENTE NO CENTRO */
         .mist-effect {
             position: absolute;
-            top: 45%;
+            /* Garante que o centro do pulso seja o centro da logo */
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(197, 160, 89, 0.3) 0%, transparent 70%);
-            filter: blur(20px);
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, rgba(197, 160, 89, 0.4) 0%, transparent 70%);
+            filter: blur(15px);
             border-radius: 50%;
             z-index: 1;
-            animation: mist-breathe 3s infinite ease-in-out;
+            animation: mist-breathe 2.5s infinite ease-in-out;
         }
 
         @keyframes mist-breathe {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
-            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.8; }
+            0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.3; }
+            50% { transform: translate(-50%, -50%) scale(1.4); opacity: 0.7; }
         }
 
-        /* EFEITO DE REFLEXO PASSANTE NA LOGO (SHINE SWEEP) */
         .logo-container {
             position: relative;
-            overflow: hidden; /* Corta o brilho fora da área da logo */
             z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .pulse-logo {
-            width: 300px;
+            width: 280px; /* Tamanho da logo */
             display: block;
             position: relative;
-        }
-
-        .shine-line {
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
-            transform: skewX(-25deg);
-            transition: 0.5s;
-            animation: shine 3s infinite;
-        }
-
-        @keyframes shine {
-            0% { left: -100%; }
-            20% { left: 100%; }
-            100% { left: 100%; }
         }
 
         .welcome-text {
             color: var(--dourado-logo);
             letter-spacing: 0.6em;
             font-size: 11px;
+            font-weight: 400;
             z-index: 11;
-            margin-top: -145px; /* Ajuste para colar na logo */
-            text-shadow: 0 0 10px rgba(197, 160, 89, 0.3);
+            /* MARGEM NEGATIVA PARA COLAR NA LOGO E COMPENSAR O VAZIO DA IMAGEM */
+            margin-top: -135px; 
+            text-shadow: 0 0 10px rgba(197, 160, 89, 0.4);
+            animation: fade-in 2s ease-out;
         }
 
-        /* CONFIGURAÇÃO DO SITE */
-        .logo-left { width: 120px; margin-bottom: -20px; }
-        .header-container { padding: 1.5rem 1.5rem 0 1.5rem; display: flex; flex-direction: column; align-items: flex-start; }
-        .nav-links { display: flex; gap: 15px; font-size: 10px; letter-spacing: 0.1em; color: #888; text-transform: uppercase; border-bottom: 1px solid rgba(197, 160, 89, 0.1); width: 100%; padding-bottom: 8px; }
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* CONFIGURAÇÃO DO SITE (HEADER) */
+        .logo-left {
+            width: 120px;
+            margin-bottom: -15px;
+        }
+
+        .header-container {
+            padding: 1.5rem 1.5rem 0 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            color: #888;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+            width: 100%;
+            padding-bottom: 8px;
+        }
+
+        /* BUSCA E MARCAS */
         .search-area { padding: 1.2rem 1.5rem; }
         .search-input { width: 100%; background: transparent; border-bottom: 1px solid rgba(197, 160, 89, 0.3); padding: 5px 0; outline: none; text-transform: uppercase; font-size: 13px; color: white; }
+        
         .brand-scroll { display: flex; overflow-x: auto; gap: 10px; padding: 0 1.5rem 1rem 1.5rem; scrollbar-width: none; }
+        .brand-scroll::-webkit-scrollbar { display: none; }
         .brand-item { border: 1px solid rgba(197, 160, 89, 0.2); padding: 5px 12px; border-radius: 20px; font-size: 9px; text-transform: uppercase; color: #999; }
+
         .product-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(197, 160, 89, 0.1); padding: 15px; text-align: center; }
         .product-img { height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
         .product-img img { max-height: 100%; object-fit: contain; }
+        
         .btn-buy { background: linear-gradient(135deg, var(--dourado-logo), var(--dourado-brilho)); color: #000; width: 100%; padding: 10px; font-weight: 700; font-size: 10px; text-transform: uppercase; margin-top: 10px; }
+        
         .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background: #25d366; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 100; }
     </style>
 </head>
@@ -122,20 +142,18 @@
     <!-- SPLASH SCREEN -->
     <div id="splash-screen">
         <div class="splash-wrapper">
-            <!-- Efeito de névoa atrás -->
+            <!-- Efeito de névoa (Pulso) -->
             <div class="mist-effect"></div>
             
-            <!-- Logo com efeito de brilho passando -->
+            <!-- Container da Logo e Texto -->
             <div class="logo-container">
                 <img src="assinatura.png" alt="Logo" class="pulse-logo">
-                <div class="shine-line"></div>
+                <h1 class="font-luxury welcome-text">SEJA BEM VINDO</h1>
             </div>
-            
-            <h1 class="font-luxury welcome-text">SEJA BEM VINDO</h1>
         </div>
     </div>
 
-    <!-- HEADER -->
+    <!-- HEADER (Site) -->
     <header class="header-container">
         <img src="assinatura.png" alt="Logo" class="logo-left">
         <nav class="nav-links">
@@ -158,6 +176,7 @@
 
     <main class="px-6 grid grid-cols-1 gap-6" id="productGrid"></main>
 
+    <!-- WHATSAPP -->
     <a href="https://wa.me/5595991154395" class="whatsapp-float">
         <svg width="24" height="24" fill="white" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
     </a>
