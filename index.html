@@ -69,15 +69,15 @@
             font-weight: 400;
             z-index: 11;
             margin-top: -135px; 
-            text-shadow: 0 0-10px rgba(197, 160, 89, 0.4);
+            text-shadow: 0 0 10px rgba(197, 160, 89, 0.4);
         }
 
         /* --- ESTILO DA PÁGINA PRINCIPAL --- */
 
-        /* Linha Dourada Sofisticada de ponta a ponta */
+        /* Linha Dourada de ponta a ponta horizontal */
         .golden-line-bg {
             position: absolute;
-            top: 50px; /* Alinhado ao centro da logo */
+            top: 55px; /* Ajustado para ficar atrás do centro da logo centralizada */
             left: 0;
             width: 100%;
             height: 1px;
@@ -96,20 +96,22 @@
             padding: 0.5rem 1.5rem 0 1.5rem;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center; /* CENTRALIZA A LOGO E O CONTEÚDO DO HEADER */
             z-index: 10;
+            text-align: center;
         }
 
-        .logo-left {
+        .logo-main {
             width: 110px;
             position: relative;
             z-index: 5;
-            margin-bottom: -15px; /* Puxa o menu para cima */
+            margin-bottom: -15px;
         }
 
         .nav-links {
             display: flex;
-            justify-content: space-between;
+            justify-content: center; /* Centraliza os itens do menu */
+            gap: 20px;
             font-size: 9px;
             letter-spacing: 0.15em;
             color: #aaa;
@@ -117,10 +119,10 @@
             border-bottom: 1px solid rgba(197, 160, 89, 0.15);
             width: 100%;
             padding-bottom: 8px;
-            margin-top: -5px; /* Sobe o menu preenchendo o espaço */
+            margin-top: -5px;
         }
 
-        /* BUSCA (Ajustada para preencher o espaço rabiscado) */
+        /* BUSCA */
         .search-area {
             padding: 0.8rem 1.5rem 1rem 1.5rem;
             margin-top: -5px;
@@ -137,6 +139,7 @@
             color: #fff;
             letter-spacing: 2px;
             font-weight: 300;
+            text-align: center; /* Texto da busca centralizado para combinar */
         }
 
         .brand-scroll {
@@ -156,6 +159,7 @@
             text-transform: uppercase;
             color: #777;
             background: rgba(255,255,255,0.02);
+            white-space: nowrap;
         }
 
         /* CARDS */
@@ -217,11 +221,12 @@
 
     <!-- SITE PRINCIPAL -->
     
-    <!-- Linha Dourada de Fundo (Ponta a ponta) -->
+    <!-- Linha Dourada de Fundo -->
     <div class="golden-line-bg"></div>
 
     <header class="header-container">
-        <img src="assinatura.png" alt="Logo" class="logo-left">
+        <!-- Logo Centralizada -->
+        <img src="assinatura.png" alt="Logo" class="logo-main">
         
         <nav class="nav-links">
             <a href="#">Catálogo</a>
