@@ -40,153 +40,81 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 100%;
         }
 
-        /* EFEITO PULSO EXATAMENTE ATRÁS DO CENTRO DA LOGO */
-        .pulse-effect {
+        /* EFEITO NÉVOA DE LUXO (ATRÁS DA LOGO) */
+        .mist-effect {
             position: absolute;
-            top: 45%; /* Ajustado para o centro visual da logo */
+            top: 45%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 120px;
-            height: 120px;
-            background: radial-gradient(circle, rgba(197, 160, 89, 0.6) 0%, transparent 70%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(197, 160, 89, 0.3) 0%, transparent 70%);
+            filter: blur(20px);
             border-radius: 50%;
-            z-index: 1; /* Atrás da logo */
-            animation: luxury-pulse 2s infinite ease-in-out;
+            z-index: 1;
+            animation: mist-breathe 3s infinite ease-in-out;
         }
 
-        @keyframes luxury-pulse {
-            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.3; }
-            50% { transform: translate(-50%, -50%) scale(1.6); opacity: 0.7; }
-            100% { transform: translate(-50%, -50%) scale(2.2); opacity: 0; }
+        @keyframes mist-breathe {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.8; }
+        }
+
+        /* EFEITO DE REFLEXO PASSANTE NA LOGO (SHINE SWEEP) */
+        .logo-container {
+            position: relative;
+            overflow: hidden; /* Corta o brilho fora da área da logo */
+            z-index: 10;
         }
 
         .pulse-logo {
-            width: 300px; /* Logo em destaque */
-            z-index: 10;
-            position: relative;
+            width: 300px;
             display: block;
+            position: relative;
+        }
+
+        .shine-line {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-25deg);
+            transition: 0.5s;
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
         }
 
         .welcome-text {
             color: var(--dourado-logo);
             letter-spacing: 0.6em;
             font-size: 11px;
-            font-weight: 400;
             z-index: 11;
-            /* MARGEM NEGATIVA AUMENTADA PARA COLAR NA LOGO */
-            margin-top: -145px; 
-            text-shadow: 0 0 15px rgba(197, 160, 89, 0.5);
-            animation: fade-up 2s ease-out forwards;
+            margin-top: -145px; /* Ajuste para colar na logo */
+            text-shadow: 0 0 10px rgba(197, 160, 89, 0.3);
         }
 
-        @keyframes fade-up {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* CONFIGURAÇÃO DO SITE (HEADER) */
-        .logo-left {
-            width: 120px;
-            margin-bottom: -20px;
-        }
-
-        .header-container {
-            padding: 1.5rem 1.5rem 0 1.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 15px;
-            font-size: 10px;
-            letter-spacing: 0.1em;
-            color: #888;
-            text-transform: uppercase;
-            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
-            width: 100%;
-            padding-bottom: 8px;
-        }
-
-        /* BARRA DE BUSCA E MARCAS */
-        .search-area {
-            padding: 1.2rem 1.5rem;
-        }
-
-        .search-input {
-            width: 100%;
-            background: transparent;
-            border-bottom: 1px solid rgba(197, 160, 89, 0.3);
-            padding: 5px 0;
-            outline: none;
-            text-transform: uppercase;
-            font-size: 13px;
-            letter-spacing: 1px;
-        }
-
-        .brand-scroll {
-            display: flex;
-            overflow-x: auto;
-            gap: 10px;
-            padding: 0 1.5rem 1rem 1.5rem;
-            scrollbar-width: none;
-        }
-        .brand-scroll::-webkit-scrollbar { display: none; }
-
-        .brand-item {
-            border: 1px solid rgba(197, 160, 89, 0.2);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 9px;
-            text-transform: uppercase;
-            white-space: nowrap;
-            color: #999;
-        }
-
-        .product-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(197, 160, 89, 0.1);
-            padding: 15px;
-            text-align: center;
-        }
-
-        .product-img {
-            height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-        }
+        /* CONFIGURAÇÃO DO SITE */
+        .logo-left { width: 120px; margin-bottom: -20px; }
+        .header-container { padding: 1.5rem 1.5rem 0 1.5rem; display: flex; flex-direction: column; align-items: flex-start; }
+        .nav-links { display: flex; gap: 15px; font-size: 10px; letter-spacing: 0.1em; color: #888; text-transform: uppercase; border-bottom: 1px solid rgba(197, 160, 89, 0.1); width: 100%; padding-bottom: 8px; }
+        .search-area { padding: 1.2rem 1.5rem; }
+        .search-input { width: 100%; background: transparent; border-bottom: 1px solid rgba(197, 160, 89, 0.3); padding: 5px 0; outline: none; text-transform: uppercase; font-size: 13px; color: white; }
+        .brand-scroll { display: flex; overflow-x: auto; gap: 10px; padding: 0 1.5rem 1rem 1.5rem; scrollbar-width: none; }
+        .brand-item { border: 1px solid rgba(197, 160, 89, 0.2); padding: 5px 12px; border-radius: 20px; font-size: 9px; text-transform: uppercase; color: #999; }
+        .product-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(197, 160, 89, 0.1); padding: 15px; text-align: center; }
+        .product-img { height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
         .product-img img { max-height: 100%; object-fit: contain; }
-
-        .btn-buy {
-            background: linear-gradient(135deg, var(--dourado-logo), var(--dourado-brilho));
-            color: #000;
-            width: 100%;
-            padding: 10px;
-            font-weight: 700;
-            font-size: 10px;
-            text-transform: uppercase;
-            margin-top: 10px;
-        }
-
-        .whatsapp-float {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #25d366;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-        }
+        .btn-buy { background: linear-gradient(135deg, var(--dourado-logo), var(--dourado-brilho)); color: #000; width: 100%; padding: 10px; font-weight: 700; font-size: 10px; text-transform: uppercase; margin-top: 10px; }
+        .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background: #25d366; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 100; }
     </style>
 </head>
 <body>
@@ -194,9 +122,15 @@
     <!-- SPLASH SCREEN -->
     <div id="splash-screen">
         <div class="splash-wrapper">
-            <!-- O pulso agora está posicionado via translate(-50%, -50%) no CSS -->
-            <div class="pulse-effect"></div>
-            <img src="assinatura.png" alt="Logo" class="pulse-logo">
+            <!-- Efeito de névoa atrás -->
+            <div class="mist-effect"></div>
+            
+            <!-- Logo com efeito de brilho passando -->
+            <div class="logo-container">
+                <img src="assinatura.png" alt="Logo" class="pulse-logo">
+                <div class="shine-line"></div>
+            </div>
+            
             <h1 class="font-luxury welcome-text">SEJA BEM VINDO</h1>
         </div>
     </div>
@@ -232,9 +166,9 @@
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
-                splash.style.transition = 'opacity 0.6s ease';
+                splash.style.transition = 'opacity 0.8s ease';
                 splash.style.opacity = '0'; 
-                setTimeout(() => { splash.remove(); }, 600);
+                setTimeout(() => { splash.remove(); }, 800);
             }, 2500); 
         });
 
