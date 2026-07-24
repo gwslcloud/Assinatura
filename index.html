@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assinatura Perfume | Catálogo de Luxo</title>
+    <title>Assinatura Perfume | Luxury Boutique</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -20,12 +20,6 @@
         }
         .font-luxury { font-family: 'Cinzel', serif; }
         
-        .text-gold {
-            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
         .btn-gold {
             background: linear-gradient(135deg, var(--dourado-logo), var(--dourado-brilho));
             color: #000;
@@ -48,89 +42,75 @@
         .product-card:hover {
             border: 1px solid var(--dourado-logo);
             background: rgba(255, 255, 255, 0.05);
-            transform: translateY(-10px);
         }
 
-        /* Efeito de brilho na imagem */
-        .img-container::after {
-            content: '';
-            position: absolute;
-            top: 0; left: -75%;
-            width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
-            transform: skewX(-25deg);
-            transition: 0.75s;
+        /* Ajuste para as fotos dos perfumes não cortarem */
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Garante que o frasco apareça inteiro */
+            padding: 10px;
         }
-        .product-card:hover .img-container::after { left: 125%; }
     </style>
 </head>
 <body>
 
-    <!-- Header com sua Logo Centralizada -->
-    <header class="py-16 flex flex-col items-center bg-gradient-to-b from-black/50 to-transparent">
-        <img src="assinatura.jpeg" alt="Assinatura Perfume" class="w-64 md:w-80 mb-10 drop-shadow-[0_0_20px_rgba(197,160,89,0.4)]">
+    <!-- Header / Logo -->
+    <header class="py-12 flex flex-col items-center">
+        <img src="assinatura.jpeg" alt="Assinatura Perfume" class="w-64 md:w-80 mb-8 drop-shadow-[0_0_15px_rgba(197,160,89,0.3)]">
         
-        <div class="h-[1px] w-32 bg-gold opacity-30 mb-8" style="background: var(--dourado-logo)"></div>
-        
-        <nav class="flex space-x-10 text-[10px] md:text-xs tracking-[0.4em] uppercase text-gray-400 font-light">
-            <a href="#" class="hover:text-gold transition-all cursor-pointer">Catálogo</a>
-            <a href="#" class="hover:text-gold transition-all cursor-pointer">Masculinos</a>
-            <a href="#" class="hover:text-gold transition-all cursor-pointer">Femininos</a>
+        <nav class="flex space-x-8 text-[10px] md:text-xs tracking-[0.3em] uppercase opacity-60 font-light">
+            <a href="#" class="hover:text-gold transition">Catálogo</a>
+            <a href="#" class="hover:text-gold transition">Masculinos</a>
+            <a href="#" class="hover:text-gold transition">Femininos</a>
         </nav>
     </header>
 
-    <!-- Barra de Pesquisa -->
-    <div class="container mx-auto px-4 mb-16">
-        <div class="max-w-xl mx-auto relative group">
+    <!-- Barra de Busca (Sem Emoji) -->
+    <div class="container mx-auto px-4 mb-16 text-center">
+        <div class="max-w-xl mx-auto border-b border-gold/30 group">
             <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="BUSQUE UMA FRAGRÂNCIA..." 
-                class="w-full bg-transparent border-b border-gold/30 py-4 px-12 text-center text-lg font-light focus:outline-none focus:border-gold transition-all placeholder:text-gray-700 tracking-[0.2em]">
-            <span class="absolute left-4 top-5 opacity-20">🔍</span>
+                class="w-full bg-transparent py-4 text-center text-lg font-light focus:outline-none focus:border-gold transition-all placeholder:text-gray-700 tracking-[0.2em]">
         </div>
     </div>
 
-    <main class="container mx-auto px-4 flex flex-col md:flex-row gap-16 pb-20">
+    <main class="container mx-auto px-4 flex flex-col md:flex-row gap-12 pb-20">
         
-        <!-- Lateral: Marcas baseadas nos seus perfumes -->
-        <aside class="w-full md:w-1/4">
-            <h3 class="font-luxury text-gold text-xl mb-8 tracking-widest border-b border-gold/10 pb-4 uppercase">Marcas</h3>
-            <ul class="space-y-6 text-xs tracking-[0.2em] text-gray-500 font-medium uppercase" id="brandList">
-                <li class="hover:text-gold cursor-pointer transition-all flex items-center gap-3" onclick="filterByBrand('Todos')">
-                    <span class="w-1.5 h-1.5 rounded-full bg-gold"></span> Todos
+        <!-- Lateral: Marcas -->
+        <aside class="w-full md:w-1/5">
+            <h3 class="font-luxury text-gold text-lg mb-8 tracking-widest border-b border-gold/10 pb-2 uppercase">Marcas</h3>
+            <ul class="space-y-4 text-[11px] tracking-widest text-gray-500 uppercase">
+                <li class="hover:text-gold cursor-pointer transition flex items-center gap-2" onclick="filterByBrand('Todos')">
+                    <span class="w-1 h-1 rounded-full bg-gold/50"></span> Todos
                 </li>
-                <li class="hover:text-gold cursor-pointer transition-all flex items-center gap-3" onclick="filterByBrand('Khadlaj')">
-                    <span class="w-1.5 h-1.5 rounded-full bg-gray-800"></span> Khadlaj
+                <li class="hover:text-gold cursor-pointer transition flex items-center gap-2" onclick="filterByBrand('Khadlaj')">
+                    <span class="w-1 h-1 rounded-full bg-gold/50"></span> Khadlaj
                 </li>
-                <li class="hover:text-gold cursor-pointer transition-all flex items-center gap-3" onclick="filterByBrand('Maison Alhambra')">
-                    <span class="w-1.5 h-1.5 rounded-full bg-gray-800"></span> Maison Alhambra
+                <li class="hover:text-gold cursor-pointer transition flex items-center gap-2" onclick="filterByBrand('Maison Alhambra')">
+                    <span class="w-1 h-1 rounded-full bg-gold/50"></span> Maison Alhambra
                 </li>
-                <li class="hover:text-gold cursor-pointer transition-all flex items-center gap-3" onclick="filterByBrand('Lattafa')">
-                    <span class="w-1.5 h-1.5 rounded-full bg-gray-800"></span> Lattafa
+                <li class="hover:text-gold cursor-pointer transition flex items-center gap-2" onclick="filterByBrand('Lattafa')">
+                    <span class="w-1 h-1 rounded-full bg-gold/50"></span> Lattafa
                 </li>
             </ul>
         </aside>
 
-        <!-- Catalogo Principal -->
-        <section class="w-full md:w-3/4">
-            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-                <!-- Perfumes carregados via JS abaixo -->
+        <!-- Grade de Produtos -->
+        <section class="w-full md:w-4/5">
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Conteúdo via JS -->
             </div>
         </section>
     </main>
 
-    <footer class="py-16 border-t border-white/5 text-center bg-black/20">
-        <p class="text-[10px] tracking-[0.6em] text-gray-700 uppercase mb-4">Assinatura Perfume Boutique</p>
-        <p class="text-[9px] text-gray-800 tracking-widest uppercase">Elegância e Poder em cada gota.</p>
-    </footer>
-
     <script>
-        // SEUS PRODUTOS ATUALIZADOS:
         const database = [
             {
                 marca: "Khadlaj",
                 nome: "Oud Al Sabah 100ml",
                 preco: "100,00",
                 imagem: "perfume1.jpeg",
-                whatsapp: "55XXXXXXXXXXX" // COLOQUE SEU NUMERO AQUI
+                whatsapp: "55XXXXXXXXXXX"
             },
             {
                 marca: "Maison Alhambra",
@@ -143,7 +123,7 @@
                 marca: "Lattafa",
                 nome: "Asad 100ml",
                 preco: "400,00",
-                imagem: "perfume3.jpeg",
+                imagem: "perfume3.webp", // Ajustado para .webp
                 whatsapp: "55XXXXXXXXXXX"
             }
         ];
@@ -152,20 +132,19 @@
 
         function displayProducts(products) {
             grid.innerHTML = products.map(p => `
-                <div class="product-card p-5 flex flex-col group h-full relative overflow-hidden">
-                    <div class="img-container relative overflow-hidden aspect-[4/5] mb-8 bg-black/20 rounded-sm">
-                        <img src="${p.imagem}" alt="${p.nome}" class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
+                <div class="product-card p-4 flex flex-col group h-full">
+                    <div class="img-container relative overflow-hidden aspect-[3/4] mb-6 bg-black/40 rounded-sm">
+                        <img src="${p.imagem}" alt="${p.nome}" class="transition duration-700 group-hover:scale-105">
                     </div>
                     
                     <div class="flex-grow text-center">
-                        <p class="text-[9px] text-gold tracking-[0.3em] uppercase mb-3 opacity-60">${p.marca}</p>
-                        <h2 class="font-luxury text-md mb-6 h-12 overflow-hidden leading-tight tracking-wide">${p.nome}</h2>
-                        <div class="h-[1px] w-8 bg-gold/20 mx-auto mb-6"></div>
-                        <p class="text-2xl font-light tracking-tighter mb-8 text-white/90">R$ ${p.preco}</p>
+                        <p class="text-[9px] text-gold tracking-widest uppercase mb-1 opacity-50">${p.marca}</p>
+                        <h2 class="font-luxury text-sm mb-4 h-10 overflow-hidden tracking-wide">${p.nome}</h2>
+                        <p class="text-xl font-light mb-6 tracking-tighter">R$ ${p.preco}</p>
                     </div>
 
-                    <a href="https://wa.me/${p.whatsapp}?text=Olá! Gostaria de encomendar o perfume ${p.nome}" target="_blank" 
-                       class="btn-gold py-4 text-center text-[10px] tracking-[0.2em]">
+                    <a href="https://wa.me/${p.whatsapp}?text=Olá! Gostaria de informações sobre o ${p.nome}" target="_blank" 
+                       class="btn-gold py-3 text-center text-[10px] tracking-widest">
                         Solicitar via WhatsApp
                     </a>
                 </div>
@@ -187,7 +166,6 @@
             }
         }
 
-        // Iniciar
         displayProducts(database);
     </script>
 </body>
