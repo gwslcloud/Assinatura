@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Verde Extraído da sua Imagem */
             --verde-fundo: #00160f; 
             --verde-detalhe: #002419;
             --dourado-logo: #c5a059;
@@ -24,7 +23,7 @@
         }
         .font-luxury { font-family: 'Cinzel', serif; }
         
-        /* TELA DE BOAS-VINDAS (SPLASH SCREEN) */
+        /* TELA DE BOAS-VINDAS */
         #splash-screen {
             position: fixed;
             top: 0; left: 0;
@@ -86,33 +85,43 @@
         }
         .logo-main { width: 150px; position: relative; z-index: 5; margin-bottom: -55px; margin-top: -10px; }
         
-        .search-area { padding: 0 1.5rem 1rem 1.5rem; position: relative; z-index: 11; }
+        .search-area { padding: 0 1.5rem 0.5rem 1.5rem; position: relative; z-index: 11; }
         .search-input {
             width: 100%; background: transparent; border-bottom: 1px solid rgba(197, 160, 89, 0.2);
             padding: 4px 0; outline: none; text-transform: uppercase; font-size: 12px;
             color: #fff; letter-spacing: 2px; text-align: center; font-weight: 300;
         }
 
-        /* BOTÕES DE MARCAS */
+        /* BOTÕES DE MARCAS AJUSTADOS */
         .brand-scroll {
-            display: flex; overflow-x: auto; gap: 15px; padding: 1rem 1.5rem 2rem 1.5rem;
-            scrollbar-width: none; justify-content: center;
+            display: flex; 
+            overflow-x: auto; 
+            gap: 10px; 
+            padding: 1rem 15px 1.5rem 15px; /* Ajuste nas laterais */
+            scrollbar-width: none; 
+            justify-content: flex-start; /* Evita vazamento à esquerda */
         }
         .brand-scroll::-webkit-scrollbar { display: none; }
+        
         .brand-item {
             font-family: 'Cinzel', serif; 
             border: 1px solid rgba(197, 160, 89, 0.5);
-            padding: 8px 20px;
-            font-size: 11px;
+            padding: 6px 15px; /* Diminuído para não vazar */
+            font-size: 10px; /* Diminuído */
             text-transform: uppercase;
             color: var(--dourado-logo); 
             background: rgba(0, 0, 0, 0.2); 
             white-space: nowrap;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             transition: all 0.3s ease;
         }
 
-        /* GRID RESPONSIVA (2 col celular / 5 col notebook) */
+        @media (min-width: 1024px) {
+            .brand-scroll { justify-content: center; }
+            .brand-item { font-size: 13px; padding: 10px 25px; }
+        }
+
+        /* GRID RESPONSIVA */
         .product-grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
@@ -132,9 +141,7 @@
             background: rgba(255,255,255,0.03); 
             border: 1px solid rgba(197, 160, 89, 0.1);
             padding: 15px 10px; text-align: center; display: flex; flex-direction: column; justify-content: space-between;
-            transition: all 0.3s ease;
         }
-        .product-card:hover { border-color: rgba(197, 160, 89, 0.4); background: rgba(255,255,255,0.05); }
 
         .product-img { height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
         .product-img img { max-height: 100%; object-fit: contain; }
@@ -175,7 +182,7 @@
         }
 
         footer { text-align: center; padding: 60px 20px; margin-top: 40px; border-top: 1px solid rgba(197, 160, 89, 0.1); }
-        .footer-title { color: var(--dourado-logo); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 8px; }
+        .footer-title { color: var(--dourado-logo); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 8px; font-family: 'Cinzel'; }
         .footer-subtitle { color: #5a7a6f; font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase; }
     </style>
 </head>
@@ -212,7 +219,7 @@
     <main class="product-grid" id="productGrid"></main>
 
     <footer>
-        <div class="footer-title font-luxury">Assinatura Parfum 2026</div>
+        <div class="footer-title">Assinatura Parfum 2026</div>
         <div class="footer-subtitle">BOA VISTA - RR</div>
     </footer>
 
