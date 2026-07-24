@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assinatura Perfume | Catálogo Luxo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --verde-luxo: #002218;
+            --dourado: #D4AF37;
+            --dourado-dark: #aa8c2c;
+        }
+        body { font-family: 'Montserrat', sans-serif; background-color: #f8f8f8; }
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        .bg-verde-luxo { background-color: var(--verde-luxo); }
+        .text-dourado { color: var(--dourado); }
+        .border-dourado { border-color: var(--dourado); }
+        .btn-dourado { 
+            background-color: var(--dourado); 
+            color: var(--verde-luxo);
+            transition: all 0.3s;
+        }
+        .btn-dourado:hover { background-color: var(--dourado-dark); }
+        .sidebar-item:hover { color: var(--dourado); padding-left: 5px; transition: all 0.2s; }
+    </style>
+</head>
+<body>
+
+    <!-- Topo / Menu -->
+    <header class="bg-verde-luxo text-white py-4 shadow-xl">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <h1 class="font-cinzel text-2xl text-dourado tracking-widest uppercase">Assinatura</h1>
+            <nav class="hidden md:flex space-x-6 text-sm uppercase tracking-tighter">
+                <a href="#" class="hover:text-dourado">Perfume Árabe</a>
+                <a href="#" class="hover:text-dourado">Perfume Francês</a>
+                <a href="#" class="hover:text-dourado">Nicho</a>
+                <a href="#" class="hover:text-dourado">Promoções</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <span class="text-xs">Olá, Administrador</span>
+                <div class="relative">
+                    <button class="text-dourado">🛒 <span class="bg-red-600 text-white text-[10px] rounded-full px-1 absolute -top-2 -right-2">0</span></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Barra de Busca Principal -->
+    <section class="bg-white py-6 border-b">
+        <div class="container mx-auto px-4">
+            <div class="max-w-2xl mx-auto relative">
+                <input type="text" placeholder="Qual fragrância você procura?" class="w-full border-2 border-gray-200 rounded-full py-3 px-6 focus:outline-none focus:border-dourado">
+                <button class="absolute right-4 top-3 text-gray-400">🔍</button>
+            </div>
+        </div>
+    </section>
+
+    <main class="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-8">
+        
+        <!-- Sidebar Filtros (Estilo Atlântico) -->
+        <aside class="w-full md:w-1/4">
+            <h2 class="font-cinzel text-verde-luxo border-b-2 border-dourado pb-2 mb-4 font-bold">Subcategorias</h2>
+            <ul class="space-y-3 text-gray-700 text-sm">
+                <li class="sidebar-item cursor-pointer border-b pb-1">Afnan</li>
+                <li class="sidebar-item cursor-pointer border-b pb-1 text-dourado font-bold">Khadlaj (Ativo)</li>
+                <li class="sidebar-item cursor-pointer border-b pb-1">Ajyad</li>
+                <li class="sidebar-item cursor-pointer border-b pb-1">Al Hamarain</li>
+                <li class="sidebar-item cursor-pointer border-b pb-1">Lattafa</li>
+                <li class="sidebar-item cursor-pointer border-b pb-1">Armaf</li>
+            </ul>
+        </aside>
+
+        <!-- Grade de Produtos -->
+        <section class="w-full md:w-3/4">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-cinzel text-verde-luxo">Perfumes Khadlaj</h3>
+                <select class="border p-2 text-sm rounded focus:outline-none">
+                    <option>Ordenar por: Padrão</option>
+                    <option>Preço: Menor para Maior</option>
+                </select>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card do Produto (Modelo) -->
+                <div class="bg-white p-4 rounded shadow-sm border hover:shadow-md transition">
+                    <div class="h-64 bg-gray-100 mb-4 flex items-center justify-center overflow-hidden">
+                        <!-- Imagem do perfume -->
+                        <img src="https://via.placeholder.com/200x250" alt="Perfume" class="mix-blend-multiply">
+                    </div>
+                    <span class="text-xs text-gray-400 uppercase tracking-widest">Khadlaj</span>
+                    <h4 class="font-semibold text-verde-luxo my-1">Oud Al Sabah 100ml</h4>
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-gray-400 line-through text-sm">R$ 129,00</span>
+                        <span class="text-verde-luxo font-bold text-lg">R$ 99,00</span>
+                    </div>
+                    <button class="btn-dourado w-full py-3 rounded-sm font-bold flex items-center justify-center gap-2">
+                        🛒 COMPRAR NO WHATSAPP
+                    </button>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white p-4 rounded shadow-sm border hover:shadow-md transition">
+                    <div class="h-64 bg-gray-100 mb-4 flex items-center justify-center overflow-hidden">
+                        <img src="https://via.placeholder.com/200x250" alt="Perfume" class="mix-blend-multiply">
+                    </div>
+                    <span class="text-xs text-gray-400 uppercase tracking-widest">Khadlaj</span>
+                    <h4 class="font-semibold text-verde-luxo my-1">Strawberry Shake 100ml</h4>
+                    <div class="mb-4">
+                        <span class="text-verde-luxo font-bold text-lg">R$ 189,00</span>
+                    </div>
+                    <button class="btn-dourado w-full py-3 rounded-sm font-bold flex items-center justify-center gap-2">
+                        🛒 COMPRAR NO WHATSAPP
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Botão Flutuante Administrativo (Só você vê) -->
+    <div class="fixed bottom-6 right-6">
+        <button onclick="alert('Abrindo Painel de Gerenciamento...')" class="bg-verde-luxo text-dourado p-4 rounded-full shadow-2xl border-2 border-dourado hover:scale-110 transition">
+            ⚙️ Gerenciar Loja
+        </button>
+    </div>
+
+</body>
+</html>
