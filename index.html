@@ -74,46 +74,40 @@
 
         /* --- ESTILO DA PÁGINA PRINCIPAL --- */
 
-        /* Linha Dourada de ponta a ponta horizontal */
         .golden-line-bg {
             position: absolute;
-            top: 55px; /* Ajustado para ficar atrás do centro da logo centralizada */
+            top: 55px;
             left: 0;
             width: 100%;
             height: 1px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(197, 160, 89, 0.1) 15%, 
-                rgba(197, 160, 89, 0.8) 50%, 
-                rgba(197, 160, 89, 0.1) 85%, 
-                transparent 100%);
+            background: linear-gradient(90deg, transparent 0%, rgba(197, 160, 89, 0.1) 15%, rgba(197, 160, 89, 0.8) 50%, rgba(197, 160, 89, 0.1) 85%, transparent 100%);
             box-shadow: 0 0 15px rgba(197, 160, 89, 0.4);
             z-index: 1;
         }
 
         .header-container {
             position: relative;
-            padding: 0.5rem 1.5rem 0 1.5rem;
+            padding: 0.5rem 1rem 0 1rem;
             display: flex;
             flex-direction: column;
-            align-items: center; /* CENTRALIZA A LOGO E O CONTEÚDO DO HEADER */
+            align-items: center;
             z-index: 10;
             text-align: center;
         }
 
         .logo-main {
-            width: 110px;
+            width: 100px;
             position: relative;
             z-index: 5;
-            margin-bottom: -15px;
+            margin-bottom: -10px;
         }
 
         .nav-links {
             display: flex;
-            justify-content: center; /* Centraliza os itens do menu */
-            gap: 20px;
-            font-size: 9px;
-            letter-spacing: 0.15em;
+            justify-content: center;
+            gap: 15px;
+            font-size: 8px;
+            letter-spacing: 0.1em;
             color: #aaa;
             text-transform: uppercase;
             border-bottom: 1px solid rgba(197, 160, 89, 0.15);
@@ -122,87 +116,96 @@
             margin-top: -5px;
         }
 
-        /* BUSCA */
         .search-area {
-            padding: 0.8rem 1.5rem 1rem 1.5rem;
-            margin-top: -5px;
+            padding: 0.8rem 1rem 1rem 1rem;
         }
 
         .search-input {
             width: 100%;
             background: transparent;
             border-bottom: 1px solid rgba(197, 160, 89, 0.2);
-            padding: 6px 0;
+            padding: 4px 0;
             outline: none;
             text-transform: uppercase;
-            font-size: 13px;
+            font-size: 11px;
             color: #fff;
-            letter-spacing: 2px;
-            font-weight: 300;
-            text-align: center; /* Texto da busca centralizado para combinar */
+            letter-spacing: 1px;
+            text-align: center;
         }
 
         .brand-scroll {
             display: flex;
             overflow-x: auto;
-            gap: 10px;
-            padding: 0 1.5rem 1.5rem 1.5rem;
+            gap: 8px;
+            padding: 0 1rem 1.2rem 1rem;
             scrollbar-width: none;
         }
         .brand-scroll::-webkit-scrollbar { display: none; }
-
         .brand-item {
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 5px 15px;
-            border-radius: 2px;
-            font-size: 9px;
+            padding: 4px 10px;
+            font-size: 8px;
             text-transform: uppercase;
             color: #777;
             background: rgba(255,255,255,0.02);
             white-space: nowrap;
         }
 
-        /* CARDS */
+        /* GRID OTIMIZADA PARA 3 ITENS */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 colunas */
+            gap: 8px; /* Espaço entre os itens */
+            padding: 0 10px;
+        }
+
         .product-card {
-            background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 100%);
+            background: rgba(255,255,255,0.02);
             border: 1px solid rgba(197, 160, 89, 0.08);
-            padding: 15px;
+            padding: 8px 4px;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .product-img {
-            height: 200px;
+            height: 90px; /* Altura reduzida para caber 3 na linha */
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
         }
         .product-img img { max-height: 100%; object-fit: contain; }
+
+        .product-brand { font-size: 6px; color: var(--dourado-logo); text-transform: uppercase; margin-bottom: 2px; opacity: 0.7; }
+        .product-name { font-size: 8px; font-weight: 600; text-transform: uppercase; line-height: 1.1; height: 2.2em; overflow: hidden; margin-bottom: 4px; }
+        .product-price { font-size: 10px; font-weight: 400; color: #fff; margin-bottom: 6px; }
 
         .btn-buy {
             background: linear-gradient(135deg, var(--dourado-logo), var(--dourado-brilho));
             color: #000;
             width: 100%;
-            padding: 12px;
+            padding: 6px 0;
             font-weight: 700;
-            font-size: 10px;
+            font-size: 7px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            border-radius: 1px;
         }
 
         .whatsapp-float {
             position: fixed;
-            bottom: 25px;
-            right: 20px;
+            bottom: 20px;
+            right: 15px;
             background: #25d366;
-            width: 55px;
-            height: 55px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 100;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
     </style>
 </head>
@@ -213,21 +216,17 @@
         <div class="splash-wrapper">
             <div class="mist-effect"></div>
             <div class="flex flex-col items-center">
-                <img src="assinatura.png" alt="Logo" class="w-[300px] z-10 relative">
+                <img src="assinatura.png" alt="Logo" class="w-[280px] z-10 relative">
                 <h1 class="font-luxury welcome-text">SEJA BEM VINDO</h1>
             </div>
         </div>
     </div>
 
     <!-- SITE PRINCIPAL -->
-    
-    <!-- Linha Dourada de Fundo -->
     <div class="golden-line-bg"></div>
 
     <header class="header-container">
-        <!-- Logo Centralizada -->
         <img src="assinatura.png" alt="Logo" class="logo-main">
-        
         <nav class="nav-links">
             <a href="#">Catálogo</a>
             <span>•</span>
@@ -248,11 +247,12 @@
         <div class="brand-item" onclick="filterByBrand('Lattafa')">LATTAFA</div>
     </div>
 
-    <main class="px-6 grid grid-cols-1 gap-8" id="productGrid"></main>
+    <!-- MAIN GRID DE 3 EM 3 -->
+    <main class="product-grid" id="productGrid"></main>
 
     <!-- WHATSAPP -->
     <a href="https://wa.me/5595991154395" class="whatsapp-float">
-        <svg width="28" height="28" fill="white" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
+        <svg width="24" height="24" fill="white" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
     </a>
 
     <script>
@@ -268,7 +268,10 @@
         const database = [
             { marca: "Khadlaj", nome: "Oud Al Sabah 100ml", preco: "100,00", imagem: "perfume1.webp", whatsapp: "5595991154395" },
             { marca: "Maison Alhambra", nome: "So Glam Rouge Intense 100ml", preco: "200,00", imagem: "perfume2.jpeg", whatsapp: "5595991154395" },
-            { marca: "Lattafa", nome: "Asad 100ml", preco: "400,00", imagem: "perfume3.webp", whatsapp: "5595991154395" }
+            { marca: "Lattafa", nome: "Asad 100ml", preco: "400,00", imagem: "perfume3.webp", whatsapp: "5595991154395" },
+            { marca: "Lattafa", nome: "Yara 100ml", preco: "350,00", imagem: "yara.webp", whatsapp: "5595991154395" },
+            { marca: "Maison Alhambra", nome: "Lovely Cherry 80ml", preco: "280,00", imagem: "cherry.webp", whatsapp: "5595991154395" },
+            { marca: "Khadlaj", nome: "Shiyaaka 100ml", preco: "320,00", imagem: "shiyaaka.webp", whatsapp: "5595991154395" }
         ];
 
         const grid = document.getElementById('productGrid');
@@ -276,11 +279,17 @@
         function displayProducts(products) {
             grid.innerHTML = products.map(p => `
                 <div class="product-card">
-                    <div class="product-img"><img src="${p.imagem}" alt="${p.nome}" onerror="this.src='assinatura.png'"></div>
-                    <p class="text-[8px] text-gold uppercase tracking-widest mb-1 opacity-60">${p.marca}</p>
-                    <h2 class="font-luxury text-[11px] uppercase mb-2 leading-tight">${p.nome}</h2>
-                    <p class="text-lg font-light text-white/90">R$ ${p.preco}</p>
-                    <a href="https://wa.me/${p.whatsapp}?text=Olá! Gostaria de encomendar o perfume ${p.nome}" target="_blank" class="btn-buy block mt-4">Comprar Agora</a>
+                    <div>
+                        <div class="product-img">
+                            <img src="${p.imagem}" alt="${p.nome}" onerror="this.src='assinatura.png'">
+                        </div>
+                        <p class="product-brand">${p.marca}</p>
+                        <h2 class="product-name font-luxury">${p.nome}</h2>
+                    </div>
+                    <div>
+                        <p class="product-price">R$ ${p.preco}</p>
+                        <a href="https://wa.me/${p.whatsapp}?text=Olá! Gostaria de encomendar o perfume ${p.nome}" target="_blank" class="btn-buy block">Comprar</a>
+                    </div>
                 </div>
             `).join('');
         }
