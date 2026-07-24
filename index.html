@@ -76,7 +76,7 @@
 
         .golden-line-bg {
             position: absolute;
-            top: 85px; /* Ajustado para a nova posição sem o menu */
+            top: 85px; 
             left: 0;
             width: 100%;
             height: 1px;
@@ -94,16 +94,14 @@
             z-index: 10;
         }
 
-        /* LOGO COM MARGEM NEGATIVA PARA ELIMINAR ESPAÇO EM BRANCO */
         .logo-main {
             width: 150px; 
             position: relative;
             z-index: 5;
-            margin-bottom: -55px; /* FORÇANDO A SUBIDA DO CONTEÚDO */
+            margin-bottom: -55px; 
             margin-top: -10px;
         }
 
-        /* ÁREA DE BUSCA */
         .search-area {
             padding: 0 1.5rem 1rem 1.5rem;
             position: relative;
@@ -124,7 +122,6 @@
             font-weight: 300;
         }
 
-        /* FILTROS DE MARCAS SOFISTICADOS (AMARELO) */
         .brand-scroll {
             display: flex;
             overflow-x: auto;
@@ -145,26 +142,20 @@
             background: rgba(197, 160, 89, 0.03);
             white-space: nowrap;
             letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-        
-        .brand-item:active {
-            background: var(--dourado-logo);
-            color: #000;
         }
 
-        /* GRID DE 3 ITENS */
+        /* GRID DE 2 ITENS (AJUSTADO) */
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            padding: 0 8px;
+            grid-template-columns: repeat(2, 1fr); /* Mudado para 2 colunas */
+            gap: 10px;
+            padding: 0 12px;
         }
 
         .product-card {
             background: rgba(255,255,255,0.01);
             border: 1px solid rgba(197, 160, 89, 0.05);
-            padding: 6px 3px;
+            padding: 10px 5px;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -172,25 +163,25 @@
         }
 
         .product-img {
-            height: 85px;
+            height: 130px; /* Aumentado para visualização melhor em 2 colunas */
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
         }
         .product-img img { max-height: 100%; object-fit: contain; }
 
-        .product-brand { font-size: 5px; color: var(--dourado-logo); text-transform: uppercase; margin-bottom: 1px; opacity: 0.6; }
-        .product-name { font-size: 7px; font-weight: 500; text-transform: uppercase; line-height: 1.1; height: 2.2em; overflow: hidden; margin-bottom: 3px; color: #eee; }
-        .product-price { font-size: 9px; font-weight: 400; color: #fff; margin-bottom: 5px; }
+        .product-brand { font-size: 6px; color: var(--dourado-logo); text-transform: uppercase; margin-bottom: 2px; opacity: 0.6; }
+        .product-name { font-size: 9px; font-weight: 500; text-transform: uppercase; line-height: 1.2; height: 2.4em; overflow: hidden; margin-bottom: 5px; color: #eee; }
+        .product-price { font-size: 11px; font-weight: 400; color: #fff; margin-bottom: 8px; }
 
         .btn-buy {
             background: linear-gradient(135deg, var(--dourado-logo), var(--dourado-brilho));
             color: #000;
             width: 100%;
-            padding: 5px 0;
+            padding: 8px 0;
             font-weight: 700;
-            font-size: 7px;
+            font-size: 8px;
             text-transform: uppercase;
         }
 
@@ -199,13 +190,22 @@
             bottom: 20px;
             right: 15px;
             background: #25d366;
-            width: 42px;
-            height: 42px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 100;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            font-size: 10px;
+            color: #555;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
     </style>
 </head>
@@ -240,8 +240,13 @@
         <div class="brand-item" onclick="filterByBrand('Lattafa')">LATTAFA</div>
     </div>
 
-    <!-- GRID DE 3 EM 3 -->
+    <!-- GRID DE 2 EM 2 -->
     <main class="product-grid" id="productGrid"></main>
+
+    <!-- RODAPÉ ATUALIZADO -->
+    <footer>
+        Programado por Mirian aurora 2026
+    </footer>
 
     <a href="https://wa.me/5595991154395" class="whatsapp-float">
         <svg width="22" height="22" fill="white" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
