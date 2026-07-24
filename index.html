@@ -22,7 +22,7 @@
         }
         .font-luxury { font-family: 'Cinzel', serif; }
         
-        /* TELA DE BOAS-VINDAS */
+        /* TELA DE BOAS-VINDAS (SPLASH SCREEN) */
         #splash-screen {
             position: fixed;
             top: 0; left: 0;
@@ -66,7 +66,7 @@
             text-shadow: 0 0 10px rgba(197, 160, 89, 0.4);
         }
 
-        /* --- ESTILO DA PÁGINA --- */
+        /* --- ESTILO DA PÁGINA PRINCIPAL --- */
         .golden-line-bg {
             position: absolute;
             top: 85px; left: 0; width: 100%; height: 1px;
@@ -101,6 +101,7 @@
             color: var(--dourado-logo); background: rgba(197, 160, 89, 0.03); white-space: nowrap;
         }
 
+        /* GRID DE PRODUTOS */
         .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 15px; }
         .product-card {
             background: rgba(255,255,255,0.01); border: 1px solid rgba(197, 160, 89, 0.05);
@@ -112,30 +113,31 @@
         .product-name { font-size: 12px; font-weight: 500; text-transform: uppercase; line-height: 1.2; height: 2.4em; overflow: hidden; margin-bottom: 6px; color: #eee; }
         .product-price { font-size: 14px; font-weight: 400; color: #fff; margin-bottom: 10px; }
 
-        /* SELETOR DE QUANTIDADE */
+        /* SELETOR DE QUANTIDADE - BRANCO */
         .qty-selector {
             display: flex; align-items: center; justify-content: center; gap: 10px;
             background: rgba(255,255,255,0.05); border-radius: 4px; padding: 5px; margin-bottom: 10px;
         }
         .qty-btn {
             width: 25px; height: 25px; display: flex; align-items: center; justify-content: center;
-            background: var(--dourado-logo); color: #000; border-radius: 50%; font-weight: bold;
+            background: #fff; color: #000; border-radius: 50%; font-weight: bold;
         }
         .qty-value { font-size: 14px; font-weight: 600; width: 20px; }
 
+        /* BOTÃO ADICIONAR - BRANCO */
         .btn-add {
-            background: linear-gradient(135deg, var(--dourado-logo), var(--dourado-brilho));
-            color: #000; width: 100%; padding: 10px 0; font-weight: 700; font-size: 10px; text-transform: uppercase;
+            background: #fff; color: #000; width: 100%; padding: 10px 0; 
+            font-weight: 700; font-size: 10px; text-transform: uppercase;
         }
 
-        /* CARRINHO FLUTUANTE (ÍCONE BRANCO) */
+        /* CARRINHO FLUTUANTE - BRANCO */
         .cart-float {
-            position: fixed; bottom: 20px; right: 15px; background: var(--dourado-logo);
+            position: fixed; bottom: 20px; right: 15px; background: #fff;
             width: 55px; height: 55px; border-radius: 50%; display: flex;
             justify-content: center; align-items: center; z-index: 100;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.6); border: 2px solid #000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
         }
-        .cart-float svg { fill: #fff; } /* Ícone em branco */
+        .cart-float svg { fill: #000; } 
         
         .cart-count {
             position: absolute; top: -2px; right: -2px; background: #ff0000;
@@ -219,7 +221,6 @@
             grid.innerHTML = products.map(p => {
                 const cartItem = cart.find(item => item.id === p.id);
                 const currentQty = cartItem ? cartItem.qty : 1;
-                const btnText = cartItem ? "Atualizar" : "Adicionar";
 
                 return `
                 <div class="product-card">
@@ -237,7 +238,7 @@
                             <span class="qty-value" id="qty-${p.id}">${currentQty}</span>
                             <button class="qty-btn" onclick="changeQty(${p.id}, 1)">+</button>
                         </div>
-                        <button class="btn-add" id="btn-${p.id}" onclick="addToCart(${p.id})">${btnText}</button>
+                        <button class="btn-add" onclick="addToCart(${p.id})">ADICIONAR</button>
                     </div>
                 </div>
             `}).join('');
@@ -246,15 +247,14 @@
         function changeQty(id, delta) {
             const el = document.getElementById(`qty-${id}`);
             let val = parseInt(el.innerText);
-            val = Math.max(0, val + delta); // Permite chegar a 0 para remover
+            val = Math.max(0, val + delta); 
             el.innerText = val;
 
-            // Lógica de esvaziar/remover se chegar a 0
+            // Se o item já estiver no carrinho, atualiza a quantidade em tempo real
             const cartIndex = cart.findIndex(item => item.id === id);
             if (cartIndex > -1) {
                 if (val === 0) {
                     cart.splice(cartIndex, 1);
-                    document.getElementById(`btn-${id}`).innerText = "Adicionar";
                 } else {
                     cart[cartIndex].qty = val;
                 }
@@ -267,19 +267,18 @@
             const qty = parseInt(document.getElementById(`qty-${id}`).innerText);
             
             if(qty === 0) {
-                alert("Selecione ao menos 1 unidade.");
-                return;
-            }
-
-            const existing = cart.find(item => item.id === id);
-            if (existing) {
-                existing.qty = qty;
+                const cartIndex = cart.findIndex(item => item.id === id);
+                if (cartIndex > -1) cart.splice(cartIndex, 1);
             } else {
-                cart.push({ ...product, qty: qty });
+                const existing = cart.find(item => item.id === id);
+                if (existing) {
+                    existing.qty = qty;
+                } else {
+                    cart.push({ ...product, qty: qty });
+                }
             }
-            
-            document.getElementById(`btn-${id}`).innerText = "Atualizar";
             updateBadge();
+            alert("Carrinho atualizado!");
         }
 
         function updateBadge() {
