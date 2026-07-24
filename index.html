@@ -17,9 +17,54 @@
             background-color: #000b08; 
             color: #fff;
             -webkit-tap-highlight-color: transparent;
+            margin: 0;
+            overflow-x: hidden;
         }
         .font-luxury { font-family: 'Cinzel', serif; }
         
+        /* TELA DE BOAS-VINDAS (SPLASH SCREEN) */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000b08;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
+        .pulse-logo {
+            width: 180px;
+            margin-bottom: 20px;
+            animation: logo-pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes logo-pulse {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.7; }
+        }
+
+        .welcome-text {
+            color: var(--dourado-logo);
+            letter-spacing: 0.5em;
+            font-size: 14px;
+            opacity: 0;
+            animation: text-fade 2s forwards;
+        }
+
+        @keyframes text-fade {
+            0% { opacity: 0; transform: translateY(10px); }
+            50% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 1; }
+        }
+
+        /* Estilos originais preservados */
         .btn-gold {
             background: linear-gradient(135deg, var(--dourado-logo), var(--dourado-brilho));
             color: #000;
@@ -35,11 +80,9 @@
             border-radius: 4px;
             transition: transform 0.3s ease, border 0.3s ease;
         }
+
         @media (min-width: 1024px) {
-            .product-card:hover {
-                transform: translateY(-8px);
-                border-color: var(--dourado-logo);
-            }
+            .product-card:hover { transform: translateY(-8px); border-color: var(--dourado-logo); }
         }
 
         .img-container {
@@ -52,21 +95,10 @@
         }
         @media (min-width: 768px) { .img-container { height: 320px; } }
 
-        .img-container img {
-            max-height: 90%;
-            max-width: 90%;
-            object-fit: contain;
-            padding: 10px;
-        }
+        .img-container img { max-height: 90%; max-width: 90%; object-fit: contain; padding: 10px; }
 
         @media (max-width: 767px) {
-            .brand-menu {
-                display: flex;
-                overflow-x: auto;
-                white-space: nowrap;
-                gap: 15px;
-                padding-bottom: 10px;
-            }
+            .brand-menu { display: flex; overflow-x: auto; white-space: nowrap; gap: 15px; padding-bottom: 10px; }
             .brand-menu::-webkit-scrollbar { display: none; }
         }
 
@@ -87,9 +119,7 @@
             border: 2px solid var(--dourado-logo);
             animation: pulse 2s infinite;
         }
-        @media (min-width: 1024px) {
-            .whatsapp-float { width: 65px; height: 65px; bottom: 40px; right: 40px; }
-        }
+
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.08); }
@@ -99,6 +129,12 @@
 </head>
 <body class="pb-20">
 
+    <!-- TELA DE SPLASH -->
+    <div id="splash-screen">
+        <img src="assinatura.jpeg" alt="Logo" class="pulse-logo">
+        <h1 class="font-luxury welcome-text">SEJA BEM VINDO</h1>
+    </div>
+
     <!-- WhatsApp Flutuante -->
     <a href="https://wa.me/5595984165133" class="whatsapp-float" target="_blank" aria-label="Contato via WhatsApp">
         <svg width="30" height="30" fill="currentColor" viewBox="0 0 16 16">
@@ -106,12 +142,10 @@
         </svg>
     </a>
 
-    <!-- Header Centralizado -->
+    <!-- Header -->
     <header class="py-10 flex flex-col items-center px-6 text-center">
         <img src="assinatura.jpeg" alt="Assinatura Perfume" class="w-56 md:w-80 mb-6 drop-shadow-[0_0_20px_rgba(197,160,89,0.3)]">
-        
         <div class="h-[1px] w-20 bg-gold/30 mb-6"></div>
-        
         <nav class="flex justify-center items-center space-x-4 md:space-x-12 text-[9px] md:text-sm tracking-[0.2em] md:tracking-[0.4em] uppercase text-gray-400 font-medium">
             <a href="#" class="hover:text-gold transition whitespace-nowrap">Catálogo</a>
             <span class="text-gold/20 md:hidden">•</span>
@@ -121,7 +155,7 @@
         </nav>
     </header>
 
-    <!-- Barra de Busca -->
+    <!-- Busca -->
     <div class="container mx-auto px-8 mb-16">
         <div class="max-w-2xl mx-auto border-b border-gold/20">
             <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="BUSQUE UMA FRAGRÂNCIA..." 
@@ -129,72 +163,55 @@
         </div>
     </div>
 
-    <main class="container mx-auto px-6 flex flex-col md:flex-row gap-12">
-        
-        <!-- Lateral de Marcas -->
+    <main class="container mx-auto px-6 flex flex-col md:flex-row gap-12 text-center md:text-left">
         <aside class="w-full md:w-1/4">
             <h3 class="hidden md:block font-luxury text-gold text-xl mb-8 tracking-widest uppercase border-b border-gold/10 pb-4">Marcas</h3>
             <ul class="brand-menu text-[10px] md:text-sm tracking-[0.2em] text-gray-400 uppercase font-medium md:space-y-6">
-                <li class="cursor-pointer hover:text-gold transition-all border border-gold/10 md:border-0 px-4 py-2 md:p-0 rounded-full" onclick="filterByBrand('Todos')">Todos</li>
-                <li class="cursor-pointer hover:text-gold transition-all border border-gold/10 md:border-0 px-4 py-2 md:p-0 rounded-full" onclick="filterByBrand('Khadlaj')">Khadlaj</li>
-                <li class="cursor-pointer hover:text-gold transition-all border border-gold/10 md:border-0 px-4 py-2 md:p-0 rounded-full" onclick="filterByBrand('Maison Alhambra')">Alhambra</li>
-                <li class="cursor-pointer hover:text-gold transition-all border border-gold/10 md:border-0 px-4 py-2 md:p-0 rounded-full" onclick="filterByBrand('Lattafa')">Lattafa</li>
+                <li class="cursor-pointer hover:text-gold border border-gold/10 md:border-0 px-4 py-2 md:p-0 rounded-full" onclick="filterByBrand('Todos')">Todos</li>
+                <li class="cursor-pointer hover:text-gold border border-gold/10 md:border-0 px-4 py-2 md:p-0 rounded-full" onclick="filterByBrand('Khadlaj')">Khadlaj</li>
+                <li class="cursor-pointer hover:text-gold border border-gold/10 md:border-0 px-4 py-2 md:p-0 rounded-full" onclick="filterByBrand('Maison Alhambra')">Alhambra</li>
+                <li class="cursor-pointer hover:text-gold border border-gold/10 md:border-0 px-4 py-2 md:p-0 rounded-full" onclick="filterByBrand('Lattafa')">Lattafa</li>
             </ul>
         </aside>
 
-        <!-- Catálogo Principal -->
         <section class="w-full md:w-3/4">
-            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Injetado via JS -->
-            </div>
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
         </section>
     </main>
 
-    <!-- Rodapé com Ano Atualizado -->
     <footer class="mt-20 py-12 border-t border-white/5 text-center px-6">
         <p class="text-[9px] md:text-xs tracking-[0.4em] text-gray-600 uppercase">Assinatura Perfume © 2026</p>
     </footer>
 
     <script>
+        // Lógica do Splash Screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                splash.style.visibility = 'hidden';
+            }, 2000); // 2 segundos de exibição
+        });
+
         const database = [
-            {
-                marca: "Khadlaj",
-                nome: "Oud Al Sabah 100ml",
-                preco: "100,00",
-                imagem: "perfume1.webp",
-                whatsapp: "5595984165133"
-            },
-            {
-                marca: "Maison Alhambra",
-                nome: "So Glam Rouge Intense 100ml",
-                preco: "200,00",
-                imagem: "perfume2.jpeg",
-                whatsapp: "5595984165133"
-            },
-            {
-                marca: "Lattafa",
-                nome: "Asad 100ml",
-                preco: "400,00",
-                imagem: "perfume3.webp",
-                whatsapp: "5595984165133"
-            }
+            { marca: "Khadlaj", nome: "Oud Al Sabah 100ml", preco: "100,00", imagem: "perfume1.webp", whatsapp: "5595984165133" },
+            { marca: "Maison Alhambra", nome: "So Glam Rouge Intense 100ml", preco: "200,00", imagem: "perfume2.jpeg", whatsapp: "5595984165133" },
+            { marca: "Lattafa", nome: "Asad 100ml", preco: "400,00", imagem: "perfume3.webp", whatsapp: "5595984165133" }
         ];
 
         const grid = document.getElementById('productGrid');
 
         function displayProducts(products) {
             grid.innerHTML = products.map(p => `
-                <div class="product-card p-5 md:p-6 flex flex-col h-full">
+                <div class="product-card p-5 md:p-6 flex flex-col h-full text-center">
                     <div class="img-container mb-6">
-                        <img src="${p.imagem}" alt="${p.nome}" loading="lazy">
+                        <img src="${p.imagem}" alt="${p.nome}" loading="lazy" onerror="this.src='assinatura.jpeg'">
                     </div>
-                    
-                    <div class="flex-grow text-center px-2">
+                    <div class="flex-grow">
                         <p class="text-[9px] md:text-xs text-gold tracking-widest uppercase mb-2 opacity-60">${p.marca}</p>
-                        <h2 class="font-luxury text-sm md:text-lg mb-4 h-12 md:h-16 overflow-hidden leading-snug tracking-wide uppercase">${p.nome}</h2>
+                        <h2 class="font-luxury text-sm md:text-lg mb-4 h-12 md:h-16 overflow-hidden leading-snug uppercase">${p.nome}</h2>
                         <p class="text-xl md:text-2xl font-light mb-6 text-white/90">R$ ${p.preco}</p>
                     </div>
-
                     <a href="https://wa.me/${p.whatsapp}?text=Olá! Gostaria de encomendar o perfume ${p.nome}" target="_blank" 
                        class="btn-gold py-4 text-center text-[10px] md:text-xs rounded-sm active:scale-95 transition-transform">
                         COMPRAR NO WHATSAPP
@@ -210,15 +227,8 @@
         }
 
         function filterByBrand(brand) {
-            if(brand === 'Todos') {
-                displayProducts(database);
-            } else {
-                const filtered = database.filter(p => p.marca === brand);
-                displayProducts(filtered);
-            }
-            if(window.innerWidth < 768) {
-                window.scrollTo({ top: 350, behavior: 'smooth' });
-            }
+            brand === 'Todos' ? displayProducts(database) : displayProducts(database.filter(p => p.marca.toLowerCase().includes(brand.toLowerCase())));
+            if(window.innerWidth < 768) window.scrollTo({ top: 350, behavior: 'smooth' });
         }
 
         displayProducts(database);
