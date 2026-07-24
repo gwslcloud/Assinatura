@@ -144,10 +144,10 @@
             letter-spacing: 1px;
         }
 
-        /* GRID DE 2 ITENS (AJUSTADO) */
+        /* GRID DE 2 ITENS */
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Mudado para 2 colunas */
+            grid-template-columns: repeat(2, 1fr);
             gap: 10px;
             padding: 0 12px;
         }
@@ -163,7 +163,7 @@
         }
 
         .product-img {
-            height: 130px; /* Aumentado para visualização melhor em 2 colunas */
+            height: 130px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -185,6 +185,28 @@
             text-transform: uppercase;
         }
 
+        /* RODAPÉ SOFISTICADO */
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(197, 160, 89, 0.1);
+        }
+        .footer-title {
+            color: var(--dourado-logo);
+            font-size: 14px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .footer-subtitle {
+            color: #555;
+            font-size: 9px;
+            letter-spacing: 0.5em;
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+
         .whatsapp-float {
             position: fixed;
             bottom: 20px;
@@ -197,15 +219,6 @@
             justify-content: center;
             align-items: center;
             z-index: 100;
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            font-size: 10px;
-            color: #555;
-            letter-spacing: 1px;
-            text-transform: uppercase;
         }
     </style>
 </head>
@@ -240,12 +253,12 @@
         <div class="brand-item" onclick="filterByBrand('Lattafa')">LATTAFA</div>
     </div>
 
-    <!-- GRID DE 2 EM 2 -->
     <main class="product-grid" id="productGrid"></main>
 
-    <!-- RODAPÉ ATUALIZADO -->
+    <!-- RODAPÉ SOFISTICADO -->
     <footer>
-        ASSINATURA PERFUM 2026
+        <div class="footer-title font-luxury">Assinatura Perfume</div>
+        <div class="footer-subtitle">BOA VISTA - RR</div>
     </footer>
 
     <a href="https://wa.me/5595991154395" class="whatsapp-float">
