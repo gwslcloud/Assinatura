@@ -8,13 +8,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --verde-logo: #002218;
+            /* Verde Extraído da sua Imagem */
+            --verde-fundo: #00160f; 
+            --verde-detalhe: #002419;
             --dourado-logo: #c5a059;
             --dourado-brilho: #e2c275;
         }
         body { 
             font-family: 'Montserrat', sans-serif; 
-            background-color: #000b08; 
+            background-color: var(--verde-fundo); 
             color: #fff;
             -webkit-tap-highlight-color: transparent;
             margin: 0;
@@ -27,7 +29,7 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background-color: #000b08;
+            background-color: var(--verde-fundo);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -91,7 +93,7 @@
             color: #fff; letter-spacing: 2px; text-align: center; font-weight: 300;
         }
 
-        /* BOTÕES DE MARCAS AUMENTADOS E SOFISTICADOS */
+        /* BOTÕES DE MARCAS */
         .brand-scroll {
             display: flex; overflow-x: auto; gap: 15px; padding: 1rem 1.5rem 2rem 1.5rem;
             scrollbar-width: none; justify-content: center;
@@ -100,53 +102,50 @@
         .brand-item {
             font-family: 'Cinzel', serif; 
             border: 1px solid rgba(197, 160, 89, 0.5);
-            padding: 8px 20px; /* Aumentado */
-            font-size: 11px; /* Aumentado */
+            padding: 8px 20px;
+            font-size: 11px;
             text-transform: uppercase;
             color: var(--dourado-logo); 
-            background: rgba(197, 160, 89, 0.05); 
+            background: rgba(0, 0, 0, 0.2); 
             white-space: nowrap;
             letter-spacing: 1.5px;
             transition: all 0.3s ease;
         }
-        .brand-item:hover { background: rgba(197, 160, 89, 0.2); transform: translateY(-2px); }
 
-        /* GRID INTELIGENTE (RESPONSIVA) */
+        /* GRID RESPONSIVA (2 col celular / 5 col notebook) */
         .product-grid { 
             display: grid; 
-            grid-template-columns: repeat(2, 1fr); /* Padrão Celular */
+            grid-template-columns: repeat(2, 1fr); 
             gap: 15px; 
             padding: 0 15px; 
         }
 
-        @media (min-width: 1024px) { /* Notebook / Telas Grandes */
+        @media (min-width: 1024px) {
             .product-grid { 
                 grid-template-columns: repeat(5, 1fr); 
-                gap: 25px;
                 max-width: 1400px;
                 margin: 0 auto;
             }
-            .logo-main { width: 180px; }
-            .brand-item { font-size: 13px; padding: 10px 25px; }
         }
 
         .product-card {
-            background: rgba(255,255,255,0.01); border: 1px solid rgba(197, 160, 89, 0.05);
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid rgba(197, 160, 89, 0.1);
             padding: 15px 10px; text-align: center; display: flex; flex-direction: column; justify-content: space-between;
-            transition: border 0.3s ease;
+            transition: all 0.3s ease;
         }
-        .product-card:hover { border-color: rgba(197, 160, 89, 0.3); }
+        .product-card:hover { border-color: rgba(197, 160, 89, 0.4); background: rgba(255,255,255,0.05); }
 
         .product-img { height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
         .product-img img { max-height: 100%; object-fit: contain; }
-        .product-brand { font-size: 10px; color: var(--dourado-logo); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 1px; opacity: 0.8; }
-        .product-name { font-size: 13px; font-weight: 500; text-transform: uppercase; line-height: 1.2; height: 2.4em; overflow: hidden; margin-bottom: 8px; color: #eee; }
+        .product-brand { font-size: 10px; color: var(--dourado-logo); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 1px; }
+        .product-name { font-size: 13px; font-weight: 500; text-transform: uppercase; line-height: 1.2; height: 2.4em; overflow: hidden; margin-bottom: 8px; color: #fff; }
         .product-price { font-size: 15px; font-weight: 400; color: #fff; margin-bottom: 12px; }
 
-        /* SELETOR DE QUANTIDADE */
+        /* SELETORES E BOTÕES BRANCOS */
         .qty-selector {
             display: flex; align-items: center; justify-content: center; gap: 12px;
-            background: rgba(255,255,255,0.05); border-radius: 4px; padding: 6px; margin-bottom: 12px;
+            background: rgba(255,255,255,0.08); border-radius: 4px; padding: 6px; margin-bottom: 12px;
         }
         .qty-btn {
             width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
@@ -154,21 +153,17 @@
         }
         .qty-value { font-size: 15px; font-weight: 600; width: 22px; }
 
-        /* BOTÃO ADICIONAR */
         .btn-add {
             background: #fff; color: #000; width: 100%; padding: 12px 0; 
             font-weight: 700; font-size: 11px; text-transform: uppercase;
-            transition: background 0.3s ease;
         }
-        .btn-add:active { background: #ccc; }
 
-        /* CARRINHO FLUTUANTE */
+        /* CARRINHO BRANCO */
         .cart-float {
             position: fixed; bottom: 30px; right: 20px; background: #fff;
             width: 60px; height: 60px; border-radius: 50%; display: flex;
             justify-content: center; align-items: center; z-index: 100;
             box-shadow: 0 6px 25px rgba(0,0,0,0.7);
-            cursor: pointer;
         }
         .cart-float svg { fill: #000; } 
         
@@ -181,11 +176,12 @@
 
         footer { text-align: center; padding: 60px 20px; margin-top: 40px; border-top: 1px solid rgba(197, 160, 89, 0.1); }
         .footer-title { color: var(--dourado-logo); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 8px; }
-        .footer-subtitle { color: #555; font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase; }
+        .footer-subtitle { color: #5a7a6f; font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
+    <!-- SPLASH SCREEN -->
     <div id="splash-screen">
         <div class="splash-wrapper">
             <div class="mist-effect"></div>
@@ -220,6 +216,7 @@
         <div class="footer-subtitle">BOA VISTA - RR</div>
     </footer>
 
+    <!-- CARRINHO -->
     <div class="cart-float" onclick="sendToWhatsApp()">
         <svg width="28" height="28" viewBox="0 0 16 16">
             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
@@ -285,11 +282,8 @@
 
             const cartIndex = cart.findIndex(item => item.id === id);
             if (cartIndex > -1) {
-                if (val === 0) {
-                    cart.splice(cartIndex, 1);
-                } else {
-                    cart[cartIndex].qty = val;
-                }
+                if (val === 0) { cart.splice(cartIndex, 1); } 
+                else { cart[cartIndex].qty = val; }
                 updateBadge();
             }
         }
@@ -303,11 +297,8 @@
                 if (cartIndex > -1) cart.splice(cartIndex, 1);
             } else {
                 const existing = cart.find(item => item.id === id);
-                if (existing) {
-                    existing.qty = qty;
-                } else {
-                    cart.push({ ...product, qty: qty });
-                }
+                if (existing) { existing.qty = qty; } 
+                else { cart.push({ ...product, qty: qty }); }
             }
             updateBadge();
             alert("Carrinho atualizado!");
@@ -326,14 +317,12 @@
 
             let message = "Olá! Gostaria de fazer um pedido:\n\n";
             let totalOrder = 0;
-
             cart.forEach(item => {
                 let subtotal = item.preco * item.qty;
                 message += `*${item.qty}x ${item.nome}*\n`;
                 message += `Unid: R$ ${item.preco.toFixed(2)} | Sub: R$ ${subtotal.toFixed(2)}\n\n`;
                 totalOrder += subtotal;
             });
-
             message += `*TOTAL DO PEDIDO: R$ ${totalOrder.toFixed(2)}*`;
             window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
         }
