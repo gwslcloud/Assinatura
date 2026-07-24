@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- Título da aba alterado conforme pedido -->
     <title>Assinatura Perfume</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -21,7 +20,6 @@
         }
         .font-luxury { font-family: 'Cinzel', serif; }
         
-        /* Botão Dourado com ajuste de tamanho de fonte responsivo */
         .btn-gold {
             background: linear-gradient(135deg, var(--dourado-logo), var(--dourado-brilho));
             color: #000;
@@ -31,7 +29,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Card Luxo */
         .product-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(197, 160, 89, 0.15);
@@ -45,7 +42,6 @@
             }
         }
 
-        /* Container de Imagem Otimizado */
         .img-container {
             height: 250px;
             display: flex;
@@ -63,7 +59,6 @@
             padding: 10px;
         }
 
-        /* Menu de marcas - Scroll no mobile, Lista no desktop */
         @media (max-width: 767px) {
             .brand-menu {
                 display: flex;
@@ -75,7 +70,6 @@
             .brand-menu::-webkit-scrollbar { display: none; }
         }
 
-        /* WhatsApp Flutuante */
         .whatsapp-float {
             position: fixed;
             bottom: 25px;
@@ -112,22 +106,27 @@
         </svg>
     </a>
 
-    <!-- Header Centralizado -->
-    <header class="py-12 flex flex-col items-center px-4">
-        <img src="assinatura.jpeg" alt="Assinatura Perfume" class="w-60 md:w-80 mb-6 drop-shadow-[0_0_20px_rgba(197,160,89,0.3)] transition-all">
-        <div class="h-[1px] w-24 bg-gradient-to-r from-transparent via-[#c5a059] to-transparent mb-6"></div>
-        <nav class="flex space-x-8 md:space-x-12 text-[11px] md:text-sm tracking-[0.3em] uppercase text-gray-400">
-            <a href="#" class="hover:text-gold transition">Catálogo</a>
-            <a href="#" class="hover:text-gold transition">Masculinos</a>
-            <a href="#" class="hover:text-gold transition">Femininos</a>
+    <!-- Header Centralizado e Responsivo -->
+    <header class="py-10 flex flex-col items-center px-6">
+        <img src="assinatura.jpeg" alt="Assinatura Perfume" class="w-56 md:w-80 mb-6 drop-shadow-[0_0_20px_rgba(197,160,89,0.3)]">
+        
+        <div class="h-[1px] w-20 bg-gold/30 mb-6"></div>
+        
+        <!-- Ajuste de espaçamento e tamanho de fonte aqui -->
+        <nav class="flex justify-center items-center space-x-4 md:space-x-12 text-[9px] md:text-sm tracking-[0.2em] md:tracking-[0.4em] uppercase text-gray-400 font-medium">
+            <a href="#" class="hover:text-gold transition whitespace-nowrap">Catálogo</a>
+            <span class="text-gold/20 md:hidden">•</span>
+            <a href="#" class="hover:text-gold transition whitespace-nowrap">Masculinos</a>
+            <span class="text-gold/20 md:hidden">•</span>
+            <a href="#" class="hover:text-gold transition whitespace-nowrap">Femininos</a>
         </nav>
     </header>
 
-    <!-- Barra de Busca Proporcional -->
-    <div class="container mx-auto px-6 mb-16">
-        <div class="max-w-2xl mx-auto border-b border-gold/30">
+    <!-- Barra de Busca -->
+    <div class="container mx-auto px-8 mb-16">
+        <div class="max-w-2xl mx-auto border-b border-gold/20 group">
             <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="BUSQUE UMA FRAGRÂNCIA..." 
-                class="w-full bg-transparent py-4 text-center text-lg md:text-2xl font-light focus:outline-none placeholder:text-gray-700 tracking-widest text-white uppercase">
+                class="w-full bg-transparent py-4 text-center text-md md:text-2xl font-light focus:outline-none placeholder:text-gray-700 tracking-[0.1em] md:tracking-widest text-white uppercase">
         </div>
     </div>
 
@@ -136,24 +135,24 @@
         <!-- Lateral de Marcas -->
         <aside class="w-full md:w-1/4">
             <h3 class="hidden md:block font-luxury text-gold text-xl mb-8 tracking-widest uppercase border-b border-gold/10 pb-4">Marcas</h3>
-            <ul class="brand-menu text-xs md:text-sm tracking-[0.2em] text-gray-400 uppercase font-medium md:space-y-6">
-                <li class="cursor-pointer hover:text-gold transition-all border border-gold/20 md:border-0 px-5 py-2 md:p-0 rounded-full" onclick="filterByBrand('Todos')">Todos</li>
-                <li class="cursor-pointer hover:text-gold transition-all border border-gold/20 md:border-0 px-5 py-2 md:p-0 rounded-full" onclick="filterByBrand('Khadlaj')">Khadlaj</li>
-                <li class="cursor-pointer hover:text-gold transition-all border border-gold/20 md:border-0 px-5 py-2 md:p-0 rounded-full" onclick="filterByBrand('Maison Alhambra')">Alhambra</li>
-                <li class="cursor-pointer hover:text-gold transition-all border border-gold/20 md:border-0 px-5 py-2 md:p-0 rounded-full" onclick="filterByBrand('Lattafa')">Lattafa</li>
+            <ul class="brand-menu text-[10px] md:text-sm tracking-[0.2em] text-gray-400 uppercase font-medium md:space-y-6">
+                <li class="cursor-pointer hover:text-gold transition-all border border-gold/10 md:border-0 px-4 py-2 md:p-0 rounded-full" onclick="filterByBrand('Todos')">Todos</li>
+                <li class="cursor-pointer hover:text-gold transition-all border border-gold/10 md:border-0 px-4 py-2 md:p-0 rounded-full" onclick="filterByBrand('Khadlaj')">Khadlaj</li>
+                <li class="cursor-pointer hover:text-gold transition-all border border-gold/10 md:border-0 px-4 py-2 md:p-0 rounded-full" onclick="filterByBrand('Maison Alhambra')">Alhambra</li>
+                <li class="cursor-pointer hover:text-gold transition-all border border-gold/10 md:border-0 px-4 py-2 md:p-0 rounded-full" onclick="filterByBrand('Lattafa')">Lattafa</li>
             </ul>
         </aside>
 
         <!-- Catálogo Principal -->
         <section class="w-full md:w-3/4">
-            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Injetado via JS -->
             </div>
         </section>
     </main>
 
-    <footer class="mt-24 py-12 border-t border-white/5 text-center">
-        <p class="text-[10px] md:text-xs tracking-[0.5em] text-gray-600 uppercase">Assinatura Perfume © 2024</p>
+    <footer class="mt-20 py-12 border-t border-white/5 text-center px-6">
+        <p class="text-[9px] md:text-xs tracking-[0.4em] text-gray-600 uppercase">Assinatura Perfume © 2024</p>
     </footer>
 
     <script>
@@ -186,18 +185,18 @@
         function displayProducts(products) {
             grid.innerHTML = products.map(p => `
                 <div class="product-card p-5 md:p-6 flex flex-col h-full">
-                    <div class="img-container mb-8">
+                    <div class="img-container mb-6">
                         <img src="${p.imagem}" alt="${p.nome}" loading="lazy">
                     </div>
                     
                     <div class="flex-grow text-center px-2">
-                        <p class="text-[10px] md:text-xs text-gold tracking-widest uppercase mb-2 opacity-70">${p.marca}</p>
+                        <p class="text-[9px] md:text-xs text-gold tracking-widest uppercase mb-2 opacity-60">${p.marca}</p>
                         <h2 class="font-luxury text-sm md:text-lg mb-4 h-12 md:h-16 overflow-hidden leading-snug tracking-wide uppercase">${p.nome}</h2>
-                        <p class="text-xl md:text-2xl font-light mb-8 text-white/90">R$ ${p.preco}</p>
+                        <p class="text-xl md:text-2xl font-light mb-6 text-white/90">R$ ${p.preco}</p>
                     </div>
 
                     <a href="https://wa.me/${p.whatsapp}?text=Olá! Gostaria de encomendar o perfume ${p.nome}" target="_blank" 
-                       class="btn-gold py-4 md:py-5 text-center text-[10px] md:text-xs rounded-sm active:scale-95">
+                       class="btn-gold py-4 text-center text-[10px] md:text-xs rounded-sm active:scale-95 transition-transform">
                         COMPRAR NO WHATSAPP
                     </a>
                 </div>
@@ -218,7 +217,7 @@
                 displayProducts(filtered);
             }
             if(window.innerWidth < 768) {
-                window.scrollTo({ top: 400, behavior: 'smooth' });
+                window.scrollTo({ top: 350, behavior: 'smooth' });
             }
         }
 
