@@ -92,28 +92,16 @@
             color: #fff; letter-spacing: 2px; text-align: center; font-weight: 300;
         }
 
-        /* BOTÕES DE MARCAS AJUSTADOS */
         .brand-scroll {
-            display: flex; 
-            overflow-x: auto; 
-            gap: 10px; 
-            padding: 1rem 15px 1.5rem 15px; /* Ajuste nas laterais */
-            scrollbar-width: none; 
-            justify-content: flex-start; /* Evita vazamento à esquerda */
+            display: flex; overflow-x: auto; gap: 10px; padding: 1rem 15px 1.5rem 15px;
+            scrollbar-width: none; justify-content: flex-start;
         }
         .brand-scroll::-webkit-scrollbar { display: none; }
-        
         .brand-item {
-            font-family: 'Cinzel', serif; 
-            border: 1px solid rgba(197, 160, 89, 0.5);
-            padding: 6px 15px; /* Diminuído para não vazar */
-            font-size: 10px; /* Diminuído */
-            text-transform: uppercase;
-            color: var(--dourado-logo); 
-            background: rgba(0, 0, 0, 0.2); 
-            white-space: nowrap;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
+            font-family: 'Cinzel', serif; border: 1px solid rgba(197, 160, 89, 0.5);
+            padding: 6px 15px; font-size: 10px; text-transform: uppercase;
+            color: var(--dourado-logo); background: rgba(0, 0, 0, 0.2); white-space: nowrap;
+            letter-spacing: 1px; transition: all 0.3s ease; cursor: pointer;
         }
 
         @media (min-width: 1024px) {
@@ -121,59 +109,49 @@
             .brand-item { font-size: 13px; padding: 10px 25px; }
         }
 
-        /* GRID RESPONSIVA */
+        /* GRID INTELIGENTE: 2 colunas no celular / 5 no notebook */
         .product-grid { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 15px; 
-            padding: 0 15px; 
+            display: grid; grid-template-columns: repeat(2, 1fr); 
+            gap: 15px; padding: 0 15px; 
         }
 
         @media (min-width: 1024px) {
-            .product-grid { 
-                grid-template-columns: repeat(5, 1fr); 
-                max-width: 1400px;
-                margin: 0 auto;
-            }
+            .product-grid { grid-template-columns: repeat(5, 1fr); max-width: 1400px; margin: 0 auto; }
         }
 
         .product-card {
-            background: rgba(255,255,255,0.03); 
-            border: 1px solid rgba(197, 160, 89, 0.1);
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(197, 160, 89, 0.1);
             padding: 15px 10px; text-align: center; display: flex; flex-direction: column; justify-content: space-between;
         }
 
         .product-img { height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
         .product-img img { max-height: 100%; object-fit: contain; }
-        .product-brand { font-size: 10px; color: var(--dourado-logo); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 1px; }
-        .product-name { font-size: 13px; font-weight: 500; text-transform: uppercase; line-height: 1.2; height: 2.4em; overflow: hidden; margin-bottom: 8px; color: #fff; }
-        .product-price { font-size: 15px; font-weight: 400; color: #fff; margin-bottom: 12px; }
+        .product-brand { font-size: 9px; color: var(--dourado-logo); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 1px; opacity: 0.8; }
+        .product-name { font-size: 12px; font-weight: 500; text-transform: uppercase; line-height: 1.2; height: 2.4em; overflow: hidden; margin-bottom: 8px; color: #fff; }
+        .product-price { font-size: 14px; font-weight: 400; color: #fff; margin-bottom: 12px; }
 
-        /* SELETORES E BOTÕES BRANCOS */
         .qty-selector {
             display: flex; align-items: center; justify-content: center; gap: 12px;
             background: rgba(255,255,255,0.08); border-radius: 4px; padding: 6px; margin-bottom: 12px;
         }
         .qty-btn {
             width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
-            background: #fff; color: #000; border-radius: 50%; font-weight: bold;
+            background: #fff; color: #000; border-radius: 50%; font-weight: bold; cursor: pointer;
         }
         .qty-value { font-size: 15px; font-weight: 600; width: 22px; }
 
         .btn-add {
             background: #fff; color: #000; width: 100%; padding: 12px 0; 
-            font-weight: 700; font-size: 11px; text-transform: uppercase;
+            font-weight: 700; font-size: 11px; text-transform: uppercase; cursor: pointer;
         }
 
-        /* CARRINHO BRANCO */
         .cart-float {
             position: fixed; bottom: 30px; right: 20px; background: #fff;
             width: 60px; height: 60px; border-radius: 50%; display: flex;
             justify-content: center; align-items: center; z-index: 100;
-            box-shadow: 0 6px 25px rgba(0,0,0,0.7);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.7); cursor: pointer;
         }
         .cart-float svg { fill: #000; } 
-        
         .cart-count {
             position: absolute; top: 0px; right: 0px; background: #ff0000;
             color: #fff; font-size: 11px; width: 22px; height: 22px;
@@ -181,14 +159,13 @@
             font-weight: bold; border: 2px solid #fff;
         }
 
-        footer { text-align: center; padding: 60px 20px; margin-top: 40px; border-top: 1px solid rgba(197, 160, 89, 0.1); }
-        .footer-title { color: var(--dourado-logo); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 8px; font-family: 'Cinzel'; }
-        .footer-subtitle { color: #5a7a6f; font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase; }
+        footer { text-align: center; padding: 50px 20px; margin-top: 40px; border-top: 1px solid rgba(197, 160, 89, 0.1); }
+        .footer-title { color: var(--dourado-logo); font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 8px; font-family: 'Cinzel'; }
+        .footer-subtitle { color: #5a7a6f; font-size: 9px; letter-spacing: 0.5em; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
-    <!-- SPLASH SCREEN -->
     <div id="splash-screen">
         <div class="splash-wrapper">
             <div class="mist-effect"></div>
@@ -223,7 +200,6 @@
         <div class="footer-subtitle">BOA VISTA - RR</div>
     </footer>
 
-    <!-- CARRINHO -->
     <div class="cart-float" onclick="sendToWhatsApp()">
         <svg width="28" height="28" viewBox="0 0 16 16">
             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
@@ -232,7 +208,40 @@
     </div>
 
     <script>
+        // --- CONFIGURAÇÃO DA PLANILHA ---
+        // 1. Publique sua planilha como CSV e cole o link abaixo
+        const SHEET_CSV_URL = 'COLE_AQUI_O_LINK_DO_SEU_CSV'; 
+
+        let database = [];
+        let cart = [];
+        const whatsappNumber = "5595991154395";
+
+        // Carregar dados da Planilha
+        async function loadSheetData() {
+            try {
+                const response = await fetch(SHEET_CSV_URL);
+                const data = await response.text();
+                const rows = data.split('\n').slice(1); // Remove o cabeçalho
+                
+                database = rows.map(row => {
+                    const columns = row.split(',');
+                    return {
+                        id: columns[0]?.trim(),
+                        marca: columns[1]?.trim(),
+                        nome: columns[2]?.trim(),
+                        preco: parseFloat(columns[3]?.trim() || 0),
+                        imagem: columns[4]?.trim()
+                    };
+                }).filter(p => p.nome); // Remove linhas vazias
+
+                displayProducts(database);
+            } catch (error) {
+                console.error("Erro ao carregar perfumes:", error);
+            }
+        }
+
         window.addEventListener('load', () => {
+            loadSheetData();
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
                 splash.style.transition = 'opacity 0.8s ease';
@@ -240,18 +249,6 @@
                 setTimeout(() => { splash.remove(); }, 800);
             }, 2500); 
         });
-
-        const database = [
-            { id: 0, marca: "Khadlaj", nome: "Oud Al Sabah 100ml", preco: 100.00, imagem: "perfume1.webp" },
-            { id: 1, marca: "Maison Alhambra", nome: "So Glam Rouge Intense 100ml", preco: 200.00, imagem: "perfume2.jpeg" },
-            { id: 2, marca: "Lattafa", nome: "Asad 100ml", preco: 400.00, imagem: "perfume3.webp" },
-            { id: 3, marca: "Lattafa", nome: "Yara 100ml", preco: 350.00, imagem: "yara.webp" },
-            { id: 4, marca: "Maison Alhambra", nome: "Lovely Cherry 80ml", preco: 280.00, imagem: "cherry.webp" },
-            { id: 5, marca: "Khadlaj", nome: "Shiyaaka 100ml", preco: 320.00, imagem: "shiyaaka.webp" }
-        ];
-
-        let cart = [];
-        const whatsappNumber = "5595991154395";
 
         function displayProducts(products) {
             const grid = document.getElementById('productGrid');
@@ -271,11 +268,11 @@
                     <div>
                         <p class="product-price">R$ ${p.preco.toFixed(2).replace('.', ',')}</p>
                         <div class="qty-selector">
-                            <button class="qty-btn" onclick="changeQty(${p.id}, -1)">-</button>
+                            <button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button>
                             <span class="qty-value" id="qty-${p.id}">${currentQty}</span>
-                            <button class="qty-btn" onclick="changeQty(${p.id}, 1)">+</button>
+                            <button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button>
                         </div>
-                        <button class="btn-add" onclick="addToCart(${p.id})">ADICIONAR</button>
+                        <button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR</button>
                     </div>
                 </div>
             `}).join('');
@@ -336,14 +333,14 @@
 
         function filterProducts() {
             const term = document.getElementById('searchInput').value.toLowerCase();
-            displayProducts(database.filter(p => p.nome.toLowerCase().includes(term) || p.marca.toLowerCase().includes(term)));
+            const filtered = database.filter(p => p.nome.toLowerCase().includes(term) || p.marca.toLowerCase().includes(term));
+            displayProducts(filtered);
         }
 
         function filterByBrand(brand) {
-            brand === 'Todos' ? displayProducts(database) : displayProducts(database.filter(p => p.marca.toUpperCase() === brand.toUpperCase()));
+            const filtered = (brand === 'Todos') ? database : database.filter(p => p.marca.toUpperCase() === brand.toUpperCase());
+            displayProducts(filtered);
         }
-
-        displayProducts(database);
     </script>
 </body>
 </html>
