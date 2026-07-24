@@ -3,162 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assinatura Perfume | Catálogo Exclusivo</title>
+    <title>Assinatura Perfume | Luxury Boutique</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --verde-deep: #001a12;
-            --dourado: #c5a059;
-            --dourado-claro: #e2c275;
+            --verde-logo: #002218;
+            --dourado-logo: #c5a059;
+            --dourado-brilho: #e2c275;
         }
         body { 
             font-family: 'Montserrat', sans-serif; 
-            background-color: #fcfcfc; 
-            color: #333;
+            background-color: #000b08; /* Fundo levemente mais escuro que a logo para destaque */
+            color: #fff;
         }
         .font-luxury { font-family: 'Cinzel', serif; }
-        .bg-verde { background-color: var(--verde-deep); }
-        .text-gold { color: var(--dourado); }
-        .border-gold { border-color: var(--dourado); }
         
-        /* Efeito de brilho no dourado */
+        /* Gradiente Dourado Profissional */
+        .text-gold {
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .border-gold { border-color: var(--dourado-logo); }
+        
         .btn-gold {
-            background: linear-gradient(135deg, var(--dourado), var(--dourado-claro));
-            color: var(--verde-deep);
-            font-weight: bold;
-            transition: transform 0.2s, box-shadow 0.2s;
+            background: linear-gradient(135deg, var(--dourado-logo), var(--dourado-brilho));
+            color: #000;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
         }
         .btn-gold:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.4);
+            box-shadow: 0 0 20px rgba(197, 160, 89, 0.6);
+            transform: scale(1.02);
         }
-        
+
+        /* Card de Produto Estilo Premium */
         .product-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(197, 160, 89, 0.1);
+            transition: all 0.4s ease;
         }
         .product-card:hover {
-            border-color: var(--dourado);
-            transform: translateY(-5px);
+            border: 1px solid var(--dourado-logo);
+            background: rgba(255, 255, 255, 0.07);
         }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--verde-logo); }
+        ::-webkit-scrollbar-thumb { background: var(--dourado-logo); border-radius: 10px; }
     </style>
 </head>
-<body>
+<body class="min-h-screen overflow-x-hidden">
 
-    <!-- Header Luxo com Logo Centralizada -->
-    <header class="bg-verde pt-8 pb-6 shadow-2xl">
-        <div class="container mx-auto px-4 flex flex-col items-center">
-            <!-- A LOGO FICA AQUI -->
-            <img src="assinatura.jpg" alt="Assinatura Perfume" class="w-48 md:w-64 mb-6 transition-all duration-500 hover:scale-105">
-            
-            <nav class="w-full max-w-2xl border-t border-white/10 pt-6 flex justify-center space-x-8 text-xs md:text-sm uppercase tracking-[0.2em] text-gray-300 font-medium">
-                <a href="#" class="hover:text-gold transition">Início</a>
-                <a href="#" class="hover:text-gold transition">Árabes</a>
-                <a href="#" class="hover:text-gold transition">Franch</a>
-                <a href="#" class="hover:text-gold transition">Nicho</a>
-            </nav>
-        </div>
+    <!-- Header / Logo Centralizada -->
+    <header class="py-12 flex flex-col items-center bg-[url('https://www.transparenttextures.com/patterns/dark-matter.png')]">
+        <img src="assinatura.jpeg" alt="Assinatura Perfume" class="w-64 md:w-80 drop-shadow-[0_0_15px_rgba(197,160,89,0.3)] mb-8 transition-transform hover:scale-105 duration-700">
+        
+        <nav class="flex space-x-8 text-[10px] md:text-xs tracking-[0.3em] uppercase opacity-70">
+            <a href="#" class="hover:text-gold transition">Catálogo</a>
+            <a href="#" class="hover:text-gold transition">Novidades</a>
+            <a href="#" class="hover:text-gold transition">O Mais Vendido</a>
+        </nav>
     </header>
 
-    <!-- Barra de Pesquisa Elegante -->
-    <div class="bg-white border-b sticky top-0 z-50 py-4 shadow-sm">
-        <div class="container mx-auto px-4">
-            <div class="max-w-xl mx-auto relative">
-                <input type="text" id="search" placeholder="Busque sua fragrância de assinatura..." 
-                class="w-full bg-gray-50 border border-gray-200 rounded-none py-3 px-10 focus:outline-none focus:border-gold transition-all text-sm">
-                <span class="absolute left-3 top-3.5 opacity-30">🔍</span>
-            </div>
+    <!-- Busca -->
+    <div class="container mx-auto px-4 mb-12">
+        <div class="max-w-2xl mx-auto relative group">
+            <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Busque sua fragrância..." 
+                class="w-full bg-transparent border-b border-gold py-4 px-12 text-center text-xl font-light focus:outline-none focus:border-white transition-all placeholder:text-gray-600 tracking-widest">
+            <span class="absolute left-4 top-5 opacity-40">🔍</span>
         </div>
     </div>
 
-    <main class="container mx-auto px-4 py-12 flex flex-col md:flex-row gap-12">
+    <main class="container mx-auto px-4 flex flex-col md:flex-row gap-12">
         
-        <!-- Sidebar lateral (estilo Atlântico) -->
-        <aside class="w-full md:w-1/4">
-            <h2 class="font-luxury text-lg border-b-2 border-gold pb-3 mb-6 tracking-widest uppercase">Categorias</h2>
-            <ul class="space-y-4 text-sm font-medium text-gray-600">
-                <li class="hover:text-gold cursor-pointer flex justify-between items-center transition">Afnan <span>→</span></li>
-                <li class="text-gold cursor-pointer flex justify-between items-center font-bold">Khadlaj <span>→</span></li>
-                <li class="hover:text-gold cursor-pointer flex justify-between items-center transition">Lattafa <span>→</span></li>
-                <li class="hover:text-gold cursor-pointer flex justify-between items-center transition">Maison Alhambra <span>→</span></li>
-                <li class="hover:text-gold cursor-pointer flex justify-between items-center transition">Armaf <span>→</span></li>
-            </ul>
+        <!-- Lateral: Filtros por Marca -->
+        <aside class="w-full md:w-1/5 space-y-8">
+            <div>
+                <h3 class="font-luxury text-gold text-lg mb-6 border-b border-gold/20 pb-2">Marcas</h3>
+                <ul class="space-y-4 text-sm tracking-widest text-gray-400" id="brandList">
+                    <li class="hover:text-gold cursor-pointer transition flex items-center gap-2" onclick="filterByBrand('Todos')">
+                        <span>✧</span> TODOS PERFUMES
+                    </li>
+                    <li class="hover:text-gold cursor-pointer transition flex items-center gap-2 uppercase" onclick="filterByBrand('Khadlaj')">
+                        <span>✧</span> Khadlaj
+                    </li>
+                    <li class="hover:text-gold cursor-pointer transition flex items-center gap-2 uppercase" onclick="filterByBrand('Afnan')">
+                        <span>✧</span> Afnan
+                    </li>
+                    <li class="hover:text-gold cursor-pointer transition flex items-center gap-2 uppercase" onclick="filterByBrand('Lattafa')">
+                        <span>✧</span> Lattafa
+                    </li>
+                </ul>
+            </div>
         </aside>
 
-        <!-- Grade de Perfumes Dinâmica -->
-        <section class="w-full md:w-3/4">
-            <div id="catalog" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Os perfumes serão carregados aqui via JavaScript -->
+        <!-- Catalogo Principal -->
+        <section class="w-full md:w-4/5">
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Perfumes carregados via JS -->
             </div>
         </section>
     </main>
 
-    <footer class="bg-verde text-white py-12 mt-20 border-t-4 border-gold">
-        <div class="container mx-auto px-4 text-center">
-            <p class="font-luxury text-gold tracking-widest mb-4">Assinatura Perfume</p>
-            <p class="text-xs text-gray-500 uppercase tracking-widest">A sofisticação em cada nota.</p>
-        </div>
+    <footer class="mt-20 py-12 border-t border-gold/10 text-center">
+        <p class="text-[10px] tracking-[0.5em] text-gray-600 uppercase">Assinatura Perfume © 2024 - Exclusividade & Luxo</p>
     </footer>
 
-    <!-- LOGICA PARA ADICIONAR PERFUMES FACILMENTE -->
+    <!-- Script de Gerenciamento Simples -->
     <script>
-        // COMO ADICIONAR FOTOS E PERFUMES: 
-        // Basta adicionar um novo item entre as chaves { } abaixo.
-        const perfumes = [
+        // ADICIONE SEUS PERFUMES AQUI FACILMENTE:
+        const database = [
             {
                 marca: "Khadlaj",
-                nome: "Oud Al Sabah",
-                preco: "99,00",
-                de: "129,00",
-                imagem: "https://via.placeholder.com/400x500/f3f3f3/999?text=Oud+Al+Sabah", // Troque pelo link da foto
-                linkWhats: "https://wa.me/SEUNUMERO"
+                nome: "Oud Al Sabah Exclusive",
+                preco: "149,00",
+                imagem: "https://via.placeholder.com/500x600/001a12/c5a059?text=Oud+Al+Sabah", // Substitua pelo link da foto real
+                whatsapp: "5511999999999" // Seu numero com DDD
             },
             {
-                marca: "Khadlaj",
-                nome: "Strawberry Shake",
-                preco: "189,00",
-                de: "",
-                imagem: "https://via.placeholder.com/400x500/f3f3f3/999?text=Strawberry+Shake",
-                linkWhats: "https://wa.me/SEUNUMERO"
+                marca: "Afnan",
+                nome: "9PM Limited Edition",
+                preco: "289,00",
+                imagem: "https://via.placeholder.com/500x600/001a12/c5a059?text=Afnan+9PM",
+                whatsapp: "5511999999999"
             },
             {
-                marca: "Khadlaj",
-                nome: "Island Vanilla",
-                preco: "239,00",
-                de: "280,00",
-                imagem: "https://via.placeholder.com/400x500/f3f3f3/999?text=Island+Vanilla",
-                linkWhats: "https://wa.me/SEUNUMERO"
+                marca: "Lattafa",
+                nome: "Asad Luxury Gold",
+                preco: "199,00",
+                imagem: "https://via.placeholder.com/500x600/001a12/c5a059?text=Lattafa+Asad",
+                whatsapp: "5511999999999"
             }
         ];
 
-        const catalog = document.getElementById('catalog');
+        const grid = document.getElementById('productGrid');
 
-        function renderProducts() {
-            catalog.innerHTML = perfumes.map(p => `
-                <div class="product-card bg-white border border-gray-100 p-4 flex flex-col h-full shadow-sm">
-                    <div class="relative overflow-hidden mb-4 group">
-                        <img src="${p.imagem}" alt="${p.nome}" class="w-full h-72 object-contain mix-blend-multiply group-hover:scale-110 transition duration-500">
-                        ${p.de ? '<span class="absolute top-2 left-2 bg-verde text-gold text-[10px] font-bold px-3 py-1 uppercase tracking-tighter">Oferta</span>' : ''}
+        function displayProducts(products) {
+            grid.innerHTML = products.map(p => `
+                <div class="product-card p-4 flex flex-col group h-full">
+                    <div class="relative overflow-hidden aspect-[3/4] mb-6">
+                        <img src="${p.imagem}" alt="${p.nome}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                            <span class="text-xs tracking-tighter text-gold font-bold uppercase">Disponível em Estoque</span>
+                        </div>
                     </div>
                     
                     <div class="flex-grow">
-                        <span class="text-[10px] text-gold font-bold uppercase tracking-[0.2em] mb-1 block">${p.marca}</span>
-                        <h3 class="font-luxury text-md text-verde-deep mb-3 h-12 overflow-hidden">${p.nome}</h3>
-                        
-                        <div class="flex items-baseline gap-2 mb-6">
-                            ${p.de ? `<span class="text-gray-400 line-through text-xs italic">R$ ${p.de}</span>` : ''}
-                            <span class="text-xl font-bold text-verde-deep tracking-tighter">R$ ${p.preco}</span>
-                        </div>
+                        <p class="text-[10px] text-gold tracking-widest uppercase mb-2 opacity-70">${p.marca}</p>
+                        <h2 class="font-luxury text-lg mb-4 h-14 overflow-hidden">${p.nome}</h2>
+                        <p class="text-2xl font-light tracking-tighter mb-6">R$ ${p.preco}</p>
                     </div>
 
-                    <a href="${p.linkWhats}" target="_blank" class="btn-gold w-full py-3 text-center text-xs tracking-widest uppercase flex items-center justify-center gap-2">
-                        <span>Pedir no WhatsApp</span>
+                    <a href="https://wa.me/${p.whatsapp}?text=Olá! Tenho interesse no perfume ${p.nome}" target="_blank" 
+                       class="btn-gold py-4 text-center text-[10px]">
+                        Comprar Agora
                     </a>
                 </div>
             `).join('');
         }
 
-        renderProducts();
+        // Funções de Filtro e Busca
+        function filterProducts() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = database.filter(p => p.nome.toLowerCase().includes(term) || p.marca.toLowerCase().includes(term));
+            displayProducts(filtered);
+        }
+
+        function filterByBrand(brand) {
+            if(brand === 'Todos') {
+                displayProducts(database);
+            } else {
+                const filtered = database.filter(p => p.marca === brand);
+                displayProducts(filtered);
+            }
+        }
+
+        // Inicializar site
+        displayProducts(database);
     </script>
 </body>
 </html>
