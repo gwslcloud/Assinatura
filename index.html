@@ -23,7 +23,7 @@
         }
         .font-luxury { font-family: 'Cinzel', serif; }
         
-        /* TELA DE BOAS-VINDAS (SPLASH SCREEN) */
+        /* TELA DE BOAS-VINDAS */
         #splash-screen {
             position: fixed;
             top: 0; left: 0;
@@ -92,7 +92,6 @@
             color: #fff; letter-spacing: 2px; text-align: center; font-weight: 300;
         }
 
-        /* MENU DE MARCAS DINÂMICO */
         #brandMenu {
             display: flex; 
             overflow-x: auto; 
@@ -121,12 +120,6 @@
             color: #000;
         }
 
-        @media (min-width: 1024px) {
-            #brandMenu { justify-content: center; }
-            .brand-item { font-size: 13px; padding: 10px 25px; }
-        }
-
-        /* GRID RESPONSIVA (2 col celular / 5 col notebook) */
         .product-grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
@@ -135,6 +128,8 @@
         }
 
         @media (min-width: 1024px) {
+            #brandMenu { justify-content: center; }
+            .brand-item { font-size: 13px; padding: 10px 25px; }
             .product-grid { 
                 grid-template-columns: repeat(5, 1fr); 
                 max-width: 1400px;
@@ -148,10 +143,10 @@
             padding: 15px 10px; text-align: center; display: flex; flex-direction: column; justify-content: space-between;
         }
 
-        .product-img { height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+        .product-img { height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; cursor: pointer; }
         .product-img img { max-height: 100%; object-fit: contain; }
         .product-brand { font-size: 9px; color: var(--dourado-logo); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 1px; }
-        .product-name { font-size: 12px; font-weight: 500; text-transform: uppercase; line-height: 1.2; height: 2.4em; overflow: hidden; margin-bottom: 8px; color: #fff; }
+        .product-name { font-size: 12px; font-weight: 500; text-transform: uppercase; line-height: 1.2; height: 2.4em; overflow: hidden; margin-bottom: 8px; color: #fff; cursor: pointer; }
         .product-price { font-size: 14px; font-weight: 400; color: #fff; margin-bottom: 12px; }
 
         .qty-selector {
@@ -169,6 +164,49 @@
             font-weight: 700; font-size: 11px; text-transform: uppercase; cursor: pointer;
         }
 
+        /* --- ESTILO DO NOVO MODAL DE DETALHES --- */
+        #productModal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 200;
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-container {
+            background: var(--verde-fundo);
+            border: 1px solid var(--dourado-logo);
+            width: 100%;
+            max-width: 450px;
+            padding: 40px 25px;
+            position: relative;
+            animation: modalFadeUp 0.4s ease-out;
+        }
+        @keyframes modalFadeUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 20px;
+            color: var(--dourado-logo);
+            font-size: 30px;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .modal-desc-text {
+            font-size: 14px;
+            color: #bbb;
+            line-height: 1.6;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: 300;
+        }
+
         .cart-float {
             position: fixed; bottom: 30px; right: 20px; background: #fff;
             width: 60px; height: 60px; border-radius: 50%; display: flex;
@@ -176,7 +214,6 @@
             box-shadow: 0 6px 25px rgba(0,0,0,0.7); cursor: pointer;
         }
         .cart-float svg { fill: #000; } 
-        
         .cart-count {
             position: absolute; top: 0px; right: 0px; background: #ff0000;
             color: #fff; font-size: 11px; width: 22px; height: 22px;
@@ -212,10 +249,17 @@
         <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="BUSQUE SUA FRAGRÂNCIA..." class="search-input">
     </div>
 
-    <!-- O MENU SERÁ GERADO AQUI DENTRO -->
     <div id="brandMenu"></div>
 
     <main class="product-grid" id="productGrid"></main>
+
+    <!-- MODAL DE DETALHES (NOVO) -->
+    <div id="productModal" onclick="closeModalExterno(event)">
+        <div class="modal-container" onclick="event.stopPropagation()">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
 
     <footer>
         <div class="footer-title">Assinatura Parfum 2026</div>
@@ -230,7 +274,6 @@
     </div>
 
     <script>
-        // --- COLOQUE O SEU LINK DA PLANILHA AQUI ---
         const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS0crXc21GaE7jllSoyZqiE5xIa7lGGvtKEFjbK-0oil1dQWdMwcz6cRpH70qPbWMwzZF1KlLEP8d83/pub?gid=0&single=true&output=csv'; 
 
         let database = [];
@@ -250,31 +293,27 @@
                         marca: columns[1]?.trim(),
                         nome: columns[2]?.trim(),
                         preco: parseFloat(columns[3]?.trim() || 0),
-                        imagem: columns[4]?.trim()
+                        imagem: columns[4]?.trim(),
+                        descricao: columns[5]?.trim() || "Fragrância exclusiva da Assinatura Parfum." // Lê a 6ª coluna
                     };
                 }).filter(p => p.nome);
 
-                generateBrandMenu(database); // Gera os botões
-                displayProducts(database); // Mostra os produtos
+                generateBrandMenu(database);
+                displayProducts(database);
             } catch (error) {
                 console.error("Erro:", error);
             }
         }
 
-        // FUNÇÃO QUE CRIA OS BOTÕES DE MARCAS SEM REPETIR
         function generateBrandMenu(data) {
             const menu = document.getElementById('brandMenu');
-            // Pega todas as marcas, remove espaços, tira repetidas e ordena
             const brands = [...new Set(data.map(p => p.marca.trim()))].sort();
-            
             let menuHTML = `<div class="brand-item active" onclick="filterByBrand('Todos', this)">TODOS</div>`;
-            
             brands.forEach(brand => {
                 if(brand) {
                     menuHTML += `<div class="brand-item" onclick="filterByBrand('${brand}', this)">${brand.toUpperCase()}</div>`;
                 }
             });
-            
             menu.innerHTML = menuHTML;
         }
 
@@ -287,11 +326,11 @@
                 return `
                 <div class="product-card">
                     <div>
-                        <div class="product-img">
+                        <div class="product-img" onclick="openModal('${p.id}')">
                             <img src="${p.imagem}" alt="${p.nome}" onerror="this.src='assinatura.png'">
                         </div>
                         <p class="product-brand">${p.marca}</p>
-                        <h2 class="product-name font-luxury">${p.nome}</h2>
+                        <h2 class="product-name font-luxury" onclick="openModal('${p.id}')">${p.nome}</h2>
                     </div>
                     <div>
                         <p class="product-price">R$ ${p.preco.toFixed(2).replace('.', ',')}</p>
@@ -306,21 +345,45 @@
             `}).join('');
         }
 
+        // --- FUNÇÕES DO MODAL ---
+        function openModal(id) {
+            const p = database.find(item => item.id === id);
+            const modal = document.getElementById('productModal');
+            const content = document.getElementById('modalContent');
+
+            content.innerHTML = `
+                <div class="flex justify-center mb-6">
+                    <img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'">
+                </div>
+                <p class="product-brand text-center">${p.marca}</p>
+                <h2 class="font-luxury text-2xl text-center text-white mb-3">${p.nome}</h2>
+                <div class="w-12 h-[1px] bg-gold mx-auto mb-6" style="background:var(--dourado-logo)"></div>
+                <p class="modal-desc-text italic">"${p.descricao}"</p>
+                <p class="text-center text-white font-semibold text-xl mb-6">R$ ${p.preco.toFixed(2).replace('.', ',')}</p>
+                <button class="btn-add" onclick="closeModal(); addToCart('${p.id}')">ADICIONAR AO PEDIDO</button>
+            `;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        function closeModalExterno(e) {
+            if (e.target.id === 'productModal') closeModal();
+        }
+
+        // --- RESTANTE DAS FUNÇÕES ORIGINAIS ---
         function filterByBrand(brand, element) {
-            // Atualiza visual dos botões
             document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active'));
             element.classList.add('active');
-
-            // Filtra os produtos
-            const filtered = (brand === 'Todos') 
-                ? database 
-                : database.filter(p => p.marca.trim() === brand);
-            
+            const filtered = (brand === 'Todos') ? database : database.filter(p => p.marca.trim() === brand);
             displayProducts(filtered);
         }
 
         function changeQty(id, delta) {
             const el = document.getElementById(`qty-${id}`);
+            if(!el) return;
             let val = parseInt(el.innerText);
             val = Math.max(0, val + delta); 
             el.innerText = val;
@@ -335,18 +398,19 @@
 
         function addToCart(id) {
             const product = database.find(p => p.id === id);
-            const qty = parseInt(document.getElementById(`qty-${id}`).innerText);
+            const qtyElement = document.getElementById(`qty-${id}`);
+            let qty = qtyElement ? parseInt(qtyElement.innerText) : 1;
             
-            if(qty === 0) {
-                const cartIndex = cart.findIndex(item => item.id === id);
-                if (cartIndex > -1) cart.splice(cartIndex, 1);
-            } else {
-                const existing = cart.find(item => item.id === id);
-                if (existing) { existing.qty = qty; } 
-                else { cart.push({ ...product, qty: qty }); }
-            }
+            if(qty === 0) qty = 1; // Se clicar em add sem mexer no contador, assume 1
+
+            const existing = cart.find(item => item.id === id);
+            if (existing) { existing.qty = qty; } 
+            else { cart.push({ ...product, qty: qty }); }
+            
+            if(qtyElement) qtyElement.innerText = qty;
+            
             updateBadge();
-            alert("Carrinho atualizado!");
+            alert("Produto adicionado com sucesso!");
         }
 
         function updateBadge() {
