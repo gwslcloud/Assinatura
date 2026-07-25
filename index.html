@@ -23,7 +23,7 @@
         }
         .font-luxury { font-family: 'Cinzel', serif; }
         
-        /* TELA DE BOAS-VINDAS */
+        /* TELA DE BOAS-VINDAS (SPLASH SCREEN) */
         #splash-screen {
             position: fixed;
             top: 0; left: 0;
@@ -92,41 +92,65 @@
             color: #fff; letter-spacing: 2px; text-align: center; font-weight: 300;
         }
 
-        .brand-scroll {
-            display: flex; overflow-x: auto; gap: 10px; padding: 1rem 15px 1.5rem 15px;
-            scrollbar-width: none; justify-content: flex-start;
+        /* MENU DE MARCAS DINÂMICO */
+        #brandMenu {
+            display: flex; 
+            overflow-x: auto; 
+            gap: 10px; 
+            padding: 1rem 15px 1.5rem 15px;
+            scrollbar-width: none; 
+            justify-content: flex-start;
         }
-        .brand-scroll::-webkit-scrollbar { display: none; }
+        #brandMenu::-webkit-scrollbar { display: none; }
+        
         .brand-item {
-            font-family: 'Cinzel', serif; border: 1px solid rgba(197, 160, 89, 0.5);
-            padding: 6px 15px; font-size: 10px; text-transform: uppercase;
-            color: var(--dourado-logo); background: rgba(0, 0, 0, 0.2); white-space: nowrap;
-            letter-spacing: 1px; transition: all 0.3s ease; cursor: pointer;
+            font-family: 'Cinzel', serif; 
+            border: 1px solid rgba(197, 160, 89, 0.5);
+            padding: 6px 15px; 
+            font-size: 10px; 
+            text-transform: uppercase;
+            color: var(--dourado-logo); 
+            background: rgba(0, 0, 0, 0.2); 
+            white-space: nowrap;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .brand-item.active {
+            background: var(--dourado-logo);
+            color: #000;
         }
 
         @media (min-width: 1024px) {
-            .brand-scroll { justify-content: center; }
+            #brandMenu { justify-content: center; }
             .brand-item { font-size: 13px; padding: 10px 25px; }
         }
 
-        /* GRID INTELIGENTE: 2 colunas no celular / 5 no notebook */
+        /* GRID RESPONSIVA (2 col celular / 5 col notebook) */
         .product-grid { 
-            display: grid; grid-template-columns: repeat(2, 1fr); 
-            gap: 15px; padding: 0 15px; 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 15px; 
+            padding: 0 15px; 
         }
 
         @media (min-width: 1024px) {
-            .product-grid { grid-template-columns: repeat(5, 1fr); max-width: 1400px; margin: 0 auto; }
+            .product-grid { 
+                grid-template-columns: repeat(5, 1fr); 
+                max-width: 1400px;
+                margin: 0 auto;
+            }
         }
 
         .product-card {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(197, 160, 89, 0.1);
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid rgba(197, 160, 89, 0.1);
             padding: 15px 10px; text-align: center; display: flex; flex-direction: column; justify-content: space-between;
         }
 
         .product-img { height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
         .product-img img { max-height: 100%; object-fit: contain; }
-        .product-brand { font-size: 9px; color: var(--dourado-logo); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 1px; opacity: 0.8; }
+        .product-brand { font-size: 9px; color: var(--dourado-logo); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 1px; }
         .product-name { font-size: 12px; font-weight: 500; text-transform: uppercase; line-height: 1.2; height: 2.4em; overflow: hidden; margin-bottom: 8px; color: #fff; }
         .product-price { font-size: 14px; font-weight: 400; color: #fff; margin-bottom: 12px; }
 
@@ -152,6 +176,7 @@
             box-shadow: 0 6px 25px rgba(0,0,0,0.7); cursor: pointer;
         }
         .cart-float svg { fill: #000; } 
+        
         .cart-count {
             position: absolute; top: 0px; right: 0px; background: #ff0000;
             color: #fff; font-size: 11px; width: 22px; height: 22px;
@@ -166,6 +191,7 @@
 </head>
 <body>
 
+    <!-- SPLASH SCREEN -->
     <div id="splash-screen">
         <div class="splash-wrapper">
             <div class="mist-effect"></div>
@@ -186,12 +212,8 @@
         <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="BUSQUE SUA FRAGRÂNCIA..." class="search-input">
     </div>
 
-    <div class="brand-scroll">
-        <div class="brand-item" onclick="filterByBrand('Todos')">TODOS</div>
-        <div class="brand-item" onclick="filterByBrand('Khadlaj')">KHADLAJ</div>
-        <div class="brand-item" onclick="filterByBrand('Maison Alhambra')">ALHAMBRA</div>
-        <div class="brand-item" onclick="filterByBrand('Lattafa')">LATTAFA</div>
-    </div>
+    <!-- O MENU SERÁ GERADO AQUI DENTRO -->
+    <div id="brandMenu"></div>
 
     <main class="product-grid" id="productGrid"></main>
 
@@ -208,20 +230,18 @@
     </div>
 
     <script>
-        // --- CONFIGURAÇÃO DA PLANILHA ---
-        // 1. Publique sua planilha como CSV e cole o link abaixo
-        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS0crXc21GaE7jllSoyZqiE5xIa7lGGvtKEFjbK-0oil1dQWdMwcz6cRpH70qPbWMwzZF1KlLEP8d83/pub?gid=0&single=true&output=csv'; 
+        // --- COLOQUE O SEU LINK DA PLANILHA AQUI ---
+        const SHEET_CSV_URL = 'COLE_AQUI_O_LINK_DO_SEU_CSV'; 
 
         let database = [];
         let cart = [];
         const whatsappNumber = "5595991154395";
 
-        // Carregar dados da Planilha
         async function loadSheetData() {
             try {
                 const response = await fetch(SHEET_CSV_URL);
                 const data = await response.text();
-                const rows = data.split('\n').slice(1); // Remove o cabeçalho
+                const rows = data.split('\n').slice(1); 
                 
                 database = rows.map(row => {
                     const columns = row.split(',');
@@ -232,23 +252,31 @@
                         preco: parseFloat(columns[3]?.trim() || 0),
                         imagem: columns[4]?.trim()
                     };
-                }).filter(p => p.nome); // Remove linhas vazias
+                }).filter(p => p.nome);
 
-                displayProducts(database);
+                generateBrandMenu(database); // Gera os botões
+                displayProducts(database); // Mostra os produtos
             } catch (error) {
-                console.error("Erro ao carregar perfumes:", error);
+                console.error("Erro:", error);
             }
         }
 
-        window.addEventListener('load', () => {
-            loadSheetData();
-            setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                splash.style.transition = 'opacity 0.8s ease';
-                splash.style.opacity = '0'; 
-                setTimeout(() => { splash.remove(); }, 800);
-            }, 2500); 
-        });
+        // FUNÇÃO QUE CRIA OS BOTÕES DE MARCAS SEM REPETIR
+        function generateBrandMenu(data) {
+            const menu = document.getElementById('brandMenu');
+            // Pega todas as marcas, remove espaços, tira repetidas e ordena
+            const brands = [...new Set(data.map(p => p.marca.trim()))].sort();
+            
+            let menuHTML = `<div class="brand-item active" onclick="filterByBrand('Todos', this)">TODOS</div>`;
+            
+            brands.forEach(brand => {
+                if(brand) {
+                    menuHTML += `<div class="brand-item" onclick="filterByBrand('${brand}', this)">${brand.toUpperCase()}</div>`;
+                }
+            });
+            
+            menu.innerHTML = menuHTML;
+        }
 
         function displayProducts(products) {
             const grid = document.getElementById('productGrid');
@@ -276,6 +304,19 @@
                     </div>
                 </div>
             `}).join('');
+        }
+
+        function filterByBrand(brand, element) {
+            // Atualiza visual dos botões
+            document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+
+            // Filtra os produtos
+            const filtered = (brand === 'Todos') 
+                ? database 
+                : database.filter(p => p.marca.trim() === brand);
+            
+            displayProducts(filtered);
         }
 
         function changeQty(id, delta) {
@@ -318,7 +359,6 @@
                 alert("Seu carrinho está vazio!");
                 return;
             }
-
             let message = "Olá! Gostaria de fazer um pedido:\n\n";
             let totalOrder = 0;
             cart.forEach(item => {
@@ -337,10 +377,15 @@
             displayProducts(filtered);
         }
 
-        function filterByBrand(brand) {
-            const filtered = (brand === 'Todos') ? database : database.filter(p => p.marca.toUpperCase() === brand.toUpperCase());
-            displayProducts(filtered);
-        }
+        window.addEventListener('load', () => {
+            loadSheetData();
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.transition = 'opacity 0.8s ease';
+                splash.style.opacity = '0'; 
+                setTimeout(() => { splash.remove(); }, 800);
+            }, 2500); 
+        });
     </script>
 </body>
 </html>
