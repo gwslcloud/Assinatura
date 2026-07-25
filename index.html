@@ -198,6 +198,33 @@
             cursor: pointer;
         }
 
+        /* --- NOTIFICAÇÃO DE LUXO (NOVO) --- */
+        #luxuryToast {
+            visibility: hidden;
+            min-width: 300px;
+            background-color: var(--verde-detalhe);
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            border: 1px solid var(--dourado-logo);
+            padding: 16px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 100px;
+            transform: translateX(-50%);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            font-size: 12px;
+            letter-spacing: 1px;
+            font-family: 'Cinzel', serif;
+        }
+        #luxuryToast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 100px; opacity: 1; } }
+        @keyframes fadeout { from { bottom: 100px; opacity: 1; } to { bottom: 0; opacity: 0; } }
+
         /* ITENS NO RESUMO DO CARRINHO */
         .cart-item-row {
             display: flex;
@@ -214,7 +241,6 @@
             cursor: pointer;
         }
 
-        /* OPÇÕES DE ENTREGA */
         .delivery-option-box {
             margin-top: 25px;
             padding: 20px;
@@ -266,6 +292,9 @@
 </head>
 <body>
 
+    <!-- NOTIFICAÇÃO PERSONALIZADA -->
+    <div id="luxuryToast"></div>
+
     <!-- SPLASH SCREEN -->
     <div id="splash-screen">
         <div class="splash-wrapper">
@@ -291,7 +320,6 @@
 
     <main class="product-grid" id="productGrid"></main>
 
-    <!-- MODAL DETALHES PRODUTO -->
     <div id="productModal" onclick="closeModalExterno(event, 'productModal')">
         <div class="modal-container" onclick="event.stopPropagation()">
             <span class="close-modal" onclick="closeModal('productModal')">&times;</span>
@@ -299,35 +327,27 @@
         </div>
     </div>
 
-    <!-- NOVO MODAL CARRINHO / RESUMO -->
     <div id="cartModal" onclick="closeModalExterno(event, 'cartModal')">
         <div class="modal-container" onclick="event.stopPropagation()">
             <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
             <h2 class="font-luxury text-xl text-center text-white mb-6 border-b border-white border-opacity-10 pb-4">RESUMO DO PEDIDO</h2>
-            
             <div id="cartSummaryList"></div>
-
             <div class="mt-6 flex justify-between items-center text-white font-bold">
                 <span class="text-sm tracking-widest">TOTAL:</span>
                 <span id="cartSummaryTotal" class="text-xl">R$ 0,00</span>
             </div>
-
             <div class="delivery-option-box">
                 <p class="text-[10px] tracking-widest text-[#c5a059] mb-4">OPÇÕES DE RECEBIMENTO</p>
-                
                 <label class="delivery-radio-label">
                     <input type="radio" name="deliveryMethod" value="Retirar na Loja" checked onclick="toggleDeliveryWarning(false)">
                     <span class="text-white uppercase tracking-tighter">Retirar na Loja</span>
                 </label>
-                
                 <label class="delivery-radio-label">
                     <input type="radio" name="deliveryMethod" value="Entregar no Endereço" onclick="toggleDeliveryWarning(true)">
                     <span class="text-white uppercase tracking-tighter">Entregar no Endereço</span>
                 </label>
-
                 <div id="feeWarning" class="fee-warning">⚠️ Verificar taxa de entrega com o vendedor.</div>
             </div>
-
             <button class="btn-add mt-8" onclick="finalizeOrder()">FINALIZAR NO WHATSAPP</button>
         </div>
     </div>
@@ -337,11 +357,10 @@
         <div class="footer-subtitle">BOA VISTA - RR</div>
         <div class="social-icons-wrapper mt-6">
             <a href="https://wa.me/5595991154395" target="_blank" class="social-link"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
-            <a href="LINK_DO_INSTAGRAM" target="_blank" class="social-link"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.805.249 2.227.412.56.216.96.474 1.38.894.42.42.678.82.894 1.38.163.422.358 1.057.412 2.227.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.249 1.805-.412 2.227-.216.56-.474.96-.894 1.38-.42.42-.82.678-1.38.894-.422.163-1.057.358-2.227.412-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.805-.249-2.227-.412-.56-.216-.96-.474-1.38-.894-.42-.42-.678-.82-.894-1.38-.163-.422-.358-1.057-.412-2.227-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.054-1.17.249-1.805.412-2.227.216-.56.474-.96.894-1.38.42-.42.82-.678 1.38-.894.422-.163 1.057-.358 2.227-.412 1.266-.058 1.646-.07 4.85-.07M12 0C8.741 0 8.333.014 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.741 0 12s.014 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126s1.337 1.078 2.126 1.384c.766.296 1.636.499 2.913.558C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384s1.078-1.337 1.384-2.126c.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.014-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126s-1.337-1.078-2.126-1.384c-.765-.296-1.636-.499-2.913-.558C15.667.012 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+            <a href="LINK_DO_INSTAGRAM" target="_blank" class="social-link"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.805.249 2.227.412.56.216.96.474 1.38.894.42.42.678.82.894 1.38.163.422.358 1.057.412 2.227.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.249 1.805-.412 2.227-.216.56-.474.96-.894 1.38-.42.42-.82.678-1.38.894-.422.163-1.057.358-2.227.412-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.805-.249-2.227-.412-.56-.216-.96-.474-1.38-.894-.42-.42-.678-.82-.894-1.38-.163-.422-.358-1.057-.412-2.227-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.054-1.17.249-1.805.412-2.227.216-.56.474-.96.894-1.38.42-.42.82-.678 1.38-.894.422-.163 1.057-.358 2.227-.412 1.266-.058-1.646-.07 4.85-.07M12 0C8.741 0 8.333.014 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.741 0 12s.014 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126s1.337 1.078 2.126 1.384c.766.296 1.636.499 2.913.558C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384s1.078-1.337 1.384-2.126c.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.014-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126s-1.337-1.078-2.126-1.384c-.765-.296-1.636-.499-2.913-.558C15.667.012 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
         </div>
     </footer>
 
-    <!-- BOTÃO FLUTUANTE DO CARRINHO -->
     <div class="cart-float" onclick="openCartModal()">
         <svg width="28" height="28" viewBox="0 0 16 16">
             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
@@ -367,6 +386,14 @@
             }
             result.push(cur);
             return result;
+        }
+
+        // --- FUNÇÃO PARA A NOTIFICAÇÃO SOFISTICADA ---
+        function showLuxuryToast() {
+            const toast = document.getElementById("luxuryToast");
+            toast.innerHTML = `<span style="color:var(--dourado-logo)">(BOAS COMPRAS)</span><br>Seu produto foi adicionado ao carrinho`;
+            toast.className = "show";
+            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
         }
 
         async function loadSheetData() {
@@ -423,7 +450,6 @@
             }).join('');
         }
 
-        /* --- LOGICA DO CARRINHO --- */
         function openModal(id) {
             const p = database.find(item => item.id === id);
             const content = document.getElementById('modalContent');
@@ -463,7 +489,9 @@
             else cart.push({ ...p, qty: qty });
             el.innerText = qty;
             updateBadge();
-            alert("Produto adicionado!");
+            
+            // SUBSTITUÍMOS O ALERT POR ESTA FUNÇÃO:
+            showLuxuryToast();
         }
 
         function updateBadge() {
@@ -471,7 +499,6 @@
             document.getElementById('cartBadge').innerText = total;
         }
 
-        /* --- NOVO: MODAL DE RESUMO --- */
         function openCartModal() {
             if (cart.length === 0) { alert("Seu carrinho está vazio!"); return; }
             renderCartSummary();
@@ -504,7 +531,6 @@
                 updateBadge();
                 if (cart.length === 0) closeModal('cartModal');
                 else renderCartSummary();
-                // Sincroniza o contador no grid se estiver visível
                 const el = document.getElementById(`qty-${id}`);
                 if(el) el.innerText = 0;
             }
@@ -518,21 +544,17 @@
             const method = document.querySelector('input[name="deliveryMethod"]:checked').value;
             let message = "Olá! Gostaria de fazer um pedido:\n\n";
             let totalOrder = 0;
-            
             cart.forEach(item => {
                 let subtotal = item.preco * item.qty;
                 message += `*${item.qty}x ${item.nome}*\n`;
                 message += `Unid: R$ ${item.preco.toFixed(2)} | Sub: R$ ${subtotal.toFixed(2)}\n\n`;
                 totalOrder += subtotal;
             });
-
             message += `*TOTAL DO PEDIDO: R$ ${totalOrder.toFixed(2)}*\n\n`;
             message += `*OPÇÃO:* ${method}`;
-            
             if (method === "Entregar no Endereço") {
                 message += "\n_(Taxa de entrega a consultar)_";
             }
-            
             window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
         }
 
