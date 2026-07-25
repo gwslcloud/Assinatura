@@ -23,7 +23,7 @@
         }
         .font-luxury { font-family: 'Cinzel', serif; }
         
-        /* TELA DE BOAS-VINDAS */
+        /* TELA DE BOAS-VINDAS (SPLASH SCREEN) */
         #splash-screen {
             position: fixed;
             top: 0; left: 0;
@@ -92,6 +92,7 @@
             color: #fff; letter-spacing: 2px; text-align: center; font-weight: 300;
         }
 
+        /* MENU DE MARCAS DINÂMICO */
         #brandMenu {
             display: flex; 
             overflow-x: auto; 
@@ -120,6 +121,12 @@
             color: #000;
         }
 
+        @media (min-width: 1024px) {
+            #brandMenu { justify-content: center; }
+            .brand-item { font-size: 13px; padding: 10px 25px; }
+        }
+
+        /* GRID RESPONSIVA */
         .product-grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
@@ -128,8 +135,6 @@
         }
 
         @media (min-width: 1024px) {
-            #brandMenu { justify-content: center; }
-            .brand-item { font-size: 13px; padding: 10px 25px; }
             .product-grid { 
                 grid-template-columns: repeat(5, 1fr); 
                 max-width: 1400px;
@@ -164,7 +169,7 @@
             font-weight: 700; font-size: 11px; text-transform: uppercase; cursor: pointer;
         }
 
-        /* --- ESTILO DO NOVO MODAL DE DETALHES --- */
+        /* --- ESTILO DO MODAL DE DETALHES --- */
         #productModal {
             display: none;
             position: fixed;
@@ -214,6 +219,7 @@
             box-shadow: 0 6px 25px rgba(0,0,0,0.7); cursor: pointer;
         }
         .cart-float svg { fill: #000; } 
+        
         .cart-count {
             position: absolute; top: 0px; right: 0px; background: #ff0000;
             color: #fff; font-size: 11px; width: 22px; height: 22px;
@@ -253,7 +259,7 @@
 
     <main class="product-grid" id="productGrid"></main>
 
-    <!-- MODAL DE DETALHES (NOVO) -->
+    <!-- MODAL DE DETALHES -->
     <div id="productModal" onclick="closeModalExterno(event)">
         <div class="modal-container" onclick="event.stopPropagation()">
             <span class="close-modal" onclick="closeModal()">&times;</span>
@@ -280,23 +286,44 @@
         let cart = [];
         const whatsappNumber = "5595991154395";
 
+        // Função robusta para ler CSV (aceita vírgulas dentro das células)
+        function parseCSVLine(line) {
+            const result = [];
+            let cur = '';
+            let inQuote = false;
+            for (let i = 0; i < line.length; i++) {
+                let char = line[i];
+                if (char === '"') {
+                    inQuote = !inQuote;
+                } else if (char === ',' && !inQuote) {
+                    result.push(cur);
+                    cur = '';
+                } else {
+                    cur += char;
+                }
+            }
+            result.push(cur);
+            return result;
+        }
+
         async function loadSheetData() {
             try {
                 const response = await fetch(SHEET_CSV_URL);
                 const data = await response.text();
-                const rows = data.split('\n').slice(1); 
+                // Divide por quebra de linha (Windows ou Linux)
+                const rows = data.split(/\r?\n/).slice(1); 
                 
                 database = rows.map(row => {
-                    const columns = row.split(',');
+                    const columns = parseCSVLine(row); // Usa o novo parser
                     return {
                         id: columns[0]?.trim(),
                         marca: columns[1]?.trim(),
                         nome: columns[2]?.trim(),
-                        preco: parseFloat(columns[3]?.trim() || 0),
+                        preco: parseFloat(columns[3]?.replace(',', '.').trim() || 0),
                         imagem: columns[4]?.trim(),
-                        descricao: columns[5]?.trim() || "Fragrância exclusiva da Assinatura Parfum." // Lê a 6ª coluna
+                        descricao: columns[5]?.trim() || "Fragrância exclusiva da Assinatura Parfum."
                     };
-                }).filter(p => p.nome);
+                }).filter(p => p.nome && p.nome.length > 2 && p.preco > 0); // Remove cards fantasmas
 
                 generateBrandMenu(database);
                 displayProducts(database);
@@ -401,7 +428,7 @@
             const qtyElement = document.getElementById(`qty-${id}`);
             let qty = qtyElement ? parseInt(qtyElement.innerText) : 1;
             
-            if(qty === 0) qty = 1; // Se clicar em add sem mexer no contador, assume 1
+            if(qty === 0) qty = 1; 
 
             const existing = cart.find(item => item.id === id);
             if (existing) { existing.qty = qty; } 
