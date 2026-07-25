@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Assinatura Parfum</title>
-    <link rel="icon" type="image/png" href="logo.jpeg">
+    <link rel="icon" type="image/png" href="assinatura.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -24,7 +24,7 @@
         }
         .font-luxury { font-family: 'Cinzel', serif; }
         
-        /* TELA DE BOAS-VINDAS (SPLASH SCREEN) */
+        /* SPLASH SCREEN */
         #splash-screen {
             position: fixed;
             top: 0; left: 0;
@@ -68,7 +68,7 @@
             text-shadow: 0 0 10px rgba(197, 160, 89, 0.4);
         }
 
-        /* --- ESTILO DA PÁGINA PRINCIPAL --- */
+        /* CABEÇALHO */
         .golden-line-bg {
             position: absolute;
             top: 85px; left: 0; width: 100%; height: 1px;
@@ -116,10 +116,7 @@
             transition: all 0.3s ease;
             cursor: pointer;
         }
-        .brand-item.active {
-            background: var(--dourado-logo);
-            color: #000;
-        }
+        .brand-item.active { background: var(--dourado-logo); color: #000; }
 
         .product-grid { 
             display: grid; 
@@ -165,8 +162,8 @@
             font-weight: 700; font-size: 11px; text-transform: uppercase; cursor: pointer;
         }
 
-        /* --- ESTILO DO MODAL DE DETALHES --- */
-        #productModal {
+        /* MODAIS */
+        #productModal, #cartModal {
             display: none;
             position: fixed;
             top: 0; left: 0;
@@ -185,6 +182,8 @@
             max-width: 450px;
             padding: 40px 25px;
             position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
             animation: modalFadeUp 0.4s ease-out;
         }
         @keyframes modalFadeUp {
@@ -197,15 +196,46 @@
             color: var(--dourado-logo);
             font-size: 30px;
             cursor: pointer;
-            line-height: 1;
         }
-        .modal-desc-text {
-            font-size: 14px;
-            color: #bbb;
-            line-height: 1.6;
-            margin: 20px 0;
-            text-align: center;
-            font-weight: 300;
+
+        /* ITENS NO RESUMO DO CARRINHO */
+        .cart-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        }
+        .remove-item {
+            color: #ff4d4d;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        /* OPÇÕES DE ENTREGA */
+        .delivery-option-box {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(197, 160, 89, 0.2);
+        }
+        .delivery-radio-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .delivery-radio-label input { accent-color: var(--dourado-logo); }
+        .fee-warning {
+            font-size: 11px;
+            color: var(--dourado-logo);
+            margin-top: 10px;
+            font-style: italic;
+            display: none;
         }
 
         .cart-float {
@@ -222,41 +252,16 @@
             font-weight: bold; border: 2px solid #fff;
         }
 
-        /* --- ESTILO DO RODAPÉ (FOOTER) PROFISSIONAL --- */
         footer { 
-            text-align: center; 
-            padding: 60px 20px; 
-            margin-top: 60px; 
-            border-top: 1px solid rgba(197, 160, 89, 0.15); 
-            background: rgba(0, 0, 0, 0.2);
+            text-align: center; padding: 60px 20px; margin-top: 60px; 
+            border-top: 1px solid rgba(197, 160, 89, 0.15); background: rgba(0, 0, 0, 0.2);
         }
         .footer-title { color: var(--dourado-logo); font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; margin-bottom: 12px; font-family: 'Cinzel'; font-weight: 700; }
-        .footer-subtitle { color: #5a7a6f; font-size: 10px; letter-spacing: 0.6em; text-transform: uppercase; margin-bottom: 40px; font-weight: 300; }
-        
-        .social-section { margin-top: 20px; display: flex; flex-direction: column; align-items: center; }
-        .social-label { 
-            font-family: 'Cinzel', serif; 
-            color: var(--dourado-logo); 
-            font-size: 10px; 
-            letter-spacing: 0.3em; 
-            margin-bottom: 25px; 
-            opacity: 0.9;
-        }
-        .social-icons-wrapper { display: flex; gap: 30px; justify-content: center; align-items: center; }
-        .social-link { 
-            color: var(--dourado-logo); 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .social-link:hover { 
-            transform: translateY(-5px) scale(1.1); 
-            color: var(--dourado-brilho); 
-            filter: drop-shadow(0 0 10px rgba(197, 160, 89, 0.6));
-        }
-        .social-link svg { width: 24px; height: 24px; fill: currentColor; }
-
+        .footer-subtitle { color: #5a7a6f; font-size: 10px; letter-spacing: 0.6em; text-transform: uppercase; margin-bottom: 40px; }
+        .social-icons-wrapper { display: flex; gap: 30px; justify-content: center; }
+        .social-link { color: var(--dourado-logo); transition: 0.3s; }
+        .social-link:hover { transform: translateY(-3px); color: #fff; }
+        .social-link svg { width: 22px; height: 22px; fill: currentColor; }
     </style>
 </head>
 <body>
@@ -286,39 +291,58 @@
 
     <main class="product-grid" id="productGrid"></main>
 
-    <!-- MODAL DE DETALHES -->
-    <div id="productModal" onclick="closeModalExterno(event)">
+    <!-- MODAL DETALHES PRODUTO -->
+    <div id="productModal" onclick="closeModalExterno(event, 'productModal')">
         <div class="modal-container" onclick="event.stopPropagation()">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <span class="close-modal" onclick="closeModal('productModal')">&times;</span>
             <div id="modalContent"></div>
         </div>
     </div>
 
-    <!-- RODAPÉ ATUALIZADO -->
+    <!-- NOVO MODAL CARRINHO / RESUMO -->
+    <div id="cartModal" onclick="closeModalExterno(event, 'cartModal')">
+        <div class="modal-container" onclick="event.stopPropagation()">
+            <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
+            <h2 class="font-luxury text-xl text-center text-white mb-6 border-b border-white border-opacity-10 pb-4">RESUMO DO PEDIDO</h2>
+            
+            <div id="cartSummaryList"></div>
+
+            <div class="mt-6 flex justify-between items-center text-white font-bold">
+                <span class="text-sm tracking-widest">TOTAL:</span>
+                <span id="cartSummaryTotal" class="text-xl">R$ 0,00</span>
+            </div>
+
+            <div class="delivery-option-box">
+                <p class="text-[10px] tracking-widest text-[#c5a059] mb-4">OPÇÕES DE RECEBIMENTO</p>
+                
+                <label class="delivery-radio-label">
+                    <input type="radio" name="deliveryMethod" value="Retirar na Loja" checked onclick="toggleDeliveryWarning(false)">
+                    <span class="text-white uppercase tracking-tighter">Retirar na Loja</span>
+                </label>
+                
+                <label class="delivery-radio-label">
+                    <input type="radio" name="deliveryMethod" value="Entregar no Endereço" onclick="toggleDeliveryWarning(true)">
+                    <span class="text-white uppercase tracking-tighter">Entregar no Endereço</span>
+                </label>
+
+                <div id="feeWarning" class="fee-warning">⚠️ Verificar taxa de entrega com o vendedor.</div>
+            </div>
+
+            <button class="btn-add mt-8" onclick="finalizeOrder()">FINALIZAR NO WHATSAPP</button>
+        </div>
+    </div>
+
     <footer>
         <div class="footer-title">Assinatura Parfum 2026</div>
         <div class="footer-subtitle">BOA VISTA - RR</div>
-
-        <div class="social-section">
-            <span class="social-label">REDES SOCIAIS</span>
-            <div class="social-icons-wrapper">
-                <!-- WHATSAPP -->
-                <a href="https://wa.me/5595991154395" target="_blank" class="social-link" title="WhatsApp">
-                    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                </a>
-                <!-- INSTAGRAM -->
-                <a href="COLOQUE_SEU_LINK_AQUI" target="_blank" class="social-link" title="Instagram">
-                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.805.249 2.227.412.56.216.96.474 1.38.894.42.42.678.82.894 1.38.163.422.358 1.057.412 2.227.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.249 1.805-.412 2.227-.216.56-.474.96-.894 1.38-.42.42-.82.678-1.38.894-.422.163-1.057.358-2.227.412-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.805-.249-2.227-.412-.56-.216-.96-.474-1.38-.894-.42-.42-.678-.82-.894-1.38-.163-.422-.358-1.057-.412-2.227-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.054-1.17.249-1.805.412-2.227.216-.56.474-.96.894-1.38.42-.42.82-.678 1.38-.894.422-.163 1.057-.358 2.227-.412 1.266-.058 1.646-.07 4.85-.07M12 0C8.741 0 8.333.014 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.741 0 12s.014 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126s1.337 1.078 2.126 1.384c.766.296 1.636.499 2.913.558C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384s1.078-1.337 1.384-2.126c.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.014-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126s-1.337-1.078-2.126-1.384c-.765-.296-1.636-.499-2.913-.558C15.667.012 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                </a>
-                <!-- FACEBOOK -->
-                <a href="COLOQUE_SEU_LINK_AQUI" target="_blank" class="social-link" title="Facebook">
-                    <svg viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.323-1.325z"/></svg>
-                </a>
-            </div>
+        <div class="social-icons-wrapper mt-6">
+            <a href="https://wa.me/5595991154395" target="_blank" class="social-link"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+            <a href="LINK_DO_INSTAGRAM" target="_blank" class="social-link"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.805.249 2.227.412.56.216.96.474 1.38.894.42.42.678.82.894 1.38.163.422.358 1.057.412 2.227.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.249 1.805-.412 2.227-.216.56-.474.96-.894 1.38-.42.42-.82.678-1.38.894-.422.163-1.057.358-2.227.412-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.805-.249-2.227-.412-.56-.216-.96-.474-1.38-.894-.42-.42-.678-.82-.894-1.38-.163-.422-.358-1.057-.412-2.227-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.054-1.17.249-1.805.412-2.227.216-.56.474-.96.894-1.38.42-.42.82-.678 1.38-.894.422-.163 1.057-.358 2.227-.412 1.266-.058 1.646-.07 4.85-.07M12 0C8.741 0 8.333.014 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.741 0 12s.014 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126s1.337 1.078 2.126 1.384c.766.296 1.636.499 2.913.558C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384s1.078-1.337 1.384-2.126c.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.014-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126s-1.337-1.078-2.126-1.384c-.765-.296-1.636-.499-2.913-.558C15.667.012 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
         </div>
     </footer>
 
-    <div class="cart-float" onclick="sendToWhatsApp()">
+    <!-- BOTÃO FLUTUANTE DO CARRINHO -->
+    <div class="cart-float" onclick="openCartModal()">
         <svg width="28" height="28" viewBox="0 0 16 16">
             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
         </svg>
@@ -327,7 +351,6 @@
 
     <script>
         const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS0crXc21GaE7jllSoyZqiE5xIa7lGGvtKEFjbK-0oil1dQWdMwcz6cRpH70qPbWMwzZF1KlLEP8d83/pub?gid=0&single=true&output=csv'; 
-
         let database = [];
         let cart = [];
         const whatsappNumber = "5595991154395";
@@ -338,14 +361,9 @@
             let inQuote = false;
             for (let i = 0; i < line.length; i++) {
                 let char = line[i];
-                if (char === '"') {
-                    inQuote = !inQuote;
-                } else if (char === ',' && !inQuote) {
-                    result.push(cur);
-                    cur = '';
-                } else {
-                    cur += char;
-                }
+                if (char === '"') inQuote = !inQuote;
+                else if (char === ',' && !inQuote) { result.push(cur); cur = ''; }
+                else cur += char;
             }
             result.push(cur);
             return result;
@@ -356,7 +374,6 @@
                 const response = await fetch(SHEET_CSV_URL);
                 const data = await response.text();
                 const rows = data.split(/\r?\n/).slice(1); 
-                
                 database = rows.map(row => {
                     const columns = parseCSVLine(row);
                     return {
@@ -368,38 +385,28 @@
                         descricao: columns[5]?.trim() || "Fragrância exclusiva da Assinatura Parfum."
                     };
                 }).filter(p => p.nome && p.nome.length > 2 && p.preco > 0); 
-
                 generateBrandMenu(database);
                 displayProducts(database);
-            } catch (error) {
-                console.error("Erro:", error);
-            }
+            } catch (e) { console.error(e); }
         }
 
         function generateBrandMenu(data) {
             const menu = document.getElementById('brandMenu');
             const brands = [...new Set(data.map(p => p.marca.trim()))].sort();
-            let menuHTML = `<div class="brand-item active" onclick="filterByBrand('Todos', this)">TODOS</div>`;
-            brands.forEach(brand => {
-                if(brand) {
-                    menuHTML += `<div class="brand-item" onclick="filterByBrand('${brand}', this)">${brand.toUpperCase()}</div>`;
-                }
-            });
-            menu.innerHTML = menuHTML;
+            let html = `<div class="brand-item active" onclick="filterByBrand('Todos', this)">TODOS</div>`;
+            brands.forEach(b => html += `<div class="brand-item" onclick="filterByBrand('${b}', this)">${b.toUpperCase()}</div>`);
+            menu.innerHTML = html;
         }
 
         function displayProducts(products) {
             const grid = document.getElementById('productGrid');
             grid.innerHTML = products.map(p => {
-                const cartItem = cart.find(item => item.id === p.id);
-                const currentQty = cartItem ? cartItem.qty : 0;
-
+                const item = cart.find(i => i.id === p.id);
+                const qty = item ? item.qty : 0;
                 return `
                 <div class="product-card">
                     <div>
-                        <div class="product-img" onclick="openModal('${p.id}')">
-                            <img src="${p.imagem}" alt="${p.nome}" onerror="this.src='assinatura.png'">
-                        </div>
+                        <div class="product-img" onclick="openModal('${p.id}')"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div>
                         <p class="product-brand">${p.marca}</p>
                         <h2 class="product-name font-luxury" onclick="openModal('${p.id}')">${p.nome}</h2>
                     </div>
@@ -407,97 +414,125 @@
                         <p class="product-price">R$ ${p.preco.toFixed(2).replace('.', ',')}</p>
                         <div class="qty-selector">
                             <button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button>
-                            <span class="qty-value" id="qty-${p.id}">${currentQty}</span>
+                            <span class="qty-value" id="qty-${p.id}">${qty}</span>
                             <button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button>
                         </div>
                         <button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR</button>
                     </div>
-                </div>
-            `}).join('');
+                </div>`;
+            }).join('');
         }
 
+        /* --- LOGICA DO CARRINHO --- */
         function openModal(id) {
             const p = database.find(item => item.id === id);
-            const modal = document.getElementById('productModal');
             const content = document.getElementById('modalContent');
-
             content.innerHTML = `
-                <div class="flex justify-center mb-6">
-                    <img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'">
-                </div>
+                <div class="flex justify-center mb-6"><img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'"></div>
                 <p class="product-brand text-center">${p.marca}</p>
                 <h2 class="font-luxury text-2xl text-center text-white mb-3">${p.nome}</h2>
                 <div class="w-12 h-[1px] bg-gold mx-auto mb-6" style="background:var(--dourado-logo)"></div>
                 <p class="modal-desc-text italic">"${p.descricao}"</p>
                 <p class="text-center text-white font-semibold text-xl mb-6">R$ ${p.preco.toFixed(2).replace('.', ',')}</p>
-                <button class="btn-add" onclick="closeModal(); addToCart('${p.id}')">ADICIONAR AO PEDIDO</button>
-            `;
-            modal.style.display = 'flex';
+                <button class="btn-add" onclick="closeModal('productModal'); addToCart('${p.id}')">ADICIONAR AO PEDIDO</button>`;
+            document.getElementById('productModal').style.display = 'flex';
         }
 
-        function closeModal() {
-            document.getElementById('productModal').style.display = 'none';
-        }
-
-        function closeModalExterno(e) {
-            if (e.target.id === 'productModal') closeModal();
-        }
-
-        function filterByBrand(brand, element) {
-            document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active'));
-            element.classList.add('active');
-            const filtered = (brand === 'Todos') ? database : database.filter(p => p.marca.trim() === brand);
-            displayProducts(filtered);
-        }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function closeModalExterno(e, id) { if (e.target.id === id) closeModal(id); }
 
         function changeQty(id, delta) {
             const el = document.getElementById(`qty-${id}`);
-            if(!el) return;
-            let val = parseInt(el.innerText);
-            val = Math.max(0, val + delta); 
+            let val = Math.max(0, parseInt(el.innerText) + delta); 
             el.innerText = val;
-
-            const cartIndex = cart.findIndex(item => item.id === id);
-            if (cartIndex > -1) {
-                if (val === 0) { cart.splice(cartIndex, 1); } 
-                else { cart[cartIndex].qty = val; }
+            const idx = cart.findIndex(i => i.id === id);
+            if (idx > -1) {
+                if (val === 0) cart.splice(idx, 1);
+                else cart[idx].qty = val;
                 updateBadge();
             }
         }
 
         function addToCart(id) {
-            const product = database.find(p => p.id === id);
-            const qtyElement = document.getElementById(`qty-${id}`);
-            let qty = qtyElement ? parseInt(qtyElement.innerText) : 1;
-            if(qty === 0) qty = 1; 
-
-            const existing = cart.find(item => item.id === id);
-            if (existing) { existing.qty = qty; } 
-            else { cart.push({ ...product, qty: qty }); }
-            if(qtyElement) qtyElement.innerText = qty;
+            const p = database.find(i => i.id === id);
+            const el = document.getElementById(`qty-${id}`);
+            let qty = parseInt(el.innerText);
+            if(qty === 0) qty = 1;
+            const exist = cart.find(i => i.id === id);
+            if (exist) exist.qty = qty;
+            else cart.push({ ...p, qty: qty });
+            el.innerText = qty;
             updateBadge();
-            alert("Produto adicionado com sucesso!");
+            alert("Produto adicionado!");
         }
 
         function updateBadge() {
-            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
-            document.getElementById('cartBadge').innerText = totalItems;
+            const total = cart.reduce((s, i) => s + i.qty, 0);
+            document.getElementById('cartBadge').innerText = total;
         }
 
-        function sendToWhatsApp() {
-            if (cart.length === 0) {
-                alert("Seu carrinho está vazio!");
-                return;
+        /* --- NOVO: MODAL DE RESUMO --- */
+        function openCartModal() {
+            if (cart.length === 0) { alert("Seu carrinho está vazio!"); return; }
+            renderCartSummary();
+            document.getElementById('cartModal').style.display = 'flex';
+        }
+
+        function renderCartSummary() {
+            const list = document.getElementById('cartSummaryList');
+            let total = 0;
+            list.innerHTML = cart.map(item => {
+                const sub = item.preco * item.qty;
+                total += sub;
+                return `
+                <div class="cart-item-row">
+                    <div class="flex-1">
+                        <p class="text-white text-xs font-bold uppercase">${item.nome}</p>
+                        <p class="text-[10px] text-gray-400 mt-1">${item.qty}x R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
+                        <span class="remove-item" onclick="removeFromCart('${item.id}')">Remover</span>
+                    </div>
+                    <div class="text-white text-sm font-semibold">R$ ${sub.toFixed(2).replace('.', ',')}</div>
+                </div>`;
+            }).join('');
+            document.getElementById('cartSummaryTotal').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        }
+
+        function removeFromCart(id) {
+            const idx = cart.findIndex(i => i.id === id);
+            if (idx > -1) {
+                cart.splice(idx, 1);
+                updateBadge();
+                if (cart.length === 0) closeModal('cartModal');
+                else renderCartSummary();
+                // Sincroniza o contador no grid se estiver visível
+                const el = document.getElementById(`qty-${id}`);
+                if(el) el.innerText = 0;
             }
+        }
+
+        function toggleDeliveryWarning(show) {
+            document.getElementById('feeWarning').style.display = show ? 'block' : 'none';
+        }
+
+        function finalizeOrder() {
+            const method = document.querySelector('input[name="deliveryMethod"]:checked').value;
             let message = "Olá! Gostaria de fazer um pedido:\n\n";
             let totalOrder = 0;
+            
             cart.forEach(item => {
                 let subtotal = item.preco * item.qty;
                 message += `*${item.qty}x ${item.nome}*\n`;
                 message += `Unid: R$ ${item.preco.toFixed(2)} | Sub: R$ ${subtotal.toFixed(2)}\n\n`;
                 totalOrder += subtotal;
             });
-            message += `*TOTAL DO PEDIDO: R$ ${totalOrder.toFixed(2)}*`;
+
+            message += `*TOTAL DO PEDIDO: R$ ${totalOrder.toFixed(2)}*\n\n`;
+            message += `*OPÇÃO:* ${method}`;
+            
+            if (method === "Entregar no Endereço") {
+                message += "\n_(Taxa de entrega a consultar)_";
+            }
+            
             window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
         }
 
@@ -507,13 +542,20 @@
             displayProducts(filtered);
         }
 
+        function filterByBrand(brand, element) {
+            document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            const filtered = (brand === 'Todos') ? database : database.filter(p => p.marca.trim() === brand);
+            displayProducts(filtered);
+        }
+
         window.addEventListener('load', () => {
             loadSheetData();
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
                 splash.style.transition = 'opacity 0.8s ease';
                 splash.style.opacity = '0'; 
-                setTimeout(() => { splash.remove(); }, 800);
+                setTimeout(() => splash.remove(), 800);
             }, 2500); 
         });
     </script>
