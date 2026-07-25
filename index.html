@@ -282,7 +282,7 @@
             const grid = document.getElementById('productGrid');
             grid.innerHTML = products.map(p => {
                 const cartItem = cart.find(item => item.id === p.id);
-                const currentQty = cartItem ? cartItem.qty : 1;
+                const currentQty = cartItem ? cartItem.qty : 0;
 
                 return `
                 <div class="product-card">
