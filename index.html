@@ -391,7 +391,7 @@
         // --- FUNÇÃO PARA A NOTIFICAÇÃO SOFISTICADA ---
         function showLuxuryToast() {
             const toast = document.getElementById("luxuryToast");
-            toast.innerHTML = `<span style="color:var(--dourado-logo)">(BOAS COMPRAS)</span><br>Seu produto foi adicionado ao carrinho`;
+            toast.innerHTML = `<span style="color:var(--dourado-logo)">BOAS COMPRAS</span><br>Seu produto foi adicionado ao carrinho`;
             toast.className = "show";
             setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
         }
