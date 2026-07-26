@@ -121,7 +121,7 @@
         .product-grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
-            gap: 20px; 
+            gap: 15px; 
             padding: 0 15px; 
         }
 
@@ -129,58 +129,37 @@
             #brandMenu { justify-content: center; }
             .brand-item { font-size: 13px; padding: 10px 25px; }
             .product-grid { 
-                grid-template-columns: repeat(4, 1fr); 
+                grid-template-columns: repeat(5, 1fr); 
                 max-width: 1400px;
                 margin: 0 auto;
-                gap: 30px;
             }
         }
 
         .product-card {
-            background: rgba(255,255,255,0.02); 
-            border: 1px solid rgba(197, 160, 89, 0.08);
-            padding: 20px 15px; 
-            text-align: center; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between;
-            transition: transform 0.3s ease, border 0.3s ease;
-        }
-        .product-card:hover {
-            border-color: rgba(197, 160, 89, 0.3);
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid rgba(197, 160, 89, 0.1);
+            padding: 15px 10px; text-align: center; display: flex; flex-direction: column; justify-content: space-between;
         }
 
-        .product-img { height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; cursor: pointer; }
-        .product-img img { max-height: 100%; object-fit: contain; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3)); }
-        .product-brand { font-size: 9px; color: var(--dourado-logo); text-transform: uppercase; margin-bottom: 6px; letter-spacing: 2px; }
-        .product-name { font-size: 13px; font-weight: 400; text-transform: uppercase; line-height: 1.3; height: 2.6em; overflow: hidden; margin-bottom: 10px; color: #fff; cursor: pointer; letter-spacing: 1px; }
-        .product-price { font-size: 15px; font-weight: 300; color: #fff; margin-bottom: 18px; letter-spacing: 1px; }
+        .product-img { height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; cursor: pointer; }
+        .product-img img { max-height: 100%; object-fit: contain; }
+        .product-brand { font-size: 9px; color: var(--dourado-logo); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 1px; }
+        .product-name { font-size: 12px; font-weight: 500; text-transform: uppercase; line-height: 1.2; height: 2.4em; overflow: hidden; margin-bottom: 8px; color: #fff; cursor: pointer; }
+        .product-price { font-size: 14px; font-weight: 400; color: #fff; margin-bottom: 12px; }
 
-        /* NOVO BOTÃO LUXO */
+        .qty-selector {
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            background: rgba(255,255,255,0.08); border-radius: 4px; padding: 6px; margin-bottom: 12px;
+        }
+        .qty-btn {
+            width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+            background: #fff; color: #000; border-radius: 50%; font-weight: bold; cursor: pointer;
+        }
+        .qty-value { font-size: 15px; font-weight: 600; width: 22px; }
+
         .btn-add {
-            background: transparent; 
-            color: var(--dourado-logo); 
-            width: 100%; 
-            padding: 12px 5px; 
-            border: 1px solid rgba(197, 160, 89, 0.4);
-            font-weight: 400; 
-            font-size: 10px; 
-            text-transform: uppercase; 
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-add:active, .btn-add:hover {
-            background: var(--dourado-logo);
-            color: #000;
-            border-color: var(--dourado-logo);
-        }
-        .btn-sold-out {
-            border-color: rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.3);
-            cursor: not-allowed;
+            background: #fff; color: #000; width: 100%; padding: 12px 0; 
+            font-weight: 700; font-size: 11px; text-transform: uppercase; cursor: pointer;
         }
 
         /* MODAIS */
@@ -260,15 +239,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             cursor: pointer;
-        }
-        
-        .qty-selector {
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            background: rgba(255,255,255,0.08); border-radius: 4px; padding: 6px;
-        }
-        .qty-btn {
-            width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
-            background: #fff; color: #000; border-radius: 50%; font-weight: bold; cursor: pointer;
         }
 
         .delivery-option-box {
@@ -386,7 +356,7 @@
                 </label>
                 <div id="feeWarning" class="fee-warning">⚠️ Verificar taxa de entrega com o vendedor.</div>
             </div>
-            <button class="btn-add !bg-white !text-black mt-8" onclick="finalizeOrder()">FINALIZAR NO WHATSAPP</button>
+            <button class="btn-add mt-8" onclick="finalizeOrder()">FINALIZAR NO WHATSAPP</button>
         </div>
     </div>
 
@@ -434,7 +404,7 @@
 
         function showLuxuryToast() {
             const toast = document.getElementById("luxuryToast");
-            toast.innerHTML = `<span style="color:var(--dourado-logo)">ADICIONADO</span><br>Produto inserido no seu carrinho`;
+            toast.innerHTML = `<span style="color:var(--dourado-logo)">BOAS COMPRAS</span><br>Seu produto foi adicionado ao carrinho`;
             toast.className = "show";
             setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
         }
@@ -454,7 +424,7 @@
                         imagem: columns[4]?.trim(),
                         descricao: columns[5]?.trim() || "Fragrância exclusiva da Assinatura Parfum."
                     };
-                }).filter(p => p.nome && p.nome.length > 2 && p.preco >= 0);
+                }).filter(p => p.nome && p.nome.length > 2 && p.preco >= 0); // Alterado para p.preco >= 0
                 generateBrandMenu(database);
                 displayProducts(database);
             } catch (e) { console.error(e); }
@@ -471,25 +441,35 @@
         function displayProducts(products) {
             const grid = document.getElementById('productGrid');
             grid.innerHTML = products.map(p => {
+                const item = cart.find(i => i.id === p.id);
+                const qty = item ? item.qty : 0;
+                
+                // Lógica de produto esgotado (valor 0)
                 let controlsHtml = '';
                 if (p.preco > 0) {
                     controlsHtml = `
                         <p class="product-price">R$ ${p.preco.toFixed(2).replace('.', ',')}</p>
-                        <button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR AO CARRINHO</button>
+                        <div class="qty-selector">
+                            <button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button>
+                            <span class="qty-value" id="qty-${p.id}">${qty}</span>
+                            <button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button>
+                        </div>
+                        <button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR</button>
                     `;
                 } else {
                     controlsHtml = `
                         <p class="product-price" style="color: #666; text-decoration: line-through;">ESGOTADO</p>
-                        <button class="btn-add btn-sold-out" disabled>PRODUTO INDISPONÍVEL</button>
+                        <div class="py-2 text-[10px] text-red-500 font-bold uppercase tracking-widest mb-2">Indisponível</div>
+                        <button class="btn-add" style="background: #333; color: #666; cursor: not-allowed;" disabled>ESGOTADO</button>
                     `;
                 }
 
                 return `
                 <div class="product-card">
-                    <div onclick="openModal('${p.id}')">
-                        <div class="product-img"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div>
+                    <div>
+                        <div class="product-img" onclick="openModal('${p.id}')"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div>
                         <p class="product-brand">${p.marca}</p>
-                        <h2 class="product-name font-luxury">${p.nome}</h2>
+                        <h2 class="product-name font-luxury" onclick="openModal('${p.id}')">${p.nome}</h2>
                     </div>
                     <div>
                         ${controlsHtml}
@@ -502,11 +482,12 @@
             const p = database.find(item => item.id === id);
             const content = document.getElementById('modalContent');
             
+            // Lógica de botão no modal para esgotados
             let modalButton = '';
             if (p.preco > 0) {
-                modalButton = `<button class="btn-add !bg-white !text-black" onclick="closeModal('productModal'); addToCart('${p.id}')">ADICIONAR AO CARRINHO</button>`;
+                modalButton = `<button class="btn-add" onclick="closeModal('productModal'); addToCart('${p.id}')">ADICIONAR AO PEDIDO</button>`;
             } else {
-                modalButton = `<button class="btn-add btn-sold-out" disabled>ESGOTADO</button>`;
+                modalButton = `<button class="btn-add" style="background: #333; color: #666; cursor: not-allowed;" disabled>PRODUTO ESGOTADO</button>`;
             }
 
             content.innerHTML = `
@@ -514,7 +495,7 @@
                 <p class="product-brand text-center">${p.marca}</p>
                 <h2 class="font-luxury text-2xl text-center text-white mb-3">${p.nome}</h2>
                 <div class="w-12 h-[1px] bg-gold mx-auto mb-6" style="background:var(--dourado-logo)"></div>
-                <p class="text-sm italic text-center text-gray-400 mb-6 px-4">"${p.descricao}"</p>
+                <p class="modal-desc-text italic">"${p.descricao}"</p>
                 <p class="text-center text-white font-semibold text-xl mb-6">${p.preco > 0 ? 'R$ ' + p.preco.toFixed(2).replace('.', ',') : 'ESGOTADO'}</p>
                 ${modalButton}`;
             document.getElementById('productModal').style.display = 'flex';
@@ -523,24 +504,40 @@
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function closeModalExterno(e, id) { if (e.target.id === id) closeModal(id); }
 
-        function addToCart(id) {
-            const p = database.find(i => i.id === id);
-            const exist = cart.find(i => i.id === id);
-            if (exist) exist.qty += 1;
-            else cart.push({ ...p, qty: 1 });
-            updateBadge();
-            showLuxuryToast();
-        }
-
         function changeQty(id, delta) {
             const cartIndex = cart.findIndex(i => i.id === id);
             if (cartIndex > -1) {
                 cart[cartIndex].qty = Math.max(0, cart[cartIndex].qty + delta);
                 if (cart[cartIndex].qty === 0) cart.splice(cartIndex, 1);
+            } else if (delta > 0) {
+                const p = database.find(i => i.id === id);
+                cart.push({ ...p, qty: 1 });
             }
+
+            const el = document.getElementById(`qty-${id}`);
+            if (el) {
+                const itemNoCarrinho = cart.find(i => i.id === id);
+                el.innerText = itemNoCarrinho ? itemNoCarrinho.qty : 0;
+            }
+
             updateBadge();
-            if (cart.length === 0) closeModal('cartModal');
-            else renderCartSummary();
+            if (document.getElementById('cartModal').style.display === 'flex') {
+                if (cart.length === 0) closeModal('cartModal');
+                else renderCartSummary();
+            }
+        }
+
+        function addToCart(id) {
+            const p = database.find(i => i.id === id);
+            const el = document.getElementById(`qty-${id}`);
+            let qty = parseInt(el.innerText);
+            if(qty === 0) qty = 1;
+            const exist = cart.find(i => i.id === id);
+            if (exist) exist.qty = qty;
+            else cart.push({ ...p, qty: qty });
+            el.innerText = qty;
+            updateBadge();
+            showLuxuryToast();
         }
 
         function updateBadge() {
@@ -585,6 +582,8 @@
                 updateBadge();
                 if (cart.length === 0) closeModal('cartModal');
                 else renderCartSummary();
+                const el = document.getElementById(`qty-${id}`);
+                if(el) el.innerText = 0;
             }
         }
 
