@@ -121,7 +121,7 @@
         .product-grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
-            gap: 15px; 
+            gap: 20px; 
             padding: 0 15px; 
         }
 
@@ -129,42 +129,64 @@
             #brandMenu { justify-content: center; }
             .brand-item { font-size: 13px; padding: 10px 25px; }
             .product-grid { 
-                grid-template-columns: repeat(5, 1fr); 
+                grid-template-columns: repeat(4, 1fr); 
                 max-width: 1400px;
                 margin: 0 auto;
+                gap: 30px;
             }
         }
 
         .product-card {
-            background: rgba(255,255,255,0.03); 
-            border: 1px solid rgba(197, 160, 89, 0.1);
-            padding: 15px 10px; text-align: center; display: flex; flex-direction: column; justify-content: space-between;
+            background: rgba(255,255,255,0.02); 
+            border: 1px solid rgba(197, 160, 89, 0.08);
+            padding: 20px 15px; 
+            text-align: center; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between;
+            transition: transform 0.3s ease;
         }
 
-        .product-img { height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; cursor: pointer; }
-        .product-img img { max-height: 100%; object-fit: contain; }
-        .product-brand { font-size: 9px; color: var(--dourado-logo); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 1px; }
-        .product-name { font-size: 12px; font-weight: 500; text-transform: uppercase; line-height: 1.2; height: 2.4em; overflow: hidden; margin-bottom: 8px; color: #fff; cursor: pointer; }
-        .product-price { font-size: 14px; font-weight: 400; color: #fff; margin-bottom: 12px; }
+        .product-img { height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; cursor: pointer; }
+        .product-img img { max-height: 100%; object-fit: contain; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3)); }
+        .product-brand { font-size: 9px; color: var(--dourado-logo); text-transform: uppercase; margin-bottom: 6px; letter-spacing: 2px; }
+        .product-name { font-size: 13px; font-weight: 400; text-transform: uppercase; line-height: 1.3; height: 2.6em; overflow: hidden; margin-bottom: 10px; color: #fff; cursor: pointer; letter-spacing: 1px; }
+        .product-price { font-size: 15px; font-weight: 300; color: #fff; margin-bottom: 18px; letter-spacing: 1px; }
 
-        /* CONTROLES DE QUANTIDADE */
-        .qty-selector {
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            background: rgba(255,255,255,0.08); border-radius: 4px; padding: 8px; margin-bottom: 0px;
-            border: 1px solid rgba(197, 160, 89, 0.3);
-        }
-        .qty-btn {
-            width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
-            background: #fff; color: #000; border-radius: 50%; font-weight: bold; cursor: pointer;
-        }
-        .qty-value { font-size: 15px; font-weight: 600; width: 22px; }
-
-        /* BOTÃO ORIGINAL RESTAURADO */
+        /* BOTÃO DE LUXO (DESIGN RESTAURADO) */
         .btn-add {
-            background: #fff; color: #000; width: 100%; padding: 12px 0; 
-            font-weight: 700; font-size: 10px; text-transform: uppercase; cursor: pointer;
-            letter-spacing: 1px; border: none;
+            background: transparent; 
+            color: var(--dourado-logo); 
+            width: 100%; 
+            padding: 12px 5px; 
+            border: 1px solid rgba(197, 160, 89, 0.4);
+            font-weight: 400; 
+            font-size: 10px; 
+            text-transform: uppercase; 
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
+        .btn-add:hover {
+            background: var(--dourado-logo);
+            color: #000;
+            border-color: var(--dourado-logo);
+        }
+
+        /* SELETOR DE QUANTIDADE LUXO */
+        .qty-selector {
+            display: flex; align-items: center; justify-content: center; gap: 15px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(197, 160, 89, 0.2);
+            padding: 10px 5px; animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .qty-btn {
+            width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+            background: var(--dourado-logo); color: #000; border-radius: 50%; 
+            font-weight: bold; cursor: pointer; font-size: 14px;
+        }
+        .qty-value { font-size: 14px; font-weight: 400; width: 20px; color: #fff; }
 
         /* MODAIS */
         #productModal, #cartModal {
@@ -283,7 +305,6 @@
             font-weight: bold; border: 2px solid #fff;
         }
 
-        /* RODAPÉ */
         footer { 
             text-align: center; padding: 60px 20px; margin-top: 60px; 
             border-top: 1px solid rgba(197, 160, 89, 0.15); background: rgba(0, 0, 0, 0.2);
@@ -298,10 +319,8 @@
 </head>
 <body>
 
-    <!-- NOTIFICAÇÃO PERSONALIZADA -->
     <div id="luxuryToast"></div>
 
-    <!-- SPLASH SCREEN -->
     <div id="splash-screen">
         <div class="splash-wrapper">
             <div class="mist-effect"></div>
@@ -359,7 +378,7 @@
                 </label>
                 <div id="feeWarning" class="fee-warning">⚠️ Verificar taxa de entrega com o vendedor.</div>
             </div>
-            <button class="btn-add mt-8" onclick="finalizeOrder()">FINALIZAR NO WHATSAPP</button>
+            <button class="btn-add !bg-white !text-black mt-8" onclick="finalizeOrder()">FINALIZAR NO WHATSAPP</button>
         </div>
     </div>
 
@@ -445,7 +464,6 @@
                 let controlsHtml = '';
                 if (p.preco > 0) {
                     if (qty > 0) {
-                        // Exibe seletor de quantidade se já estiver no carrinho
                         controlsHtml = `
                             <div class="qty-selector">
                                 <button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button>
@@ -454,11 +472,10 @@
                             </div>
                         `;
                     } else {
-                        // Exibe botão de adicionar se NÃO estiver no carrinho
                         controlsHtml = `<button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR AO CARRINHO</button>`;
                     }
                 } else {
-                    controlsHtml = `<button class="btn-add" style="background: #333; color: #666; cursor: not-allowed;" disabled>ESGOTADO</button>`;
+                    controlsHtml = `<button class="btn-add !border-gray-800 !text-gray-700" disabled>ESGOTADO</button>`;
                 }
 
                 return `
@@ -481,7 +498,7 @@
             cart.push({ ...p, qty: 1 });
             updateBadge();
             showLuxuryToast();
-            displayProducts(database); // Atualiza vitrine para mostrar seletor
+            displayProducts(database);
         }
 
         function changeQty(id, delta) {
@@ -491,7 +508,7 @@
                 if (cart[cartIndex].qty === 0) cart.splice(cartIndex, 1);
             }
             updateBadge();
-            displayProducts(database); // Atualiza vitrine para refletir nova qtd ou botão
+            displayProducts(database);
             if (document.getElementById('cartModal').style.display === 'flex') {
                 if (cart.length === 0) closeModal('cartModal');
                 else renderCartSummary();
@@ -510,7 +527,7 @@
                     modalControls = `
                         <div class="qty-selector mx-auto w-max mb-4">
                             <button class="qty-btn" onclick="changeQty('${p.id}', -1); openModal('${p.id}')">-</button>
-                            <span class="qty-value">${qty}</span>
+                            <span class="qty-value text-center">${qty}</span>
                             <button class="qty-btn" onclick="changeQty('${p.id}', 1); openModal('${p.id}')">+</button>
                         </div>
                     `;
@@ -518,7 +535,7 @@
                     modalControls = `<button class="btn-add" onclick="addToCart('${p.id}'); openModal('${p.id}')">ADICIONAR AO CARRINHO</button>`;
                 }
             } else {
-                modalControls = `<button class="btn-add" style="background: #333; color: #666; cursor: not-allowed;" disabled>ESGOTADO</button>`;
+                modalControls = `<button class="btn-add !border-gray-800 !text-gray-700" disabled>ESGOTADO</button>`;
             }
 
             content.innerHTML = `
