@@ -341,7 +341,7 @@
 
             <!-- IMAGEM DE PAGAMENTO -->
             <div class="flex justify-center mt-6">
-                <img src="pagamento.webp" alt="Formas de Pagamento" class="max-w-[80%] h-auto opacity-90">
+                <img src="pagamento.png" alt="Formas de Pagamento" class="max-w-[80%] h-auto opacity-90">
             </div>
 
             <div class="delivery-option-box">
@@ -424,7 +424,7 @@
                         imagem: columns[4]?.trim(),
                         descricao: columns[5]?.trim() || "Fragrância exclusiva da Assinatura Parfum."
                     };
-                }).filter(p => p.nome && p.nome.length > 2 && p.preco > 0); 
+                }).filter(p => p.nome && p.nome.length > 2 && p.preco >= 0); // Alterado para p.preco >= 0
                 generateBrandMenu(database);
                 displayProducts(database);
             } catch (e) { console.error(e); }
@@ -443,6 +443,27 @@
             grid.innerHTML = products.map(p => {
                 const item = cart.find(i => i.id === p.id);
                 const qty = item ? item.qty : 0;
+                
+                // Lógica de produto esgotado (valor 0)
+                let controlsHtml = '';
+                if (p.preco > 0) {
+                    controlsHtml = `
+                        <p class="product-price">R$ ${p.preco.toFixed(2).replace('.', ',')}</p>
+                        <div class="qty-selector">
+                            <button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button>
+                            <span class="qty-value" id="qty-${p.id}">${qty}</span>
+                            <button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button>
+                        </div>
+                        <button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR</button>
+                    `;
+                } else {
+                    controlsHtml = `
+                        <p class="product-price" style="color: #666; text-decoration: line-through;">ESGOTADO</p>
+                        <div class="py-2 text-[10px] text-red-500 font-bold uppercase tracking-widest mb-2">Indisponível</div>
+                        <button class="btn-add" style="background: #333; color: #666; cursor: not-allowed;" disabled>ESGOTADO</button>
+                    `;
+                }
+
                 return `
                 <div class="product-card">
                     <div>
@@ -451,13 +472,7 @@
                         <h2 class="product-name font-luxury" onclick="openModal('${p.id}')">${p.nome}</h2>
                     </div>
                     <div>
-                        <p class="product-price">R$ ${p.preco.toFixed(2).replace('.', ',')}</p>
-                        <div class="qty-selector">
-                            <button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button>
-                            <span class="qty-value" id="qty-${p.id}">${qty}</span>
-                            <button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button>
-                        </div>
-                        <button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR</button>
+                        ${controlsHtml}
                     </div>
                 </div>`;
             }).join('');
@@ -466,14 +481,23 @@
         function openModal(id) {
             const p = database.find(item => item.id === id);
             const content = document.getElementById('modalContent');
+            
+            // Lógica de botão no modal para esgotados
+            let modalButton = '';
+            if (p.preco > 0) {
+                modalButton = `<button class="btn-add" onclick="closeModal('productModal'); addToCart('${p.id}')">ADICIONAR AO PEDIDO</button>`;
+            } else {
+                modalButton = `<button class="btn-add" style="background: #333; color: #666; cursor: not-allowed;" disabled>PRODUTO ESGOTADO</button>`;
+            }
+
             content.innerHTML = `
                 <div class="flex justify-center mb-6"><img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'"></div>
                 <p class="product-brand text-center">${p.marca}</p>
                 <h2 class="font-luxury text-2xl text-center text-white mb-3">${p.nome}</h2>
                 <div class="w-12 h-[1px] bg-gold mx-auto mb-6" style="background:var(--dourado-logo)"></div>
                 <p class="modal-desc-text italic">"${p.descricao}"</p>
-                <p class="text-center text-white font-semibold text-xl mb-6">R$ ${p.preco.toFixed(2).replace('.', ',')}</p>
-                <button class="btn-add" onclick="closeModal('productModal'); addToCart('${p.id}')">ADICIONAR AO PEDIDO</button>`;
+                <p class="text-center text-white font-semibold text-xl mb-6">${p.preco > 0 ? 'R$ ' + p.preco.toFixed(2).replace('.', ',') : 'ESGOTADO'}</p>
+                ${modalButton}`;
             document.getElementById('productModal').style.display = 'flex';
         }
 
@@ -481,26 +505,15 @@
         function closeModalExterno(e, id) { if (e.target.id === id) closeModal(id); }
 
         function changeQty(id, delta) {
-            // Primeiro, buscamos o item no carrinho
             const cartIndex = cart.findIndex(i => i.id === id);
-            
             if (cartIndex > -1) {
-                // Se já estiver no carrinho, altera a quantidade lá
                 cart[cartIndex].qty = Math.max(0, cart[cartIndex].qty + delta);
-                
-                // Se chegar a zero, remove do carrinho
-                if (cart[cartIndex].qty === 0) {
-                    cart.splice(cartIndex, 1);
-                }
-            } else {
-                // Se não estiver no carrinho e for um clique de +, adiciona primeiro item
-                if (delta > 0) {
-                    const p = database.find(i => i.id === id);
-                    cart.push({ ...p, qty: 1 });
-                }
+                if (cart[cartIndex].qty === 0) cart.splice(cartIndex, 1);
+            } else if (delta > 0) {
+                const p = database.find(i => i.id === id);
+                cart.push({ ...p, qty: 1 });
             }
 
-            // SICRONIZAÇÃO COM O SITE (Grid de produtos)
             const el = document.getElementById(`qty-${id}`);
             if (el) {
                 const itemNoCarrinho = cart.find(i => i.id === id);
@@ -508,8 +521,6 @@
             }
 
             updateBadge();
-
-            // Se o modal do carrinho estiver aberto, atualiza a lista dele na hora
             if (document.getElementById('cartModal').style.display === 'flex') {
                 if (cart.length === 0) closeModal('cartModal');
                 else renderCartSummary();
@@ -549,17 +560,13 @@
                 return `
                 <div class="cart-item-row flex items-center gap-4">
                     <img src="${item.imagem}" class="w-12 h-12 object-contain bg-white bg-opacity-5 rounded" onerror="this.src='assinatura.png'">
-                    
                     <div class="flex-1">
                         <p class="text-white text-[11px] font-bold uppercase leading-tight">${item.nome}</p>
-                        
-                        <!-- SELETOR DE QUANTIDADE DENTRO DO CARRINHO (NOVO) -->
                         <div class="flex items-center gap-2 mt-2">
                             <button class="qty-btn !w-6 !h-6 !text-xs" onclick="changeQty('${item.id}', -1)">-</button>
                             <span class="text-white text-xs w-4 text-center">${item.qty}</span>
                             <button class="qty-btn !w-6 !h-6 !text-xs" onclick="changeQty('${item.id}', 1)">+</button>
                         </div>
-                        
                         <span class="remove-item mt-1 inline-block" onclick="removeFromCart('${item.id}')">Remover</span>
                     </div>
                     <div class="text-white text-sm font-semibold">R$ ${sub.toFixed(2).replace('.', ',')}</div>
