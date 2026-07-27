@@ -32,7 +32,7 @@
             overflow-x: hidden;
         }
 
-        /* MUDANÇA 4: TEXTURA DE RUÍDO (GRAIN) */
+        /* TEXTURA DE RUÍDO (GRAIN) */
         .noise-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -216,7 +216,6 @@
             border-color: var(--dourado-logo);
         }
 
-        /* MUDANÇA 3: GLASSMORPHISM SIDEBAR */
         #sidebar {
             position: fixed;
             top: 0; left: -300px;
@@ -324,29 +323,53 @@
         .product-name { font-size: 13px; font-weight: 400; text-transform: uppercase; line-height: 1.3; height: 2.6em; overflow: hidden; margin-bottom: 10px; color: #fff; letter-spacing: 1px; }
         .product-price { font-size: 15px; font-weight: 300; color: #fff; margin-bottom: 18px; letter-spacing: 1px; }
 
-        /* BOTÃO COM BRILHO METÁLICO */
+        /* BOTÃO ADICIONAR AO CARRINHO LUXUOSO */
         .btn-add {
-            background: #ffffff; color: #000; width: 100%; padding: 12px 0; border: 1px solid #ffffff;
-            font-family: 'Cinzel', serif; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
-            cursor: pointer; transition: 0.4s;
-            position: relative; overflow: hidden;
+            background: #ffffff; 
+            color: #000; 
+            width: 100%; 
+            padding: 14px 0; 
+            border: 1px solid rgba(197, 160, 89, 0.4); 
+            font-family: 'Cinzel', serif; 
+            font-weight: 700; 
+            font-size: 9px; 
+            text-transform: uppercase; 
+            letter-spacing: 2.5px; 
+            cursor: pointer; 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; 
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(197, 160, 89, 0.1);
+        }
+
+        .btn-add:active, .btn-add:hover {
+            transform: translateY(-2px);
+            border-color: var(--dourado-logo);
+            box-shadow: 0 0 20px rgba(197, 160, 89, 0.5); /* AURA DOURADA */
+            letter-spacing: 3px;
         }
 
         .btn-add::after {
             content: "";
             position: absolute;
-            top: -50%; left: -60%;
-            width: 20%; height: 200%;
-            background: rgba(255, 255, 255, 0.8);
+            top: -50%; left: -100%;
+            width: 50%; height: 200%;
+            background: linear-gradient(
+                to right, 
+                transparent, 
+                rgba(197, 160, 89, 0.1), 
+                rgba(255, 255, 255, 0.7), 
+                rgba(197, 160, 89, 0.1), 
+                transparent
+            );
             transform: rotate(30deg);
-            transition: all 0.7s;
-            animation: btnShine 4s infinite ease-in-out;
+            animation: btnShine 5s infinite ease-in-out;
         }
 
         @keyframes btnShine {
-            0% { left: -60%; }
-            20% { left: 120%; }
-            100% { left: 120%; }
+            0% { left: -100%; }
+            15% { left: 150%; }
+            100% { left: 150%; }
         }
 
         .qty-selector {
@@ -357,7 +380,6 @@
 
         .qty-btn { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: #fff; color: #000; border-radius: 50%; font-weight: bold; }
         
-        /* MUDANÇA 3: GLASSMORPHISM PRODUCT MODAL */
         #productModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.8); z-index: 200; backdrop-filter: blur(8px);
@@ -386,7 +408,6 @@
             pointer-events: auto;
         }
 
-        /* MUDANÇA 3: GLASSMORPHISM CART DRAWER */
         #cartModal .modal-container {
             background: rgba(255, 255, 255, 0.85); 
             color: #000; 
