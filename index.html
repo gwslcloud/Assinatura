@@ -338,17 +338,23 @@
             font-weight: bold; border: 2px solid #fff;
         }
 
-        /* ESTILIZAÇÃO DO RODAPÉ (CONSERTADA) */
+        /* ESTILIZAÇÃO DO RODAPÉ (FIX DEFINITIVO) */
         footer { 
-            text-align: center; padding: 60px 20px; margin-top: 60px; 
-            border-top: 1px solid rgba(197, 160, 89, 0.15); background: rgba(0, 0, 0, 0.2);
+            text-align: center; 
+            padding: 60px 20px; 
+            margin-top: 60px; 
+            border-top: 1px solid rgba(197, 160, 89, 0.15); 
+            background: rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .footer-copyright { 
             color: #fff; 
             font-size: 11px; 
             letter-spacing: 1px; 
             font-weight: 400; 
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
         .footer-location { 
             color: #555; 
@@ -358,10 +364,30 @@
             font-weight: 300;
             margin-bottom: 40px;
         }
-        .social-icons-wrapper { display: flex; gap: 25px; justify-content: center; align-items: center; }
-        .social-link { transition: transform 0.3s ease; display: block; height: 35px; }
+        .social-icons-wrapper { 
+            display: flex; 
+            gap: 20px; 
+            justify-content: center; 
+            align-items: center; 
+        }
+        .social-link { 
+            transition: transform 0.3s ease; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+            overflow: hidden;
+        }
         .social-link:hover { transform: translateY(-3px); }
-        .social-link svg { height: 100%; width: auto; display: block; }
+        .social-link svg { width: 24px; height: 24px; fill: white; }
+
+        /* Cores originais em botões de app */
+        .bg-whatsapp { background-color: #25D366; }
+        .bg-instagram { background-color: #E4405F; }
+        .bg-facebook { background-color: #1877F2; }
+
     </style>
 </head>
 <body>
@@ -434,27 +460,26 @@
     <footer>
         <div class="footer-copyright">© 2026 Assinatura Parfum. Todos os direitos reservados.</div>
         <div class="footer-location">Boa Vista - RR</div>
-        <div class="social-icons-wrapper mt-6">
-            <!-- FACEBOOK OFICIAL BLUE BLOCK -->
-            <a href="LINK_DO_FACEBOOK" target="_blank" class="social-link" title="Facebook">
+        
+        <div class="social-icons-wrapper">
+            <!-- WHATSAPP EM PRIMEIRO -->
+            <a href="https://wa.me/5595991154395" target="_blank" class="social-link bg-whatsapp" title="WhatsApp">
                 <svg viewBox="0 0 24 24">
-                    <rect x="0" y="0" width="24" height="24" rx="5" fill="#1877F2"/>
-                    <path d="M15.5 14h-3V21h-3v-7h-2v-3h2V9.5C9.5 7.6 10.6 6.5 12.5 6.5h2.5V9.5h-1.5c-.7 0-1 .3-1 1V11h2.5l-.5 3z" fill="white"/>
+                    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.539 2.016 2.126-.54c1.079.59 1.803.707 3.162.708 3.181 0 5.767-2.586 5.768-5.766 0-3.18-2.586-5.771-5.768-5.771zm3.374 8.204c-.162.454-.81.808-1.108.823-.297.015-.59.129-1.903-.382-1.313-.511-2.131-1.834-2.194-1.918-.063-.085-.504-.669-.504-1.283 0-1.114.569-1.646.769-1.845.2-.2.439-.251.585-.251h.369c.11.003.256-.003.369.251.113.254.439 1.035.485 1.134.046.099.077.214.015.347-.062.132-.093.216-.185.331-.093.115-.19.256-.271.343-.092.099-.189.208-.081.385.108.176.479.76.954 1.221.611.592 1.126.776 1.288.853.162.077.256.064.35-.043.094-.108.4-.47.508-.631.11-.161.217-.132.355-.077.138.054.877.414 1.03.488.154.074.256.11.292.176.036.066.036.382-.126.836z"/>
                 </svg>
             </a>
             
-            <!-- WHATSAPP OFICIAL GREEN BUBBLE -->
-            <a href="https://wa.me/5595991154395" target="_blank" class="social-link" title="WhatsApp">
+            <!-- INSTAGRAM CORRIGIDO -->
+            <a href="LINK_DO_INSTAGRAM" target="_blank" class="social-link bg-instagram" title="Instagram">
                 <svg viewBox="0 0 24 24">
-                    <path d="M12.1 3c-4.9 0-9 4-9 9 0 1.6.4 3.1 1.2 4.4L3 21l4.7-1.2c1.3.7 2.8 1.1 4.3 1.1 4.9 0 9-4 9-9s-4-8.9-8.9-8.9zm4.3 13c-.2.6-1.1 1.1-1.5 1.2-.4.1-.9.2-2.6-.5-2.2-.9-3.6-3.1-3.7-3.3s-.9-1.2-.9-2.3c0-1.1.6-1.6.8-1.9.2-.2.4-.3.6-.3h.4c.1 0 .3 0 .5.4.2.5.6 1.5.7 1.7.1.1.1.3 0 .4s-.2.3-.3.4c-.1.1-.3.3-.4.4-.1.1-.2.3-.1.5.2.3.8 1.4 1.8 2.3 1.2 1.1 2.3 1.4 2.6 1.6.3.1.4.1.6-.1.2-.2.8-.9 1-1.2.2-.3.4-.2.6-.1.2.1 1.4.7 1.7.8.2.1.4.2.5.3.1.2.1 1.1-.1 1.6z" fill="#25D366"/>
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.805.249 2.227.412.56.216.96.474 1.38.894.42.42.678.82.894 1.38.163.422.358 1.057.412 2.227.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.249 1.805-.412 2.227-.216.56-.474.96-.894 1.38-.42.42-.82.678-1.38.894-.422.163-1.057.358-2.227.412-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.805-.249-2.227-.412-.56-.216-.96-.474-1.38-.894-.42-.42-.678-.82-.894-1.38-.163-.422-.358-1.057-.412-2.227-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.054-1.17.249-1.805.412-2.227.216-.56.474-.96.894-1.38.42-.42.82-.678 1.38-.894.422.163 1.057.358 2.227-.412 1.266-.058 1.646-.07 4.85-.07m0-2.163c-3.259 0-3.667.014-4.947.072-1.277.06-2.148.262-2.913.558-.788.306-1.459.717-2.126 1.384s-1.078 1.337-1.384 2.126c-.296.765-.499 1.636-.558 2.913-.058 1.28-.072 1.687-.072 4.947s.014 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126s1.337 1.078 2.126 1.384c.765.296 1.636.499 2.913.558 1.28.058 1.687.072 4.947.072s3.667-.014 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.717 2.126-1.384s1.078-1.337 1.384-2.126c.296-.765.499-1.636.558-2.913.058-1.28.072-1.687.072-4.947s-.014-3.667-.072-4.947c-.06-1.277-.262-2.148-.558-2.913-.306-.788-.717-1.459-1.384-2.126s-1.337-1.078-2.126-1.384c-.765-.296-1.636-.499-2.913-.558-1.28-.058-1.687-.072-4.947-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                 </svg>
             </a>
-
-            <!-- INSTAGRAM OFICIAL PINK CAM -->
-            <a href="LINK_DO_INSTAGRAM" target="_blank" class="social-link" title="Instagram">
+            
+            <!-- FACEBOOK -->
+            <a href="LINK_DO_FACEBOOK" target="_blank" class="social-link bg-facebook" title="Facebook">
                 <svg viewBox="0 0 24 24">
-                    <rect x="0" y="0" width="24" height="24" rx="5" fill="#E4405F"/>
-                    <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8.2c-1.77 0-3.2-1.43-3.2-3.2s1.43-3.2 3.2-3.2 3.2 1.43 3.2 3.2-1.43 3.2-3.2 3.2zm4.7-9.4c-.64 0-1.16.52-1.16 1.16s.52 1.16 1.16 1.16 1.16-.52 1.16-1.16-.52-1.16-1.16-1.16zm2.3 3.1c-.08-1.3-.39-2.43-1.34-3.37-.95-.94-2.08-1.25-3.38-1.34-1.34-.08-5.36-.08-6.7 0-1.3.09-2.43.4-3.37 1.34-.94.94-1.25 2.07-1.34 3.37-.08 1.34-.08 5.36 0 6.7.09 1.3.4 2.43 1.34 3.37.94.94 2.07 1.25 3.37 1.34 1.34.08 5.36.08 6.7 0 1.3-.09 2.43-.4 3.37-1.34.94-.94 1.25-2.07 1.34-3.37.08-1.34.08-5.36 0-6.7z" fill="white"/>
+                    <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.323-1.325z"/>
                 </svg>
             </a>
         </div>
