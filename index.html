@@ -4,16 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Assinatura Parfum</title>
+    
+    <!-- ÍCONE DA ABA DO NAVEGADOR -->
     <link rel="icon" type="image/png" href="assinatura.png">
+    
+    <!-- FRAMEWORKS E FONTES -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
     <style>
+        /* ============================================================
+           BIZU: CORES PRINCIPAIS DO SITE
+           Altere os códigos hexadecimais abaixo para mudar as cores globais.
+           ============================================================ */
         :root {
             --verde-fundo: #00160f; 
             --verde-detalhe: #002419;
             --dourado-logo: #c5a059;
             --dourado-brilho: #e2c275;
         }
+
+        /* CONFIGURAÇÕES GERAIS DO CORPO */
         body { 
             font-family: 'Montserrat', sans-serif; 
             background-color: var(--verde-fundo); 
@@ -22,9 +33,12 @@
             margin: 0;
             overflow-x: hidden;
         }
+
         .font-luxury { font-family: 'Cinzel', serif; }
-        
-        /* TAG MAIS VENDIDO */
+
+        /* ============================================================
+           BIZU: TAG "MAIS VENDIDO"
+           ============================================================ */
         .badge-best-seller {
             position: absolute;
             top: 10px;
@@ -44,7 +58,9 @@
             letter-spacing: 0.5px;
         }
 
-        /* SPLASH SCREEN */
+        /* ============================================================
+           BIZU: TELA DE ENTRADA (SPLASH SCREEN)
+           ============================================================ */
         #splash-screen {
             position: fixed;
             top: 0; left: 0;
@@ -55,14 +71,7 @@
             align-items: center;
             z-index: 9999;
         }
-        .splash-wrapper {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-        }
+
         .mist-effect {
             position: absolute;
             top: 50%; left: 50%;
@@ -74,10 +83,12 @@
             z-index: 1;
             animation: mist-breathe 2.5s infinite ease-in-out;
         }
+
         @keyframes mist-breathe {
             0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.3; }
             50% { transform: translate(-50%, -50%) scale(1.4); opacity: 0.7; }
         }
+
         .welcome-text {
             color: var(--dourado-logo);
             letter-spacing: 0.6em;
@@ -88,7 +99,9 @@
             text-shadow: 0 0 10px rgba(197, 160, 89, 0.4);
         }
 
-        /* CABEÇALHO */
+        /* ============================================================
+           BIZU: CABEÇALHO E LINHA DOURADA
+           ============================================================ */
         .golden-line-bg {
             position: absolute;
             top: 85px; left: 0; width: 100%; height: 1px;
@@ -96,6 +109,7 @@
             box-shadow: 0 0 15px rgba(197, 160, 89, 0.3);
             z-index: 1;
         }
+
         .header-container {
             position: relative;
             padding: 0.5rem 1rem 0 1rem;
@@ -104,14 +118,14 @@
             align-items: center;
             z-index: 10;
         }
+
         .logo-main { width: 150px; position: relative; z-index: 5; margin-bottom: -55px; margin-top: -10px; }
         
-        /* BUSCA */
-        .search-area { 
-            padding: 1rem 1.5rem; 
-            position: relative; 
-            z-index: 11; 
-        }
+        /* ============================================================
+           BIZU: BARRA DE PESQUISA
+           ============================================================ */
+        .search-area { padding: 1rem 1.5rem; position: relative; z-index: 11; }
+
         .search-container {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
@@ -123,6 +137,7 @@
             display: flex;
             align-items: center;
         }
+
         .search-input {
             width: 100%; 
             background: transparent; 
@@ -136,7 +151,9 @@
             font-weight: 300;
         }
 
-        /* FILTROS HORIZONTAIS */
+        /* ============================================================
+           BIZU: FILTROS HORIZONTAIS
+           ============================================================ */
         #brandMenu {
             display: flex; 
             overflow-x: auto; 
@@ -146,6 +163,7 @@
             justify-content: flex-start;
             align-items: center;
         }
+
         #brandMenu::-webkit-scrollbar { display: none; }
         
         .brand-item {
@@ -165,19 +183,20 @@
             display: flex;
             align-items: center;
         }
+
         .brand-item.active { 
             background: rgba(197, 160, 89, 0.1); 
             color: #fff; 
             border-color: var(--dourado-logo);
         }
 
-        /* MENU LATERAL (SIDEBAR) */
+        /* ============================================================
+           BIZU: MENU LATERAL (SIDEBAR)
+           ============================================================ */
         #sidebar {
             position: fixed;
-            top: 0;
-            left: -300px;
-            width: 280px;
-            height: 100%;
+            top: 0; left: -300px;
+            width: 280px; height: 100%;
             background-color: var(--verde-fundo);
             z-index: 3000;
             transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1);
@@ -185,7 +204,9 @@
             display: flex;
             flex-direction: column;
         }
+
         #sidebar.open { left: 0; }
+
         .sidebar-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -195,66 +216,28 @@
             z-index: 2999;
             display: none;
         }
-        .sidebar-header {
-            padding: 25px;
-            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .sidebar-item {
-            padding: 18px 25px;
-            font-family: 'Cinzel', serif;
-            font-size: 12px;
-            letter-spacing: 2px;
-            color: #fff;
-            border-bottom: 1px solid rgba(197, 160, 89, 0.05);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-transform: uppercase;
-        }
-        .sidebar-submenu {
-            display: none;
-            background: rgba(0,0,0,0.2);
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        .sidebar-submenu.show { display: block; }
-        .submenu-item {
-            padding: 12px 40px;
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: rgba(255,255,255,0.6);
-            border-bottom: 1px solid rgba(197, 160, 89, 0.03);
-            cursor: pointer;
-        }
 
         .menu-hamburger {
-            min-width: 45px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border: 1px solid rgba(197, 160, 89, 0.2);
-            background: rgba(255,255,255,0.02);
-            border-radius: 4px;
+            min-width: 45px; height: 38px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; border: 1px solid rgba(197, 160, 89, 0.2);
+            background: rgba(255,255,255,0.02); border-radius: 4px;
             margin-left: 15px;
         }
 
-        /* GRID E CARDS */
+        /* ============================================================
+           BIZU: GRID DE PRODUTOS
+           ============================================================ */
         .product-grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
-            gap: 20px; 
-            padding: 0 15px; 
+            gap: 20px; padding: 0 15px; 
         }
+
         @media (min-width: 1024px) {
             .product-grid { grid-template-columns: repeat(4, 1fr); max-width: 1400px; margin: 0 auto; gap: 30px; }
         }
+
         .product-card {
             position: relative;
             background: rgba(255,255,255,0.02); 
@@ -265,6 +248,7 @@
             flex-direction: column; 
             justify-content: space-between;
         }
+
         .product-img { height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; cursor: pointer; }
         .product-img img { max-height: 100%; object-fit: contain; }
         .product-brand { font-size: 9px; color: var(--dourado-logo); text-transform: uppercase; margin-bottom: 6px; letter-spacing: 2px; }
@@ -276,66 +260,56 @@
             font-family: 'Cinzel', serif; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
             cursor: pointer; transition: 0.4s;
         }
+
         .qty-selector {
             display: flex; align-items: center; justify-content: center; gap: 15px;
             background: rgba(255,255,255,0.05); border: 1px solid rgba(197, 160, 89, 0.2); padding: 10px 5px;
         }
+
         .qty-btn { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: #fff; color: #000; border-radius: 50%; font-weight: bold; }
         
-        /* MODAIS */
+        /* ============================================================
+           BIZU: MODAIS (PRODUTO E CARRINHO)
+           ============================================================ */
         #productModal, #cartModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.9); z-index: 200; backdrop-filter: blur(8px);
             justify-content: center; align-items: center; padding: 20px;
         }
+
         .modal-container {
             background: var(--verde-fundo); border: 1px solid var(--dourado-logo); width: 100%; max-width: 450px;
             padding: 40px 25px; position: relative; max-height: 90vh; overflow-y: auto;
         }
         
-        /* AJUSTES NO CARRINHO SOLICITADOS */
-        #cartModal .modal-container { 
-            background: #ffffff; 
-            color: #000; 
-            padding-top: 0; 
-            overflow-y: auto;
-        }
+        #cartModal .modal-container { background: #ffffff; color: #000; padding-top: 0; overflow-y: auto; }
+        
         #cartModal h2 { 
-            color: #fff; 
-            background-color: var(--verde-fundo); 
-            padding: 35px 20px; 
-            margin: 0 -25px 25px -25px; 
-            text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 2px;
+            color: #fff; background-color: var(--verde-fundo); 
+            padding: 35px 20px; margin: 0 -25px 25px -25px; 
+            text-transform: uppercase; font-weight: 700; letter-spacing: 2px;
         }
+
         #cartModal .delivery-option-box p {
-            color: #8b6d31; 
-            font-weight: 700;
-            font-size: 12px;
-            white-space: nowrap; 
-            border-bottom: 1px solid rgba(139, 109, 49, 0.2);
-            padding-bottom: 8px;
-            margin-bottom: 15px;
+            color: #8b6d31; font-weight: 700; font-size: 12px;
+            white-space: nowrap; border-bottom: 1px solid rgba(139, 109, 49, 0.2);
+            padding-bottom: 8px; margin-bottom: 15px;
         }
 
-        /* Botão X Vermelho e Maior */
         .close-modal { 
-            position: absolute; 
-            top: 5px; 
-            right: 15px; 
-            color: #ff0000 !important; 
-            font-size: 45px; 
-            cursor: pointer; 
-            z-index: 300; 
-            line-height: 1;
-            font-weight: bold;
+            position: absolute; top: 5px; right: 15px; 
+            color: #ff0000 !important; font-size: 45px; 
+            cursor: pointer; z-index: 300; line-height: 1; font-weight: bold;
         }
 
+        /* ============================================================
+           BIZU: BOTÃO FLUTUANTE CARRINHO
+           ============================================================ */
         .cart-float {
             position: fixed; bottom: 30px; right: 20px; background: #fff; width: 60px; height: 60px; border-radius: 50%;
             display: flex; justify-content: center; align-items: center; z-index: 100; box-shadow: 0 6px 25px rgba(0,0,0,0.7); cursor: pointer;
         }
+
         .cart-count {
             position: absolute; top: 0px; right: 0px; background: #ff0000; color: #fff; font-size: 11px;
             width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff;
@@ -357,24 +331,26 @@
 
     <div id="luxuryToast"></div>
 
+    <!-- MENU LATERAL -->
     <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
     <nav id="sidebar">
-        <div class="sidebar-header">
+        <div class="sidebar-header flex justify-between items-center p-6 border-b border-[rgba(197,160,89,0.2)]">
             <span class="font-luxury text-sm text-white tracking-widest">MENU EXCLUSIVO</span>
             <span class="text-2xl cursor-pointer text-white" onclick="toggleSidebar(false)">&times;</span>
         </div>
         <div class="overflow-y-auto">
-            <div class="sidebar-item" onclick="toggleSubmenu(event)">
+            <div class="sidebar-item p-6 text-white font-luxury text-xs tracking-widest cursor-pointer border-b border-[rgba(197,160,89,0.05)] flex justify-between" onclick="toggleSubmenu(event)">
                 TODAS AS MARCAS
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </div>
-            <div id="submenuBrands" class="sidebar-submenu"></div>
+            <div id="submenuBrands" class="hidden bg-[rgba(0,0,0,0.2)]"></div>
             <div id="sidebarOriginsList"></div>
         </div>
     </nav>
 
+    <!-- SPLASH -->
     <div id="splash-screen">
-        <div class="splash-wrapper">
+        <div class="splash-wrapper relative flex flex-col items-center justify-center w-full">
             <div class="mist-effect"></div>
             <div class="flex flex-col items-center">
                 <img src="assinatura.png" alt="Logo" class="w-[280px] z-10 relative">
@@ -385,16 +361,19 @@
 
     <div class="golden-line-bg"></div>
 
+    <!-- HEADER -->
     <header class="header-container">
         <img src="assinatura.png" alt="Logo" class="logo-main">
     </header>
 
+    <!-- BUSCA -->
     <div class="search-area">
         <div class="search-container">
             <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="BUSQUE SUA FRAGRÂNCIA..." class="search-input">
         </div>
     </div>
 
+    <!-- FILTROS -->
     <div class="flex items-center mb-4">
         <div class="menu-hamburger" onclick="toggleSidebar(true)">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c5a059" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
@@ -404,7 +383,7 @@
 
     <main class="product-grid" id="productGrid"></main>
 
-    <!-- MODAIS -->
+    <!-- MODAL DETALHES -->
     <div id="productModal" onclick="closeModalExterno(event, 'productModal')">
         <div class="modal-container" onclick="event.stopPropagation()">
             <span class="close-modal" onclick="closeModal('productModal')">&times;</span>
@@ -412,6 +391,7 @@
         </div>
     </div>
 
+    <!-- MODAL CARRINHO -->
     <div id="cartModal" onclick="closeModalExterno(event, 'cartModal')">
         <div class="modal-container" onclick="event.stopPropagation()">
             <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
@@ -447,13 +427,16 @@
         <div class="text-[9px] text-gray-500 uppercase tracking-widest mb-6">Boa Vista - RR</div>
     </footer>
 
+    <!-- BOTÃO FLUTUANTE -->
     <div class="cart-float" onclick="openCartModal()">
         <svg width="28" height="28" viewBox="0 0 16 16"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
         <div class="cart-count" id="cartBadge">0</div>
     </div>
 
     <script>
+        // BIZU: LINK DA PLANILHA
         const BASE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS0crXc21GaE7jllSoyZqiE5xIa7lGGvtKEFjbK-0oil1dQWdMwcz6cRpH70qPbWMwzZF1KlLEP8d83/pub?gid=0&single=true&output=csv'; 
+        
         let database = [];
         let cart = [];
         const whatsappNumber = "5595991154395";
@@ -472,40 +455,25 @@
 
         function toggleSubmenu(e) {
             e.stopPropagation();
-            document.getElementById('submenuBrands').classList.toggle('show');
-        }
-
-        function parseCSVLine(line) {
-            const result = [];
-            let cur = '';
-            let inQuote = false;
-            for (let i = 0; i < line.length; i++) {
-                let char = line[i];
-                if (char === '"') inQuote = !inQuote;
-                else if (char === ',' && !inQuote) { result.push(cur); cur = ''; }
-                else cur += char;
-            }
-            result.push(cur);
-            return result;
+            document.getElementById('submenuBrands').classList.toggle('hidden');
         }
 
         async function loadSheetData() {
             try {
-                const freshUrl = BASE_SHEET_URL + '&t=' + new Date().getTime();
-                const response = await fetch(freshUrl);
+                const response = await fetch(BASE_SHEET_URL + '&t=' + new Date().getTime());
                 const data = await response.text();
                 const rows = data.split(/\r?\n/).slice(1); 
                 
                 database = rows.map(row => {
-                    const columns = parseCSVLine(row);
+                    const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); 
                     return {
-                        id: columns[0]?.trim(),
-                        marca: columns[1]?.trim(),
-                        origem: columns[2]?.trim(), 
-                        nome: columns[3]?.trim(),   
-                        preco: parseFloat(columns[4]?.replace(',', '.').trim() || 0),
-                        imagem: columns[5]?.trim(),
-                        descricao: columns[6]?.trim() || "Fragrância exclusiva.",
+                        id: columns[0]?.replace(/"/g, '').trim(),
+                        marca: columns[1]?.replace(/"/g, '').trim(),
+                        origem: columns[2]?.replace(/"/g, '').trim(), 
+                        nome: columns[3]?.replace(/"/g, '').trim(),   
+                        preco: parseFloat(columns[4]?.replace(/"/g, '').replace(',', '.').trim() || 0),
+                        imagem: columns[5]?.replace(/"/g, '').trim(),
+                        descricao: columns[6]?.replace(/"/g, '').trim() || "Fragrância exclusiva.",
                         maisVendido: columns[7]?.trim() === "1"
                     };
                 }).filter(p => p.nome && p.nome.length > 2);
@@ -519,19 +487,19 @@
             const horizontalMenu = document.getElementById('brandMenu');
             const sidebarSubmenu = document.getElementById('submenuBrands');
             const sidebarOriginsList = document.getElementById('sidebarOriginsList');
-            const brands = [...new Set(data.map(p => p.marca))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
-            const origins = [...new Set(data.map(p => p.origem).filter(o => o && o.length > 0))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+            const brands = [...new Set(data.map(p => p.marca))].sort();
+            const origins = [...new Set(data.map(p => p.origem).filter(o => o))].sort();
             
             let hHtml = `<div class="brand-item active" onclick="filterByBrand('Todos', this)">TODOS</div>`;
             brands.forEach(b => { hHtml += `<div class="brand-item" onclick="filterByBrand('${b}', this)">${b.toUpperCase()}</div>`; });
             horizontalMenu.innerHTML = hHtml;
 
-            let sHtml = `<div class="submenu-item" onclick="filterByBrand('Todos'); toggleSidebar(false)">VER TODAS</div>`;
-            brands.forEach(b => { sHtml += `<div class="submenu-item" onclick="filterByBrand('${b}'); toggleSidebar(false)">${b.toUpperCase()}</div>`; });
+            let sHtml = `<div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(197,160,89,0.03)]" onclick="filterByBrand('Todos'); toggleSidebar(false)">VER TODAS</div>`;
+            brands.forEach(b => { sHtml += `<div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(197,160,89,0.03)]" onclick="filterByBrand('${b}'); toggleSidebar(false)">${b.toUpperCase()}</div>`; });
             sidebarSubmenu.innerHTML = sHtml;
 
             let oHtml = "";
-            origins.forEach(origin => { oHtml += `<div class="sidebar-item" onclick="filterByOrigin('${origin}')">${origin.toUpperCase()}</div>`; });
+            origins.forEach(origin => { oHtml += `<div class="p-6 text-white font-luxury text-xs tracking-widest cursor-pointer border-b border-[rgba(197,160,89,0.05)]" onclick="filterByOrigin('${origin}')">${origin.toUpperCase()}</div>`; });
             sidebarOriginsList.innerHTML = oHtml;
         }
 
@@ -541,9 +509,7 @@
                 const itemInCart = cart.find(i => i.id === p.id);
                 const qty = itemInCart ? itemInCart.qty : 0;
                 const precoDisplay = p.preco > 0 ? 'R$ ' + p.preco.toFixed(2).replace('.', ',') : '<span style="color: #ff0000; font-weight: 600;">INDISPONÍVEL</span>';
-                
                 let controlsHtml = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector"><button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button><span class="qty-value">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR AO CARRINHO</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`;
-                
                 return `<div class="product-card">${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}<div onclick="openModal('${p.id}')"><div class="product-img"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div><p class="product-brand">${p.marca}</p><h2 class="product-name font-luxury">${p.nome}</h2></div><div><p class="product-price">${precoDisplay}</p>${controlsHtml}</div></div>`;
             }).join('');
         }
@@ -557,7 +523,6 @@
 
         function filterByOrigin(origin) {
             toggleSidebar(false);
-            document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active'));
             const filtered = database.filter(p => p.origem.toLowerCase() === origin.toLowerCase());
             displayProducts(filtered);
         }
@@ -567,41 +532,46 @@
             displayProducts(database.filter(p => p.nome.toLowerCase().includes(term) || p.marca.toLowerCase().includes(term)));
         }
 
-        function addToCart(id) { const p = database.find(i => i.id === id); cart.push({ ...p, qty: 1 }); updateBadge(); displayProducts(database); showLuxuryToast("ADICIONADO", "Item no carrinho"); }
-        function changeQty(id, delta) { const idx = cart.findIndex(i => i.id === id); if (idx > -1) { cart[idx].qty = Math.max(0, cart[idx].qty + delta); if (cart[idx].qty === 0) cart.splice(idx, 1); } updateBadge(); displayProducts(database); if (document.getElementById('cartModal').style.display === 'flex') renderCartSummary(); }
+        function addToCart(id) { 
+            const p = database.find(i => i.id === id); 
+            cart.push({ ...p, qty: 1 }); 
+            updateBadge(); 
+            displayProducts(database); 
+            showLuxuryToast("ADICIONADO", "Item no carrinho"); 
+        }
+
+        function changeQty(id, delta) { 
+            const idx = cart.findIndex(i => i.id === id); 
+            if (idx > -1) { 
+                cart[idx].qty = Math.max(0, cart[idx].qty + delta); 
+                if (cart[idx].qty === 0) cart.splice(idx, 1); 
+            } 
+            updateBadge(); 
+            displayProducts(database); 
+            if (document.getElementById('cartModal').style.display === 'flex') renderCartSummary(); 
+        }
         
         function removeFromCart(id) { 
             cart = cart.filter(i => i.id !== id); 
             updateBadge(); 
             displayProducts(database); 
-            if (cart.length === 0) { closeModal('cartModal'); } else { renderCartSummary(); }
+            if (cart.length === 0) closeModal('cartModal'); else renderCartSummary();
         }
 
         function updateBadge() { document.getElementById('cartBadge').innerText = cart.reduce((s, i) => s + i.qty, 0); }
-        function openCartModal() { if (cart.length === 0) return showLuxuryToast("CARRINHO VAZIO", "Adicione itens"); renderCartSummary(); document.getElementById('cartModal').style.display = 'flex'; }
+
+        function openCartModal() { 
+            if (cart.length === 0) return showLuxuryToast("CARRINHO VAZIO", "Adicione itens"); 
+            renderCartSummary(); 
+            document.getElementById('cartModal').style.display = 'flex'; 
+        }
         
         function renderCartSummary() { 
             let total = 0; 
             document.getElementById('cartSummaryList').innerHTML = cart.map(i => { 
                 const sub = i.preco * i.qty; 
                 total += sub; 
-                return `<div class="flex justify-between items-center py-6 border-b relative">
-                            <div class="flex items-center gap-3">
-                                <img src="${i.imagem}" class="w-12 h-12 object-contain" onerror="this.src='assinatura.png'">
-                                <div>
-                                    <p class="text-[10px] font-bold uppercase pr-8 leading-tight">${i.nome}</p>
-                                    <div class="flex items-center gap-3 mt-2">
-                                        <button class="qty-btn" onclick="changeQty('${i.id}', -1)">-</button>
-                                        <span class="text-xs">${i.qty}</span>
-                                        <button class="qty-btn" onclick="changeQty('${i.id}', 1)">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-right flex flex-col items-end">
-                                <span class="text-red-500 cursor-pointer text-2xl leading-none font-bold absolute top-2 right-0" onclick="removeFromCart('${i.id}')">&times;</span>
-                                <p class="text-sm font-bold whitespace-nowrap mt-4">R$ ${sub.toFixed(2).replace('.', ',')}</p>
-                            </div>
-                        </div>`; 
+                return `<div class="flex justify-between items-center py-6 border-b relative"><div class="flex items-center gap-3"><img src="${i.imagem}" class="w-12 h-12 object-contain" onerror="this.src='assinatura.png'"><div><p class="text-[10px] font-bold uppercase pr-8 leading-tight">${i.nome}</p><div class="flex items-center gap-3 mt-2"><button class="qty-btn" onclick="changeQty('${i.id}', -1)">-</button><span class="text-xs">${i.qty}</span><button class="qty-btn" onclick="changeQty('${i.id}', 1)">+</button></div></div></div><div class="text-right flex flex-col items-end"><span class="text-red-500 cursor-pointer text-2xl leading-none font-bold absolute top-2 right-0" onclick="removeFromCart('${i.id}')">&times;</span><p class="text-sm font-bold whitespace-nowrap mt-4">R$ ${sub.toFixed(2).replace('.', ',')}</p></div></div>`; 
             }).join(''); 
             document.getElementById('cartSummaryTotal').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`; 
         }
@@ -611,9 +581,7 @@
             const itemInCart = cart.find(i => i.id === p.id); 
             const qty = itemInCart ? itemInCart.qty : 0; 
             const precoDisplay = p.preco > 0 ? 'R$ ' + p.preco.toFixed(2).replace('.', ',') : '<span style="color: #ff0000; font-weight: 600;">INDISPONÍVEL</span>';
-
             let controls = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector mx-auto w-max mb-4"><button class="qty-btn" onclick="changeQty('${p.id}', -1); openModal('${p.id}')">-</button><span class="qty-value text-center">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1); openModal('${p.id}')">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}'); openModal('${p.id}')">ADICIONAR AO CARRINHO</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`; 
-            
             document.getElementById('modalContent').innerHTML = `<div class="flex justify-center mb-6 relative">${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}<img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'"></div><p class="product-brand text-center">${p.marca}</p><h2 class="font-luxury text-2xl text-center text-white mb-3">${p.nome}</h2><div class="w-12 h-[1px] bg-[#c5a059] mx-auto mb-6"></div><p class="text-sm italic text-center text-gray-400 mb-6 px-4">"${p.descricao}"</p><p class="text-center text-white font-semibold text-xl mb-6">${precoDisplay}</p>${controls}`; 
             document.getElementById('productModal').style.display = 'flex'; 
         }
@@ -622,16 +590,36 @@
         function closeModalExterno(e, id) { if (e.target.id === id) closeModal(id); }
         function toggleDeliveryWarning(show) { document.getElementById('feeWarning').style.display = show ? 'block' : 'none'; }
         
+        // BIZU: FUNÇÃO DE WHATSAPP (ALTERADA PARA FICAR IGUAL A IMAGEM)
         function finalizeOrder() { 
             const method = document.querySelector('input[name="deliveryMethod"]:checked').value; 
             let msg = "Olá! Gostaria de fazer um pedido:\n\n"; 
             let total = 0; 
-            cart.forEach(i => { let sub = i.preco * i.qty; msg += `*${i.qty}x ${i.nome}* - R$ ${sub.toFixed(2).replace('.', ',')}\n`; total += sub; }); 
+            
+            cart.forEach((i, index) => { 
+                let sub = i.preco * i.qty; 
+                // Marcador de ponto, negrito e espaço entre itens
+                msg += `• *${i.qty}x ${i.nome}* - R$ ${sub.toFixed(2).replace('.', ',')}`; 
+                
+                // Adiciona espaço extra (pula linha) entre os itens
+                if (index < cart.length - 1) {
+                    msg += "\n\n"; 
+                } else {
+                    msg += "\n";
+                }
+                total += sub; 
+            }); 
+            
             msg += `\n*TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*\n*OPÇÃO:* ${method}`; 
             window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank'); 
         }
 
-        function showLuxuryToast(title, subtext) { const toast = document.getElementById("luxuryToast"); toast.innerHTML = `<span style="color:var(--dourado-logo)">${title}</span><br>${subtext}`; toast.className = "show"; setTimeout(() => { toast.className = ""; }, 3000); }
+        function showLuxuryToast(title, subtext) { 
+            const toast = document.getElementById("luxuryToast"); 
+            toast.innerHTML = `<span style="color:var(--dourado-logo)">${title}</span><br>${subtext}`; 
+            toast.className = "show"; 
+            setTimeout(() => { toast.className = ""; }, 3000); 
+        }
 
         window.addEventListener('load', () => {
             loadSheetData();
