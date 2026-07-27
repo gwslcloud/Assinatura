@@ -47,6 +47,15 @@
             background-image: url('data:image/svg+xml,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)"/></svg>');
         }
 
+        /* MUDANÇA: CSS PARA O RASTRO DE POEIRA DE OURO */
+        #magicDustCanvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 99999;
+        }
+
         /* BARRA DE PROGRESSO DOURADA */
         #scrollProgress {
             position: fixed;
@@ -496,6 +505,9 @@
 </head>
 <body>
 
+    <!-- MUDANÇA: ELEMENTO CANVAS PARA A POEIRA DE OURO -->
+    <canvas id="magicDustCanvas"></canvas>
+
     <div class="noise-bg"></div>
     <div id="scrollProgress"></div>
     <div id="luxuryToast"></div>
@@ -598,6 +610,79 @@
         let cart = [];
         let isMaintenance = false;
         const whatsappNumber = "5595991154395";
+
+        // MUDANÇA: LÓGICA DO RASTRO DE POEIRA DE OURO (CANVAS)
+        const canvas = document.getElementById('magicDustCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 2.5 + 0.5;
+                this.speedX = Math.random() * 1.5 - 0.75;
+                this.speedY = Math.random() * 1.5 - 0.75;
+                this.color = Math.random() > 0.5 ? '#c5a059' : '#fcf6ba';
+                this.opacity = 1;
+                this.life = 1;
+                this.decay = Math.random() * 0.015 + 0.01;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life -= this.decay;
+                this.opacity = this.life;
+            }
+            draw() {
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                // Efeito de brilho sutil
+                if (Math.random() > 0.8) {
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = this.color;
+                } else {
+                    ctx.shadowBlur = 0;
+                }
+            }
+        }
+
+        function handleParticles(e) {
+            const x = e.touches ? e.touches[0].clientX : e.clientX;
+            const y = e.touches ? e.touches[0].clientY : e.clientY;
+            // Cria 3 partículas por movimento para um rastro denso mas leve
+            for (let i = 0; i < 3; i++) {
+                particles.push(new Particle(x, y));
+            }
+        }
+
+        window.addEventListener('mousemove', handleParticles);
+        window.addEventListener('touchmove', handleParticles);
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].life <= 0) {
+                    particles.splice(i, 1);
+                    i--;
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
 
         // FUNÇÃO PARA BARRA DE PROGRESSO
         window.onscroll = function() {
