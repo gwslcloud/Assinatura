@@ -1,3 +1,5 @@
+--- START OF FILE text/plain ---
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -30,6 +32,16 @@
             -webkit-tap-highlight-color: transparent;
             margin: 0;
             overflow-x: hidden;
+        }
+
+        /* MUDANÇA 4: TEXTURA DE RUÍDO (GRAIN) */
+        .noise-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.04;
+            background-image: url('data:image/svg+xml,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)"/></svg>');
         }
 
         /* BARRA DE PROGRESSO DOURADA */
@@ -146,9 +158,9 @@
 
         .search-container {
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(197, 160, 89, 0.2);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 50px;
             padding: 10px 20px;
             transition: all 0.3s ease;
@@ -183,12 +195,13 @@
         
         .brand-item {
             font-family: 'Cinzel', serif; 
-            border: 1px solid rgba(197, 160, 89, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 8px 20px; 
             font-size: 10px; 
             text-transform: uppercase;
             color: rgba(197, 160, 89, 0.7); 
-            background: rgba(255, 255, 255, 0.02); 
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(8px);
             white-space: nowrap;
             letter-spacing: 1.5px;
             transition: all 0.4s;
@@ -205,14 +218,17 @@
             border-color: var(--dourado-logo);
         }
 
+        /* MUDANÇA 3: GLASSMORPHISM SIDEBAR */
         #sidebar {
             position: fixed;
             top: 0; left: -300px;
             width: 280px; height: 100%;
-            background-color: var(--verde-fundo);
+            background: rgba(0, 22, 15, 0.8);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             z-index: 3000;
             transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            border-right: 1px solid rgba(197, 160, 89, 0.3);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
         }
@@ -256,7 +272,7 @@
         .product-card {
             position: relative;
             background: rgba(255,255,255,0.02); 
-            border: 1px solid rgba(197, 160, 89, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             padding: 20px 15px; 
             text-align: center; 
             display: flex; 
@@ -265,7 +281,6 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
 
-        /* MUDANÇA 1: HOVER NO CARD */
         .product-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
@@ -303,7 +318,6 @@
         .product-img { height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; cursor: pointer; overflow: hidden; }
         .product-img img { max-height: 100%; object-fit: contain; transition: transform 0.5s ease; }
         
-        /* MUDANÇA 1: ZOOM NA IMAGEM NO HOVER */
         .product-card:hover .product-img img {
             transform: scale(1.1);
         }
@@ -339,18 +353,28 @@
 
         .qty-selector {
             display: flex; align-items: center; justify-content: center; gap: 15px;
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(197, 160, 89, 0.2); padding: 10px 5px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 10px 5px;
+            backdrop-filter: blur(5px);
         }
 
         .qty-btn { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: #fff; color: #000; border-radius: 50%; font-weight: bold; }
         
+        /* MUDANÇA 3: GLASSMORPHISM PRODUCT MODAL */
         #productModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.9); z-index: 200; backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.8); z-index: 200; backdrop-filter: blur(8px);
             justify-content: center; align-items: center; padding: 20px;
         }
 
-        /* MUDANÇA 2: ESTILO DRAWER PARA O CARRINHO */
+        .modal-container {
+            background: rgba(0, 22, 15, 0.7); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            width: 100%; max-width: 450px;
+            padding: 40px 25px; position: relative; max-height: 90vh; overflow-y: auto;
+        }
+
         #cartModal {
             display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0); z-index: 200; 
@@ -359,29 +383,27 @@
         }
 
         #cartModal.open {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(4px);
             pointer-events: auto;
         }
 
-        .modal-container {
-            background: var(--verde-fundo); border: 1px solid var(--dourado-logo); width: 100%; max-width: 450px;
-            padding: 40px 25px; position: relative; max-height: 90vh; overflow-y: auto;
-        }
-
-        /* DRAWER CONTAINER */
+        /* MUDANÇA 3: GLASSMORPHISM CART DRAWER */
         #cartModal .modal-container {
-            background: #ffffff; color: #000; padding: 0; width: 100%; max-width: 400px; height: 100%; max-height: 100vh;
+            background: rgba(255, 255, 255, 0.85); 
+            color: #000; 
+            padding: 0; width: 100%; max-width: 400px; height: 100%; max-height: 100vh;
             margin-right: -420px; transition: margin-right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            border: none; border-left: 1px solid var(--dourado-logo);
+            border: none; border-left: 1px solid rgba(197, 160, 89, 0.2);
             display: flex; flex-direction: column;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
         }
 
         #cartModal.open .modal-container { margin-right: 0; }
         
-        /* BIZU: ESTILO DA PIRÂMIDE OLFATIVA */
         .pyramid-section {
-            border-top: 1px solid rgba(197, 160, 89, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             margin-top: 25px;
             padding-top: 20px;
             text-align: left;
@@ -410,17 +432,18 @@
         @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 100px; opacity: 1; } }
         @keyframes fadeout { from { bottom: 100px; opacity: 1; } to { bottom: 0; opacity: 0; } }
 
-        footer { text-align: center; padding: 60px 20px; border-top: 1px solid rgba(197, 160, 89, 0.15); display: flex; flex-direction: column; align-items: center; }
+        footer { text-align: center; padding: 60px 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; flex-direction: column; align-items: center; }
     </style>
 </head>
 <body>
 
+    <div class="noise-bg"></div>
     <div id="scrollProgress"></div>
     <div id="luxuryToast"></div>
 
     <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
     <nav id="sidebar">
-        <div class="sidebar-header flex justify-between items-center p-6 border-b border-[rgba(197,160,89,0.2)]">
+        <div class="sidebar-header flex justify-between items-center p-6 border-b border-[rgba(255,255,255,0.1)]">
             <span class="font-luxury text-sm text-white tracking-widest">MENU</span>
             <span class="text-2xl cursor-pointer text-white" onclick="toggleSidebar(false)">&times;</span>
         </div>
@@ -576,7 +599,7 @@
 
                 generateMenus(database);
                 displayProducts(database, true); 
-                return true; // SINALIZA FIM DO CARREGAMENTO
+                return true; 
             } catch (e) { console.error("Erro ao carregar dados:", e); return false; }
         }
 
@@ -594,13 +617,13 @@
                 const brandsInOrigin = [...new Set(data.filter(p => p.origem === origin).map(p => p.marca))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
                 const submenuId = `submenu_${index}`;
                 oHtml += `
-                    <div class="sidebar-item p-6 text-white font-luxury text-xs tracking-widest cursor-pointer border-b border-[rgba(197,160,89,0.05)] flex justify-between items-center" onclick="toggleSubmenu('${submenuId}')">
+                    <div class="sidebar-item p-6 text-white font-luxury text-xs tracking-widest cursor-pointer border-b border-[rgba(255,255,255,0.05)] flex justify-between items-center" onclick="toggleSubmenu('${submenuId}')">
                         ${origin.toUpperCase()}
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </div>
                     <div id="${submenuId}" class="hidden bg-[rgba(0,0,0,0.2)]">
-                        <div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(197,160,89,0.03)]" onclick="filterByOrigin('${origin}'); toggleSidebar(false)">VER TODOS</div>
-                        ${brandsInOrigin.map(brand => `<div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(197,160,89,0.03)]" onclick="filterByBrand('${brand}'); toggleSidebar(false)">${brand.toUpperCase()}</div>`).join('')}
+                        <div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(255,255,255,0.03)]" onclick="filterByOrigin('${origin}'); toggleSidebar(false)">VER TODOS</div>
+                        ${brandsInOrigin.map(brand => `<div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(255,255,255,0.03)]" onclick="filterByBrand('${brand}'); toggleSidebar(false)">${brand.toUpperCase()}</div>`).join('')}
                     </div>
                 `;
             });
@@ -685,7 +708,6 @@
         function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateBadge(); displayProducts(database, false); if (cart.length === 0) closeModal('cartModal'); else renderCartSummary(); }
         function updateBadge() { document.getElementById('cartBadge').innerText = cart.reduce((s, i) => s + i.qty, 0); }
         
-        // MUDANÇA 2: DRAWER OPEN
         function openCartModal() { 
             if (cart.length === 0) return showLuxuryToast("CARRINHO VAZIO", "Adicione itens"); 
             renderCartSummary(); 
@@ -767,17 +789,13 @@
             setTimeout(() => { toast.className = ""; }, 3000); 
         }
 
-        // MUDANÇA 3: REFINAMENTO DA SPLASH SCREEN (SUMIR APÓS CARREGAR)
         window.addEventListener('load', () => {
             loadSheetData().then((success) => {
                 if (!isMaintenance) {
                     const splash = document.getElementById('splash-screen');
-                    const splashLogo = document.querySelector('.splash-logo');
-                    
-                    // Pequeno delay para suavidade
                     setTimeout(() => {
                         splash.style.opacity = '0'; 
-                        splash.style.transform = 'scale(1.1)'; // EFEITO ZOOM-OUT SUAVE
+                        splash.style.transform = 'scale(1.1)'; 
                         setTimeout(() => splash.remove(), 800);
                     }, 500); 
                 }
