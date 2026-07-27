@@ -15,7 +15,6 @@
     <style>
         /* ============================================================
            BIZU: CORES PRINCIPAIS DO SITE
-           Altere os códigos hexadecimais abaixo para mudar as cores globais.
            ============================================================ */
         :root {
             --verde-fundo: #00160f; 
@@ -24,7 +23,6 @@
             --dourado-brilho: #e2c275;
         }
 
-        /* CONFIGURAÇÕES GERAIS DO CORPO */
         body { 
             font-family: 'Montserrat', sans-serif; 
             background-color: var(--verde-fundo); 
@@ -36,9 +34,7 @@
 
         .font-luxury { font-family: 'Cinzel', serif; }
 
-        /* ============================================================
-           BIZU: TAG "MAIS VENDIDO"
-           ============================================================ */
+        /* BIZU: TAG "MAIS VENDIDO" */
         .badge-best-seller {
             position: absolute;
             top: 10px;
@@ -58,9 +54,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* ============================================================
-           BIZU: TELA DE ENTRADA (SPLASH SCREEN)
-           ============================================================ */
+        /* BIZU: TELA DE ENTRADA (SPLASH SCREEN) */
         #splash-screen {
             position: fixed;
             top: 0; left: 0;
@@ -99,9 +93,7 @@
             text-shadow: 0 0 10px rgba(197, 160, 89, 0.4);
         }
 
-        /* ============================================================
-           BIZU: CABEÇALHO E LINHA DOURADA
-           ============================================================ */
+        /* BIZU: CABEÇALHO E LINHA DOURADA */
         .golden-line-bg {
             position: absolute;
             top: 85px; left: 0; width: 100%; height: 1px;
@@ -121,9 +113,7 @@
 
         .logo-main { width: 150px; position: relative; z-index: 5; margin-bottom: -55px; margin-top: -10px; }
         
-        /* ============================================================
-           BIZU: BARRA DE PESQUISA
-           ============================================================ */
+        /* BIZU: BARRA DE PESQUISA */
         .search-area { padding: 1rem 1.5rem; position: relative; z-index: 11; }
 
         .search-container {
@@ -151,9 +141,7 @@
             font-weight: 300;
         }
 
-        /* ============================================================
-           BIZU: FILTROS HORIZONTAIS
-           ============================================================ */
+        /* BIZU: FILTROS HORIZONTAIS */
         #brandMenu {
             display: flex; 
             overflow-x: auto; 
@@ -190,9 +178,7 @@
             border-color: var(--dourado-logo);
         }
 
-        /* ============================================================
-           BIZU: MENU LATERAL (SIDEBAR)
-           ============================================================ */
+        /* BIZU: MENU LATERAL (SIDEBAR) */
         #sidebar {
             position: fixed;
             top: 0; left: -300px;
@@ -225,9 +211,7 @@
             margin-left: 15px;
         }
 
-        /* ============================================================
-           BIZU: GRID DE PRODUTOS
-           ============================================================ */
+        /* BIZU: GRID DE PRODUTOS */
         .product-grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
@@ -268,9 +252,7 @@
 
         .qty-btn { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: #fff; color: #000; border-radius: 50%; font-weight: bold; }
         
-        /* ============================================================
-           BIZU: MODAIS (PRODUTO E CARRINHO)
-           ============================================================ */
+        /* BIZU: MODAIS (PRODUTO E CARRINHO) */
         #productModal, #cartModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.9); z-index: 200; backdrop-filter: blur(8px);
@@ -302,9 +284,7 @@
             cursor: pointer; z-index: 300; line-height: 1; font-weight: bold;
         }
 
-        /* ============================================================
-           BIZU: BOTÃO FLUTUANTE CARRINHO
-           ============================================================ */
+        /* BIZU: BOTÃO FLUTUANTE CARRINHO */
         .cart-float {
             position: fixed; bottom: 30px; right: 20px; background: #fff; width: 60px; height: 60px; border-radius: 50%;
             display: flex; justify-content: center; align-items: center; z-index: 100; box-shadow: 0 6px 25px rgba(0,0,0,0.7); cursor: pointer;
@@ -434,7 +414,6 @@
     </div>
 
     <script>
-        // BIZU: LINK DA PLANILHA
         const BASE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS0crXc21GaE7jllSoyZqiE5xIa7lGGvtKEFjbK-0oil1dQWdMwcz6cRpH70qPbWMwzZF1KlLEP8d83/pub?gid=0&single=true&output=csv'; 
         
         let database = [];
@@ -483,23 +462,31 @@
             } catch (e) { console.error("Erro ao carregar dados:", e); }
         }
 
+        // BIZU: FUNÇÃO DE GERAÇÃO DOS MENUS COM ORDEM ALFABÉTICA CORRIGIDA
         function generateMenus(data) {
             const horizontalMenu = document.getElementById('brandMenu');
             const sidebarSubmenu = document.getElementById('submenuBrands');
             const sidebarOriginsList = document.getElementById('sidebarOriginsList');
-            const brands = [...new Set(data.map(p => p.marca))].sort();
-            const origins = [...new Set(data.map(p => p.origem).filter(o => o))].sort();
             
+            // Organiza Marcas e Origens em ordem alfabética
+            const brands = [...new Set(data.map(p => p.marca))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+            const origins = [...new Set(data.map(p => p.origem).filter(o => o))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+            
+            // Menu Horizontal (Fixa "TODOS" no início)
             let hHtml = `<div class="brand-item active" onclick="filterByBrand('Todos', this)">TODOS</div>`;
             brands.forEach(b => { hHtml += `<div class="brand-item" onclick="filterByBrand('${b}', this)">${b.toUpperCase()}</div>`; });
             horizontalMenu.innerHTML = hHtml;
 
+            // Submenu Lateral (Fixa "VER TODAS" no início)
             let sHtml = `<div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(197,160,89,0.03)]" onclick="filterByBrand('Todos'); toggleSidebar(false)">VER TODAS</div>`;
             brands.forEach(b => { sHtml += `<div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(197,160,89,0.03)]" onclick="filterByBrand('${b}'); toggleSidebar(false)">${b.toUpperCase()}</div>`; });
             sidebarSubmenu.innerHTML = sHtml;
 
+            // Menu Lateral Origens (Ordem alfabética total)
             let oHtml = "";
-            origins.forEach(origin => { oHtml += `<div class="p-6 text-white font-luxury text-xs tracking-widest cursor-pointer border-b border-[rgba(197,160,89,0.05)]" onclick="filterByOrigin('${origin}')">${origin.toUpperCase()}</div>`; });
+            origins.forEach(origin => { 
+                oHtml += `<div class="p-6 text-white font-luxury text-xs tracking-widest cursor-pointer border-b border-[rgba(197,160,89,0.05)]" onclick="filterByOrigin('${origin}')">${origin.toUpperCase()}</div>`; 
+            });
             sidebarOriginsList.innerHTML = oHtml;
         }
 
@@ -590,26 +577,16 @@
         function closeModalExterno(e, id) { if (e.target.id === id) closeModal(id); }
         function toggleDeliveryWarning(show) { document.getElementById('feeWarning').style.display = show ? 'block' : 'none'; }
         
-        // BIZU: FUNÇÃO DE WHATSAPP (ALTERADA PARA FICAR IGUAL A IMAGEM)
         function finalizeOrder() { 
             const method = document.querySelector('input[name="deliveryMethod"]:checked').value; 
             let msg = "Olá! Gostaria de fazer um pedido:\n\n"; 
             let total = 0; 
-            
             cart.forEach((i, index) => { 
                 let sub = i.preco * i.qty; 
-                // Marcador de ponto, negrito e espaço entre itens
                 msg += `• *${i.qty}x ${i.nome}* - R$ ${sub.toFixed(2).replace('.', ',')}`; 
-                
-                // Adiciona espaço extra (pula linha) entre os itens
-                if (index < cart.length - 1) {
-                    msg += "\n\n"; 
-                } else {
-                    msg += "\n";
-                }
+                if (index < cart.length - 1) { msg += "\n\n"; } else { msg += "\n"; }
                 total += sub; 
             }); 
-            
             msg += `\n*TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*\n*OPÇÃO:* ${method}`; 
             window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank'); 
         }
