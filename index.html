@@ -91,6 +91,8 @@
             z-index: 11;
             margin-top: -135px; 
             text-shadow: 0 0 10px rgba(197, 160, 89, 0.4);
+            text-align: center;
+            padding: 0 20px;
         }
 
         /* ============================================================
@@ -434,6 +436,7 @@
         
         let database = [];
         let cart = [];
+        let isMaintenance = false;
         const whatsappNumber = "5595991154395";
 
         function toggleSidebar(open) {
@@ -457,8 +460,18 @@
             try {
                 const response = await fetch(BASE_SHEET_URL + '&t=' + new Date().getTime());
                 const data = await response.text();
-                const rows = data.split(/\r?\n/).slice(1); 
+                const allRows = data.split(/\r?\n/);
                 
+                // LÓGICA DE MANUTENÇÃO (CÉLULA J1 / COLUNA 10 / ÍNDICE 9)
+                const headers = allRows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                const arStatus = headers[9]?.replace(/"/g, '').trim();
+                if (arStatus === "0") {
+                    isMaintenance = true;
+                    document.querySelector('.welcome-text').innerText = "Desculpa! Site em manutenção";
+                    return; 
+                }
+
+                const rows = allRows.slice(1); 
                 database = rows.map(row => {
                     const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); 
                     return {
@@ -483,13 +496,11 @@
             const horizontalMenu = document.getElementById('brandMenu');
             const sidebarOriginsList = document.getElementById('sidebarOriginsList');
             
-            // FILTRO HORIZONTAL (MARCAS)
             const brands = [...new Set(data.map(p => p.marca))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
             let hHtml = `<div class="brand-item active" onclick="filterByBrand('Todos', this)">TODOS</div>`;
             brands.forEach(b => { hHtml += `<div class="brand-item" onclick="filterByBrand('${b}', this)">${b.toUpperCase()}</div>`; });
             horizontalMenu.innerHTML = hHtml;
 
-            // MENU LATERAL (ORIGENS COM SETA)
             const origins = [...new Set(data.map(p => p.origem).filter(o => o))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
             let oHtml = "";
             
@@ -632,13 +643,16 @@
         }
 
         window.addEventListener('load', () => {
-            loadSheetData();
-            setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                splash.style.transition = 'opacity 0.8s ease';
-                splash.style.opacity = '0'; 
-                setTimeout(() => splash.remove(), 800);
-            }, 2500); 
+            loadSheetData().then(() => {
+                if (!isMaintenance) {
+                    setTimeout(() => {
+                        const splash = document.getElementById('splash-screen');
+                        splash.style.transition = 'opacity 0.8s ease';
+                        splash.style.opacity = '0'; 
+                        setTimeout(() => splash.remove(), 800);
+                    }, 2500); 
+                }
+            });
         });
     </script>
 </body>
