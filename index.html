@@ -141,14 +141,15 @@
             font-weight: 300;
         }
 
-        /* FILTROS REFINADOS */
+        /* FILTROS REFINADOS - AJUSTE DE CENTRALIZAÇÃO */
         #brandMenu {
             display: flex; 
             overflow-x: auto; 
             gap: 12px; 
-            padding: 0.5rem 15px 1.5rem 0px;
+            padding: 10px 15px 10px 10px;
             scrollbar-width: none; 
             justify-content: flex-start;
+            align-items: center;
         }
         #brandMenu::-webkit-scrollbar { display: none; }
         
@@ -165,6 +166,9 @@
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             cursor: pointer;
             border-radius: 4px;
+            height: 38px; /* Altura fixa para alinhar com o hamburguer */
+            display: flex;
+            align-items: center;
         }
         .brand-item.active { 
             background: rgba(197, 160, 89, 0.1); 
@@ -174,7 +178,7 @@
             text-shadow: 0 0 5px rgba(197, 160, 89, 0.3);
         }
 
-        /* NOVOS ESTILOS MENU LATERAL (SIDEBAR) */
+        /* MENU LATERAL (SIDEBAR) */
         #sidebar {
             position: fixed;
             top: 0;
@@ -215,6 +219,7 @@
             cursor: pointer;
         }
         .sidebar-item:active { background: rgba(197, 160, 89, 0.1); }
+        
         .menu-hamburger {
             min-width: 45px;
             height: 38px;
@@ -223,10 +228,9 @@
             justify-content: center;
             cursor: pointer;
             border: 1px solid rgba(197, 160, 89, 0.2);
-            margin-left: 15px;
-            margin-bottom: 15px;
             background: rgba(255,255,255,0.02);
             border-radius: 4px;
+            margin-left: 15px;
         }
 
         .product-grid { 
@@ -439,7 +443,6 @@
             font-weight: bold; border: 2px solid #fff;
         }
 
-        /* ESTILIZAÇÃO DO RODAPÉ */
         footer { 
             text-align: center; padding: 60px 20px; margin-top: 60px; 
             border-top: 1px solid rgba(197, 160, 89, 0.15); background: rgba(0, 0, 0, 0.2);
@@ -462,7 +465,6 @@
 
     <div id="luxuryToast"></div>
 
-    <!-- ESTRUTURA MENU LATERAL -->
     <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
     <nav id="sidebar">
         <div class="sidebar-header">
@@ -494,8 +496,8 @@
         </div>
     </div>
 
-    <!-- SEÇÃO DE FILTROS COM HAMBURGUER -->
-    <div class="flex items-end">
+    <!-- SEÇÃO DE FILTROS CENTRALIZADA -->
+    <div class="flex items-center mb-4">
         <div class="menu-hamburger" onclick="toggleSidebar(true)">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c5a059" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </div>
@@ -628,12 +630,10 @@
             const sidebarBrands = document.getElementById('sidebarBrands');
             const brands = [...new Set(data.map(p => p.marca.trim()))].sort();
             
-            // Menu Horizontal
             let html = `<div class="brand-item active" onclick="filterByBrand('Todos', this)">TODOS</div>`;
             brands.forEach(b => html += `<div class="brand-item" onclick="filterByBrand('${b}', this)">${b.toUpperCase()}</div>`);
             menu.innerHTML = html;
 
-            // Menu Lateral (Sidebar)
             let sidebarHtml = `<div class="sidebar-item" onclick="filterByBrand('Todos', null); toggleSidebar(false)">TODAS AS MARCAS</div>`;
             brands.forEach(b => {
                 sidebarHtml += `<div class="sidebar-item" onclick="filterByBrand('${b}', null); toggleSidebar(false)">${b.toUpperCase()}</div>`;
@@ -821,18 +821,15 @@
 
         function filterByBrand(brand, element) {
             document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active'));
-            
             if (element) {
                 element.classList.add('active');
             } else {
-                // Sincroniza o menu horizontal se o clique veio do sidebar
                 const items = document.querySelectorAll('.brand-item');
                 items.forEach(item => {
                     if (brand === 'Todos' && item.innerText === 'TODOS') item.classList.add('active');
                     else if (item.innerText === brand.toUpperCase()) item.classList.add('active');
                 });
             }
-
             const filtered = (brand === 'Todos') ? database : database.filter(p => p.marca.trim() === brand);
             displayProducts(filtered);
         }
