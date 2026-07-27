@@ -103,7 +103,7 @@
             flex-direction: column;
             align-items: center;
             z-index: 10;
-            overflow: hidden; /* Garante que o brilho não saia do topo */
+            overflow: hidden; 
             background: radial-gradient(circle at center, rgba(197, 160, 89, 0.05) 0%, transparent 70%);
         }
 
@@ -336,7 +336,7 @@
     <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
     <nav id="sidebar">
         <div class="sidebar-header flex justify-between items-center p-6 border-b border-[rgba(197,160,89,0.2)]">
-            <span class="font-luxury text-sm text-white tracking-widest">MENU</span>
+            <span class="font-luxury text-sm text-white tracking-widest">MENU EXCLUSIVO</span>
             <span class="text-2xl cursor-pointer text-white" onclick="toggleSidebar(false)">&times;</span>
         </div>
         <div class="overflow-y-auto">
@@ -487,7 +487,6 @@
             const horizontalMenu = document.getElementById('brandMenu');
             const sidebarSubmenu = document.getElementById('submenuBrands');
             const sidebarOriginsList = document.getElementById('sidebarOriginsList');
-            
             const brands = [...new Set(data.map(p => p.marca))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
             const origins = [...new Set(data.map(p => p.origem).filter(o => o))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
             
@@ -533,12 +532,13 @@
             displayProducts(database.filter(p => p.nome.toLowerCase().includes(term) || p.marca.toLowerCase().includes(term)));
         }
 
+        // BIZU: FRASES ALTERADAS PARA "BOAS COMPRAS" E "ITEM ADICIONADO AO CARRINHO"
         function addToCart(id) { 
             const p = database.find(i => i.id === id); 
             cart.push({ ...p, qty: 1 }); 
             updateBadge(); 
             displayProducts(database); 
-            showLuxuryToast("ADICIONADO", "Item no carrinho"); 
+            showLuxuryToast("Boas compras", "item adicionado ao carrinho"); 
         }
 
         function changeQty(id, delta) { 
