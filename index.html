@@ -34,7 +34,6 @@
 
         .font-luxury { font-family: 'Cinzel', serif; }
 
-        /* BIZU: TAG "MAIS VENDIDO" */
         .badge-best-seller {
             position: absolute;
             top: 10px;
@@ -54,7 +53,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* BIZU: TELA DE ENTRADA (SPLASH SCREEN) */
         #splash-screen {
             position: fixed;
             top: 0; left: 0;
@@ -95,9 +93,6 @@
             padding: 0 20px;
         }
 
-        /* ============================================================
-           BIZU: EFEITO DE BRILHO NO TOPO (LOGO AREA)
-           ============================================================ */
         .header-container {
             position: relative;
             padding: 0.5rem 1rem 0 1rem;
@@ -135,8 +130,6 @@
         }
 
         .logo-main { width: 150px; position: relative; z-index: 5; margin-bottom: -55px; margin-top: -10px; }
-        
-        /* BIZU: BARRA DE PESQUISA */
         .search-area { padding: 1rem 1.5rem; position: relative; z-index: 11; }
 
         .search-container {
@@ -164,7 +157,6 @@
             font-weight: 300;
         }
 
-        /* BIZU: FILTROS HORIZONTAIS */
         #brandMenu {
             display: flex; 
             overflow-x: auto; 
@@ -201,7 +193,6 @@
             border-color: var(--dourado-logo);
         }
 
-        /* BIZU: MENU LATERAL (SIDEBAR) */
         #sidebar {
             position: fixed;
             top: 0; left: -300px;
@@ -234,7 +225,6 @@
             margin-left: 15px;
         }
 
-        /* BIZU: GRID DE PRODUTOS */
         .product-grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
@@ -275,7 +265,6 @@
 
         .qty-btn { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: #fff; color: #000; border-radius: 50%; font-weight: bold; }
         
-        /* BIZU: MODAIS (PRODUTO E CARRINHO) */
         #productModal, #cartModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.9); z-index: 200; backdrop-filter: blur(8px);
@@ -287,42 +276,34 @@
             padding: 40px 25px; position: relative; max-height: 90vh; overflow-y: auto;
         }
         
+        /* BIZU: ESTILO DA PIRÂMIDE OLFATIVA */
+        .pyramid-section {
+            border-top: 1px solid rgba(197, 160, 89, 0.1);
+            margin-top: 25px;
+            padding-top: 20px;
+            text-align: left;
+        }
+        .pyramid-title {
+            font-family: 'Cinzel', serif;
+            color: var(--dourado-logo);
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-align: center;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .note-item { margin-bottom: 12px; }
+        .note-label { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 3px; }
+        .note-content { font-size: 11px; color: #fff; font-weight: 300; }
+
         #cartModal .modal-container { background: #ffffff; color: #000; padding-top: 0; overflow-y: auto; }
-        
-        #cartModal h2 { 
-            color: #fff; background-color: var(--verde-fundo); 
-            padding: 35px 20px; margin: 0 -25px 25px -25px; 
-            text-transform: uppercase; font-weight: 700; letter-spacing: 2px;
-        }
+        #cartModal h2 { color: #fff; background-color: var(--verde-fundo); padding: 35px 20px; margin: 0 -25px 25px -25px; text-transform: uppercase; font-weight: 700; letter-spacing: 2px; }
+        .close-modal { position: absolute; top: 5px; right: 15px; color: #ff0000 !important; font-size: 45px; cursor: pointer; z-index: 300; line-height: 1; font-weight: bold; }
 
-        #cartModal .delivery-option-box p {
-            color: #8b6d31; font-weight: 700; font-size: 12px;
-            white-space: nowrap; border-bottom: 1px solid rgba(139, 109, 49, 0.2);
-            padding-bottom: 8px; margin-bottom: 15px;
-        }
+        .cart-float { position: fixed; bottom: 30px; right: 20px; background: #fff; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 100; box-shadow: 0 6px 25px rgba(0,0,0,0.7); cursor: pointer; }
+        .cart-count { position: absolute; top: 0px; right: 0px; background: #ff0000; color: #fff; font-size: 11px; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; }
 
-        .close-modal { 
-            position: absolute; top: 5px; right: 15px; 
-            color: #ff0000 !important; font-size: 45px; 
-            cursor: pointer; z-index: 300; line-height: 1; font-weight: bold;
-        }
-
-        /* BIZU: BOTÃO FLUTUANTE CARRINHO */
-        .cart-float {
-            position: fixed; bottom: 30px; right: 20px; background: #fff; width: 60px; height: 60px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center; z-index: 100; box-shadow: 0 6px 25px rgba(0,0,0,0.7); cursor: pointer;
-        }
-
-        .cart-count {
-            position: absolute; top: 0px; right: 0px; background: #ff0000; color: #fff; font-size: 11px;
-            width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff;
-        }
-
-        #luxuryToast {
-            visibility: hidden; min-width: 300px; background-color: var(--verde-detalhe); color: #fff; text-align: center;
-            border: 1px solid var(--dourado-logo); padding: 16px; position: fixed; z-index: 1000; left: 50%; bottom: 100px;
-            transform: translateX(-50%); font-family: 'Cinzel', serif;
-        }
+        #luxuryToast { visibility: hidden; min-width: 300px; background-color: var(--verde-detalhe); color: #fff; text-align: center; border: 1px solid var(--dourado-logo); padding: 16px; position: fixed; z-index: 1000; left: 50%; bottom: 100px; transform: translateX(-50%); font-family: 'Cinzel', serif; }
         #luxuryToast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
         @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 100px; opacity: 1; } }
         @keyframes fadeout { from { bottom: 100px; opacity: 1; } to { bottom: 0; opacity: 0; } }
@@ -334,7 +315,6 @@
 
     <div id="luxuryToast"></div>
 
-    <!-- MENU LATERAL -->
     <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
     <nav id="sidebar">
         <div class="sidebar-header flex justify-between items-center p-6 border-b border-[rgba(197,160,89,0.2)]">
@@ -346,7 +326,6 @@
         </div>
     </nav>
 
-    <!-- SPLASH -->
     <div id="splash-screen">
         <div class="splash-wrapper relative flex flex-col items-center justify-center w-full">
             <div class="mist-effect"></div>
@@ -359,19 +338,16 @@
 
     <div class="golden-line-bg"></div>
 
-    <!-- HEADER COM EFEITO DE BRILHO -->
     <header class="header-container">
         <img src="assinatura.png" alt="Logo" class="logo-main">
     </header>
 
-    <!-- BUSCA -->
     <div class="search-area">
         <div class="search-container">
             <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="BUSQUE SUA FRAGRÂNCIA..." class="search-input">
         </div>
     </div>
 
-    <!-- FILTROS -->
     <div class="flex items-center mb-4">
         <div class="menu-hamburger" onclick="toggleSidebar(true)">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c5a059" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
@@ -381,7 +357,6 @@
 
     <main class="product-grid" id="productGrid"></main>
 
-    <!-- MODAL DETALHES -->
     <div id="productModal" onclick="closeModalExterno(event, 'productModal')">
         <div class="modal-container" onclick="event.stopPropagation()">
             <span class="close-modal" onclick="closeModal('productModal')">&times;</span>
@@ -389,7 +364,6 @@
         </div>
     </div>
 
-    <!-- MODAL CARRINHO -->
     <div id="cartModal" onclick="closeModalExterno(event, 'cartModal')">
         <div class="modal-container" onclick="event.stopPropagation()">
             <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
@@ -425,7 +399,6 @@
         <div class="text-[9px] text-gray-500 uppercase tracking-widest mb-6">Boa Vista - RR</div>
     </footer>
 
-    <!-- BOTÃO FLUTUANTE -->
     <div class="cart-float" onclick="openCartModal()">
         <svg width="28" height="28" viewBox="0 0 16 16"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
         <div class="cart-count" id="cartBadge">0</div>
@@ -461,13 +434,11 @@
                 const response = await fetch(BASE_SHEET_URL + '&t=' + new Date().getTime());
                 const data = await response.text();
                 const allRows = data.split(/\r?\n/);
-                
-                // LÓGICA DE MANUTENÇÃO (CÉLULA J1 / COLUNA 10 / ÍNDICE 9)
                 const headers = allRows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                const arStatus = headers[9]?.replace(/"/g, '').trim();
-                if (arStatus === "0") {
+                
+                if (headers[9]?.replace(/"/g, '').trim() === "0") {
                     isMaintenance = true;
-                    document.querySelector('.welcome-text').innerText = "Desculpe! Site em manutenção";
+                    document.querySelector('.welcome-text').innerText = "Desculpa! Site em manutenção";
                     return; 
                 }
 
@@ -483,7 +454,11 @@
                         promocao: parseFloat(columns[5]?.replace(/"/g, '').replace(',', '.').trim() || 0),
                         imagem: columns[6]?.replace(/"/g, '').trim(),
                         descricao: columns[7]?.replace(/"/g, '').trim() || "Fragrância exclusiva.",
-                        maisVendido: columns[8]?.trim() === "1"
+                        maisVendido: columns[8]?.trim() === "1",
+                        // BIZU: MAPEAMENTO DAS NOTAS OLFATIVAS
+                        notasTopo: columns[10]?.replace(/"/g, '').trim() || "",
+                        notasCoracao: columns[11]?.replace(/"/g, '').trim() || "",
+                        notasBase: columns[12]?.replace(/"/g, '').trim() || ""
                     };
                 }).filter(p => p.nome && p.nome.length > 2);
 
@@ -495,7 +470,6 @@
         function generateMenus(data) {
             const horizontalMenu = document.getElementById('brandMenu');
             const sidebarOriginsList = document.getElementById('sidebarOriginsList');
-            
             const brands = [...new Set(data.map(p => p.marca))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
             let hHtml = `<div class="brand-item active" onclick="filterByBrand('Todos', this)">TODOS</div>`;
             brands.forEach(b => { hHtml += `<div class="brand-item" onclick="filterByBrand('${b}', this)">${b.toUpperCase()}</div>`; });
@@ -503,11 +477,9 @@
 
             const origins = [...new Set(data.map(p => p.origem).filter(o => o))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
             let oHtml = "";
-            
             origins.forEach((origin, index) => {
                 const brandsInOrigin = [...new Set(data.filter(p => p.origem === origin).map(p => p.marca))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
                 const submenuId = `submenu_${index}`;
-                
                 oHtml += `
                     <div class="sidebar-item p-6 text-white font-luxury text-xs tracking-widest cursor-pointer border-b border-[rgba(197,160,89,0.05)] flex justify-between items-center" onclick="toggleSubmenu('${submenuId}')">
                         ${origin.toUpperCase()}
@@ -515,9 +487,7 @@
                     </div>
                     <div id="${submenuId}" class="hidden bg-[rgba(0,0,0,0.2)]">
                         <div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(197,160,89,0.03)]" onclick="filterByOrigin('${origin}'); toggleSidebar(false)">VER TODOS</div>
-                        ${brandsInOrigin.map(brand => `
-                            <div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(197,160,89,0.03)]" onclick="filterByBrand('${brand}'); toggleSidebar(false)">${brand.toUpperCase()}</div>
-                        `).join('')}
+                        ${brandsInOrigin.map(brand => `<div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(197,160,89,0.03)]" onclick="filterByBrand('${brand}'); toggleSidebar(false)">${brand.toUpperCase()}</div>`).join('')}
                     </div>
                 `;
             });
@@ -571,29 +541,14 @@
 
         function changeQty(id, delta) { 
             const idx = cart.findIndex(i => i.id === id); 
-            if (idx > -1) { 
-                cart[idx].qty = Math.max(0, cart[idx].qty + delta); 
-                if (cart[idx].qty === 0) cart.splice(idx, 1); 
-            } 
-            updateBadge(); 
-            displayProducts(database); 
+            if (idx > -1) { cart[idx].qty = Math.max(0, cart[idx].qty + delta); if (cart[idx].qty === 0) cart.splice(idx, 1); } 
+            updateBadge(); displayProducts(database); 
             if (document.getElementById('cartModal').style.display === 'flex') renderCartSummary(); 
         }
         
-        function removeFromCart(id) { 
-            cart = cart.filter(i => i.id !== id); 
-            updateBadge(); 
-            displayProducts(database); 
-            if (cart.length === 0) closeModal('cartModal'); else renderCartSummary();
-        }
-
+        function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateBadge(); displayProducts(database); if (cart.length === 0) closeModal('cartModal'); else renderCartSummary(); }
         function updateBadge() { document.getElementById('cartBadge').innerText = cart.reduce((s, i) => s + i.qty, 0); }
-
-        function openCartModal() { 
-            if (cart.length === 0) return showLuxuryToast("CARRINHO VAZIO", "Adicione itens"); 
-            renderCartSummary(); 
-            document.getElementById('cartModal').style.display = 'flex'; 
-        }
+        function openCartModal() { if (cart.length === 0) return showLuxuryToast("CARRINHO VAZIO", "Adicione itens"); renderCartSummary(); document.getElementById('cartModal').style.display = 'flex'; }
         
         function renderCartSummary() { 
             let total = 0; 
@@ -606,13 +561,36 @@
             document.getElementById('cartSummaryTotal').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`; 
         }
 
+        // BIZU: MODAL COM PIRÂMIDE OLFATIVA
         function openModal(id) { 
             const p = database.find(item => item.id === id); 
             const itemInCart = cart.find(i => i.id === p.id); 
             const qty = itemInCart ? itemInCart.qty : 0; 
             const precoDisplay = getPriceDisplay(p);
+            
+            let pyramidHtml = "";
+            if (p.notasTopo || p.notasCoracao || p.notasBase) {
+                pyramidHtml = `
+                    <div class="pyramid-section">
+                        <span class="pyramid-title">PIRÂMIDE OLFATIVA</span>
+                        ${p.notasTopo ? `<div class="note-item"><span class="note-label">Notas de Topo</span><p class="note-content">${p.notasTopo}</p></div>` : ''}
+                        ${p.notasCoracao ? `<div class="note-item"><span class="note-label">Notas de Coração</span><p class="note-content">${p.notasCoracao}</p></div>` : ''}
+                        ${p.notasBase ? `<div class="note-item"><span class="note-label">Notas de Base</span><p class="note-content">${p.notasBase}</p></div>` : ''}
+                    </div>
+                `;
+            }
+
             let controls = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector mx-auto w-max mb-4"><button class="qty-btn" onclick="changeQty('${p.id}', -1); openModal('${p.id}')">-</button><span class="qty-value text-center">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1); openModal('${p.id}')">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}'); openModal('${p.id}')">ADICIONAR AO CARRINHO</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`; 
-            document.getElementById('modalContent').innerHTML = `<div class="flex justify-center mb-6 relative">${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}<img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'"></div><p class="product-brand text-center">${p.marca}</p><h2 class="font-luxury text-2xl text-center text-white mb-3">${p.nome}</h2><div class="w-12 h-[1px] bg-[#c5a059] mx-auto mb-6"></div><p class="text-sm italic text-center text-gray-400 mb-6 px-4">"${p.descricao}"</p><p class="text-center text-white font-semibold text-xl mb-6">${precoDisplay}</p>${controls}`; 
+            document.getElementById('modalContent').innerHTML = `
+                <div class="flex justify-center mb-6 relative">${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}<img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'"></div>
+                <p class="product-brand text-center">${p.marca}</p>
+                <h2 class="font-luxury text-2xl text-center text-white mb-3">${p.nome}</h2>
+                <div class="w-12 h-[1px] bg-[#c5a059] mx-auto mb-6"></div>
+                <p class="text-sm italic text-center text-gray-400 mb-6 px-4">"${p.descricao}"</p>
+                <p class="text-center text-white font-semibold text-xl mb-6">${precoDisplay}</p>
+                ${controls}
+                ${pyramidHtml}
+            `; 
             document.getElementById('productModal').style.display = 'flex'; 
         }
 
@@ -628,7 +606,7 @@
                 const precoEfetivo = i.promocao > 0 ? i.promocao : i.preco;
                 let sub = precoEfetivo * i.qty; 
                 msg += `• *${i.qty}x ${i.nome}* - R$ ${sub.toFixed(2).replace('.', ',')}`; 
-                if (index < cart.length - 1) { msg += "\n\n"; } else { msg += "\n"; }
+                if (index < cart.length - 1) msg += "\n\n"; else msg += "\n";
                 total += sub; 
             }); 
             msg += `\n*TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*\n*OPÇÃO:* ${method}`; 
