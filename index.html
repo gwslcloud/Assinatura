@@ -491,11 +491,12 @@
             const sidebarSubmenu = document.getElementById('submenuBrands');
             const sidebarOriginsList = document.getElementById('sidebarOriginsList');
             
-            // Pega marcas únicas
-            const brands = [...new Set(data.map(p => p.marca))].sort();
+            // Pega marcas únicas e ordena alfabeticamente
+            const brands = [...new Set(data.map(p => p.marca))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
             
-            // Pega origens únicas (Coluna C) e limpa valores vazios
-            const origins = [...new Set(data.map(p => p.origem).filter(o => o && o.length > 0))].sort();
+            // Pega origens únicas (Coluna C) e ordena alfabeticamente considerando acentos
+            const origins = [...new Set(data.map(p => p.origem).filter(o => o && o.length > 0))]
+                                .sort((a, b) => a.localeCompare(b, 'pt-BR'));
             
             // 1. Menu Superior (Horizontal)
             let hHtml = `<div class="brand-item active" onclick="filterByBrand('Todos', this)">TODOS</div>`;
@@ -511,7 +512,7 @@
             });
             sidebarSubmenu.innerHTML = sHtml;
 
-            // 3. Menu Lateral Dinâmico (Lista de Origens da Coluna C)
+            // 3. Menu Lateral Dinâmico (Lista de Origens da Coluna C - Agora em ordem alfabética)
             let oHtml = "";
             origins.forEach(origin => {
                 oHtml += `<div class="sidebar-item" onclick="filterByOrigin('${origin}')">${origin.toUpperCase()}</div>`;
@@ -538,9 +539,7 @@
 
         function filterByOrigin(origin) {
             toggleSidebar(false);
-            // Remove destaque de qualquer marca no menu horizontal
             document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active'));
-            // Filtra por correspondência exata de texto (ignorando apenas maiúsculas/minúsculas)
             const filtered = database.filter(p => p.origem.toLowerCase() === origin.toLowerCase());
             displayProducts(filtered);
         }
