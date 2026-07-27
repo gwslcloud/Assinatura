@@ -490,7 +490,7 @@
     </div>
 
     <script>
-        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS0crXc21GaE7jllSoyZqiE5xIa7lGGvtKEFjbK-0oil1dQWdMwcz6cRpH70qPbWMwzZF1KlLEP8d83/pub?gid=0&single=true&output=csv'; 
+        const BASE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS0crXc21GaE7jllSoyZqiE5xIa7lGGvtKEFjbK-0oil1dQWdMwcz6cRpH70qPbWMwzZF1KlLEP8d83/pub?gid=0&single=true&output=csv'; 
         let database = [];
         let cart = [];
         const whatsappNumber = "5595991154395";
@@ -518,11 +518,14 @@
 
         async function loadSheetData() {
             try {
-                const response = await fetch(SHEET_CSV_URL);
+                // Adiciona um parâmetro de tempo para evitar cache do navegador e pegar sempre a planilha atualizada
+                const freshUrl = BASE_SHEET_URL + '&t=' + new Date().getTime();
+                const response = await fetch(freshUrl);
                 const data = await response.text();
                 const rows = data.split(/\r?\n/).slice(1); 
                 database = rows.map(row => {
                     const columns = parseCSVLine(row);
+                    const valMaisVendido = columns[6]?.trim();
                     return {
                         id: columns[0]?.trim(),
                         marca: columns[1]?.trim(),
@@ -530,7 +533,7 @@
                         preco: parseFloat(columns[3]?.replace(',', '.').trim() || 0),
                         imagem: columns[4]?.trim(),
                         descricao: columns[5]?.trim() || "Fragrância exclusiva da Assinatura Parfum.",
-                        maisVendido: columns[6]?.trim() === "1" // Coluna G
+                        maisVendido: valMaisVendido === "1" // Só é verdadeiro se for exatamente 1
                     };
                 }).filter(p => p.nome && p.nome.length > 2 && p.preco >= 0);
                 generateBrandMenu(database);
