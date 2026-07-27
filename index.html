@@ -531,29 +531,36 @@
         @keyframes fadeout { from { bottom: 100px; opacity: 1; } to { bottom: 0; opacity: 0; } }
 
         /* ============================================================
-           ALTERAÇÃO: FOOTER PREMIUM
+           AJUSTE FOOTER PREMIUM (CELULAR E NOTEBOOK)
            ============================================================ */
         .premium-footer {
             background-color: #000c08; 
             border-top: 1px solid rgba(197, 160, 89, 0.2);
-            padding: 60px 20px 30px;
+            padding: 60px 20px 40px;
             margin-top: 80px;
             position: relative;
             z-index: 10;
         }
 
         .footer-content {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: flex-start;
             gap: 40px;
             text-align: center;
         }
 
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+        }
+
         .footer-column img.footer-logo-small {
             width: 130px;
-            margin: 0 auto 15px;
+            margin: 0 auto 20px;
             opacity: 0.9;
         }
 
@@ -588,13 +595,10 @@
         .footer-column ul li a:hover { color: var(--dourado-logo); }
 
         .footer-bottom {
-            margin-top: 60px;
+            margin-top: 50px;
             padding-top: 30px;
             border-top: 1px solid rgba(255,255,255,0.03);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 25px;
+            text-align: center;
         }
 
         .footer-bottom p {
@@ -602,14 +606,6 @@
             letter-spacing: 2px;
             color: #555;
             text-transform: uppercase;
-        }
-
-        /* NOVA IMAGEM FOOTER */
-        .footer-custom-img {
-            max-width: 280px;
-            height: auto;
-            object-fit: contain;
-            opacity: 0.8;
         }
 
     </style>
@@ -644,7 +640,7 @@
         </div>
     </div>
 
-    <!-- HEADER REMODELADO -->
+    <!-- HEADER -->
     <header class="header-container">
         <img src="assinatura.png" alt="Logo" class="logo-main">
         <div class="golden-line-bg"></div>
@@ -704,7 +700,7 @@
         </div>
     </div>
 
-    <!-- FOOTER PREMIUM REMODELADO -->
+    <!-- FOOTER PREMIUM -->
     <footer class="premium-footer">
         <div class="footer-content">
             <div class="footer-column">
@@ -729,7 +725,6 @@
         </div>
 
         <div class="footer-bottom">
-            <img src="original.jpeg" class="footer-custom-img" alt="Assinatura Parfum">
             <p>© 2026 Assinatura Parfum - Todos os direitos reservados</p>
         </div>
     </footer>
@@ -841,6 +836,14 @@
         function toggleSubmenu(id) {
             const el = document.getElementById(id);
             if (el) el.classList.toggle('hidden');
+        }
+
+        // LÓGICA DE SCROLL PARA O FILTRO
+        function scrollToProducts() {
+            const element = document.querySelector('.search-area');
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
         }
 
         async function loadSheetData() {
@@ -956,18 +959,20 @@
             }
             const filtered = brand === 'Todos' ? database : database.filter(p => p.marca === brand);
             displayProducts(filtered, true); 
+            scrollToProducts();
         }
 
         function filterByOrigin(origin) {
             toggleSidebar(false);
             const filtered = database.filter(p => p.origem.toLowerCase() === origin.toLowerCase());
             displayProducts(filtered, true); 
+            scrollToProducts();
         }
 
-        // NOVA FUNÇÃO FILTRO MAIS VENDIDOS
         function filterByBestSellers() {
             const filtered = database.filter(p => p.maisVendido);
             displayProducts(filtered, true);
+            scrollToProducts();
         }
 
         function filterProducts() {
