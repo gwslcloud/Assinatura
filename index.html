@@ -235,6 +235,12 @@
             .product-grid { grid-template-columns: repeat(4, 1fr); max-width: 1400px; margin: 0 auto; gap: 30px; }
         }
 
+        /* ANIMAÇÃO DE FADE-IN PREMIUM */
+        @keyframes cardAppear {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .product-card {
             position: relative;
             background: rgba(255,255,255,0.02); 
@@ -244,6 +250,30 @@
             display: flex; 
             flex-direction: column; 
             justify-content: space-between;
+            opacity: 0;
+            animation: cardAppear 0.6s ease forwards;
+        }
+
+        /* TAGS DE NOTAS NO CARD */
+        .card-notes-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 12px;
+            min-height: 18px;
+        }
+
+        .card-note-tag {
+            font-size: 7px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 2px 6px;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            color: var(--dourado-logo);
+            background: rgba(197, 160, 89, 0.05);
+            border-radius: 2px;
+            white-space: nowrap;
         }
 
         .product-img { height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; cursor: pointer; }
@@ -436,7 +466,6 @@
                 const allRows = data.split(/\r?\n/);
                 const headers = allRows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                 
-                // MUDANÇA SOLICITADA: Referência de Manutenção movida para coluna M (índice 12)
                 if (headers[12]?.replace(/"/g, '').trim() === "0") {
                     isMaintenance = true;
                     document.querySelector('.welcome-text').innerText = "Desculpa! Site em manutenção";
@@ -456,7 +485,6 @@
                         imagem: columns[6]?.replace(/"/g, '').trim(),
                         descricao: columns[7]?.replace(/"/g, '').trim() || "Fragrância exclusiva.",
                         maisVendido: columns[8]?.trim() === "1",
-                        // MUDANÇA SOLICITADA: Mapeamento das notas para as colunas J (9), K (10) e L (11)
                         notasTopo: columns[9]?.replace(/"/g, '').trim() || "",
                         notasCoracao: columns[10]?.replace(/"/g, '').trim() || "",
                         notasBase: columns[11]?.replace(/"/g, '').trim() || ""
@@ -505,12 +533,34 @@
 
         function displayProducts(products) {
             const grid = document.getElementById('productGrid');
-            grid.innerHTML = products.map(p => {
+            grid.innerHTML = products.map((p, index) => {
                 const itemInCart = cart.find(i => i.id === p.id);
                 const qty = itemInCart ? itemInCart.qty : 0;
                 const precoDisplay = getPriceDisplay(p);
+                
+                // GERA AS TAGS DE NOTAS (PEGA AS 3 PRIMEIRAS DA TABELA)
+                const allNotes = p.notasTopo ? p.notasTopo.split(',') : [];
+                const highlightTags = allNotes.slice(0, 3).map(tag => `<span class="card-note-tag">${tag.trim()}</span>`).join('');
+
+                // CALCULA O DELAY DA ANIMAÇÃO (STAGGERED)
+                const animationDelay = (index % 12) * 0.1;
+
                 let controlsHtml = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector"><button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button><span class="qty-value">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR AO CARRINHO</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`;
-                return `<div class="product-card">${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}<div onclick="openModal('${p.id}')"><div class="product-img"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div><p class="product-brand">${p.marca}</p><h2 class="product-name font-luxury">${p.nome}</h2></div><div><p class="product-price">${precoDisplay}</p>${controlsHtml}</div></div>`;
+                
+                return `
+                <div class="product-card" style="animation-delay: ${animationDelay}s">
+                    ${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}
+                    <div onclick="openModal('${p.id}')">
+                        <div class="product-img"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div>
+                        <p class="product-brand">${p.marca}</p>
+                        <h2 class="product-name font-luxury">${p.nome}</h2>
+                        <div class="card-notes-container">${highlightTags}</div>
+                    </div>
+                    <div>
+                        <p class="product-price">${precoDisplay}</p>
+                        ${controlsHtml}
+                    </div>
+                </div>`;
             }).join('');
         }
 
