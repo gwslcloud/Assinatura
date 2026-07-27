@@ -268,18 +268,25 @@
             animation: cardAppear 0.6s ease forwards;
         }
 
-        /* TAGS DE NOTAS NO CARD */
-        .card-notes-container {
+        /* CONTAINER DAS NOTAS NO CARD */
+        .card-notes-wrapper {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 4px;
-            margin-bottom: 12px;
-            min-height: 18px;
+            gap: 12px;
+            margin-bottom: 15px;
+            min-height: 40px;
+        }
+
+        .note-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
         }
 
         .card-note-tag {
-            font-size: 7px;
+            font-size: 8px;
             text-transform: uppercase;
             letter-spacing: 1px;
             padding: 2px 6px;
@@ -288,6 +295,12 @@
             background: rgba(197, 160, 89, 0.05);
             border-radius: 2px;
             white-space: nowrap;
+        }
+
+        .note-icon-img {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
         }
 
         .product-img { height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; cursor: pointer; }
@@ -476,7 +489,6 @@
         let isMaintenance = false;
         const whatsappNumber = "5595991154395";
 
-        // FUNÇÃO PARA BARRA DE PROGRESSO
         window.onscroll = function() {
             let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -499,6 +511,27 @@
         function toggleSubmenu(id) {
             const el = document.getElementById(id);
             if (el) el.classList.toggle('hidden');
+        }
+
+        // FUNÇÃO PARA PEGAR O ÍCONE DA FRUTA AUTOMATICAMENTE
+        function getNoteIcon(note) {
+            const translationMap = {
+                "Bergamota": "bergamot",
+                "Limão": "lemon",
+                "Lima": "lime",
+                "Laranja": "orange",
+                "Maçã": "apple",
+                "Canela": "cinnamon",
+                "Lavanda": "lavender",
+                "Pimenta": "chili-pepper",
+                "Madeira": "wood",
+                "Baunilha": "vanilla",
+                "Menta": "mint",
+                "Toranja": "grapefruit",
+                "Abacaxi": "pineapple"
+            };
+            const term = translationMap[note.trim()] || note.trim().toLowerCase();
+            return `https://img.icons8.com/fluency/48/${term}.png`;
         }
 
         async function loadSheetData() {
@@ -580,8 +613,17 @@
                 const qty = itemInCart ? itemInCart.qty : 0;
                 const precoDisplay = getPriceDisplay(p);
                 
+                // GERA OS GRUPOS DE NOTA COM TEXTO EM CIMA E ÍCONE EMBAIXO
                 const allNotes = p.notasTopo ? p.notasTopo.split(',') : [];
-                const highlightTags = allNotes.slice(0, 3).map(tag => `<span class="card-note-tag">${tag.trim()}</span>`).join('');
+                const highlightTags = allNotes.slice(0, 2).map(tag => {
+                    const iconUrl = getNoteIcon(tag);
+                    return `
+                        <div class="note-group">
+                            <span class="card-note-tag">${tag.trim()}</span>
+                            <img src="${iconUrl}" class="note-icon-img" onerror="this.style.display='none'">
+                        </div>
+                    `;
+                }).join('');
 
                 const animClass = shouldAnimate ? 'card-animate' : '';
                 const animationDelay = shouldAnimate ? (index % 12) * 0.1 : 0;
@@ -596,7 +638,7 @@
                         <div class="product-img"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div>
                         <p class="product-brand">${p.marca}</p>
                         <h2 class="product-name font-luxury">${p.nome}</h2>
-                        <div class="card-notes-container">${highlightTags}</div>
+                        <div class="card-notes-wrapper">${highlightTags}</div>
                     </div>
                     <div>
                         <p class="product-price">${precoDisplay}</p>
