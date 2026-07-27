@@ -436,7 +436,8 @@
                 const allRows = data.split(/\r?\n/);
                 const headers = allRows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                 
-                if (headers[9]?.replace(/"/g, '').trim() === "0") {
+                // MUDANÇA SOLICITADA: Referência de Manutenção movida para coluna M (índice 12)
+                if (headers[12]?.replace(/"/g, '').trim() === "0") {
                     isMaintenance = true;
                     document.querySelector('.welcome-text').innerText = "Desculpa! Site em manutenção";
                     return; 
@@ -455,10 +456,10 @@
                         imagem: columns[6]?.replace(/"/g, '').trim(),
                         descricao: columns[7]?.replace(/"/g, '').trim() || "Fragrância exclusiva.",
                         maisVendido: columns[8]?.trim() === "1",
-                        // BIZU: MAPEAMENTO DAS NOTAS OLFATIVAS
-                        notasTopo: columns[10]?.replace(/"/g, '').trim() || "",
-                        notasCoracao: columns[11]?.replace(/"/g, '').trim() || "",
-                        notasBase: columns[12]?.replace(/"/g, '').trim() || ""
+                        // MUDANÇA SOLICITADA: Mapeamento das notas para as colunas J (9), K (10) e L (11)
+                        notasTopo: columns[9]?.replace(/"/g, '').trim() || "",
+                        notasCoracao: columns[10]?.replace(/"/g, '').trim() || "",
+                        notasBase: columns[11]?.replace(/"/g, '').trim() || ""
                     };
                 }).filter(p => p.nome && p.nome.length > 2);
 
