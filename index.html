@@ -24,6 +24,26 @@
         }
         .font-luxury { font-family: 'Cinzel', serif; }
         
+        /* TAG MAIS VENDIDO */
+        .badge-best-seller {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: linear-gradient(90deg, #8b6d31, #c5a059);
+            color: white;
+            font-size: 8px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            z-index: 20;
+            text-transform: uppercase;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            letter-spacing: 0.5px;
+        }
+
         /* SPLASH SCREEN */
         #splash-screen {
             position: fixed;
@@ -173,6 +193,7 @@
         }
 
         .product-card {
+            position: relative;
             background: rgba(255,255,255,0.02); 
             border: 1px solid rgba(197, 160, 89, 0.08);
             padding: 20px 15px; 
@@ -508,7 +529,8 @@
                         nome: columns[2]?.trim(),
                         preco: parseFloat(columns[3]?.replace(',', '.').trim() || 0),
                         imagem: columns[4]?.trim(),
-                        descricao: columns[5]?.trim() || "Fragrância exclusiva da Assinatura Parfum."
+                        descricao: columns[5]?.trim() || "Fragrância exclusiva da Assinatura Parfum.",
+                        maisVendido: columns[6]?.trim() === "1" // Coluna G
                     };
                 }).filter(p => p.nome && p.nome.length > 2 && p.preco >= 0);
                 generateBrandMenu(database);
@@ -549,6 +571,7 @@
 
                 return `
                 <div class="product-card">
+                    ${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}
                     <div onclick="openModal('${p.id}')">
                         <div class="product-img"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div>
                         <p class="product-brand">${p.marca}</p>
@@ -608,7 +631,10 @@
             }
 
             content.innerHTML = `
-                <div class="flex justify-center mb-6"><img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'"></div>
+                <div class="flex justify-center mb-6 relative">
+                    ${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}
+                    <img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'">
+                </div>
                 <p class="product-brand text-center">${p.marca}</p>
                 <h2 class="font-luxury text-2xl text-center text-white mb-3">${p.nome}</h2>
                 <div class="w-12 h-[1px] bg-gold mx-auto mb-6" style="background:var(--dourado-logo)"></div>
