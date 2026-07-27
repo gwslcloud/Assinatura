@@ -516,9 +516,9 @@
         function getPriceDisplay(p) {
             if (p.preco <= 0) return '<span style="color: #ff0000; font-weight: 600;">INDISPONÍVEL</span>';
             if (p.promocao > 0) {
-                return `<span style="text-decoration: line-through; opacity: 0.5; font-size: 0.9em; margin-right: 8px;">R$ ${p.preco.toFixed(2).replace('.', ',')}</span><span style="color: #ff4d4d; font-weight: 700;">R$ ${p.promocao.toFixed(2).replace('.', ',')}</span>`;
+                return `<span style="text-decoration: line-through; opacity: 0.5; font-size: 0.9em; white-space: nowrap;">R$ ${p.preco.toFixed(2).replace('.', ',')}</span><br><span style="color: #ff4d4d; font-weight: 700; white-space: nowrap;">R$ ${p.promocao.toFixed(2).replace('.', ',')}</span>`;
             }
-            return `R$ ${p.preco.toFixed(2).replace('.', ',')}`;
+            return `<span style="white-space: nowrap;">R$ ${p.preco.toFixed(2).replace('.', ',')}</span>`;
         }
 
         function displayProducts(products) {
