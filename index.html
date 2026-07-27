@@ -340,11 +340,6 @@
             <span class="text-2xl cursor-pointer text-white" onclick="toggleSidebar(false)">&times;</span>
         </div>
         <div class="overflow-y-auto">
-            <div class="sidebar-item p-6 text-white font-luxury text-xs tracking-widest cursor-pointer border-b border-[rgba(197,160,89,0.05)] flex justify-between" onclick="toggleSubmenu(event)">
-                TODAS AS MARCAS
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </div>
-            <div id="submenuBrands" class="hidden bg-[rgba(0,0,0,0.2)]"></div>
             <div id="sidebarOriginsList"></div>
         </div>
     </nav>
@@ -395,7 +390,7 @@
     <!-- MODAL CARRINHO -->
     <div id="cartModal" onclick="closeModalExterno(event, 'cartModal')">
         <div class="modal-container" onclick="event.stopPropagation()">
-            <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
+            <span class="close-modal" onclick="modal('cartModal')">&times;</span>
             <h2 class="font-luxury text-xl text-center mb-6">RESUMO DO PEDIDO</h2>
             <div id="cartSummaryList" class="px-6"></div>
             <div class="mt-6 flex justify-between items-center font-bold px-6">
@@ -453,9 +448,9 @@
             }
         }
 
-        function toggleSubmenu(e) {
-            e.stopPropagation();
-            document.getElementById('submenuBrands').classList.toggle('hidden');
+        function toggleSubmenu(id) {
+            const el = document.getElementById(id);
+            if (el) el.classList.toggle('hidden');
         }
 
         async function loadSheetData() {
@@ -485,21 +480,35 @@
 
         function generateMenus(data) {
             const horizontalMenu = document.getElementById('brandMenu');
-            const sidebarSubmenu = document.getElementById('submenuBrands');
             const sidebarOriginsList = document.getElementById('sidebarOriginsList');
-            const brands = [...new Set(data.map(p => p.marca))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
-            const origins = [...new Set(data.map(p => p.origem).filter(o => o))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
             
+            // FILTRO HORIZONTAL (MARCAS)
+            const brands = [...new Set(data.map(p => p.marca))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
             let hHtml = `<div class="brand-item active" onclick="filterByBrand('Todos', this)">TODOS</div>`;
             brands.forEach(b => { hHtml += `<div class="brand-item" onclick="filterByBrand('${b}', this)">${b.toUpperCase()}</div>`; });
             horizontalMenu.innerHTML = hHtml;
 
-            let sHtml = `<div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(197,160,89,0.03)]" onclick="filterByBrand('Todos'); toggleSidebar(false)">VER TODAS</div>`;
-            brands.forEach(b => { sHtml += `<div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(197,160,89,0.03)]" onclick="filterByBrand('${b}'); toggleSidebar(false)">${b.toUpperCase()}</div>`; });
-            sidebarSubmenu.innerHTML = sHtml;
-
+            // MENU LATERAL (ORIGENS COM SETA)
+            const origins = [...new Set(data.map(p => p.origem).filter(o => o))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
             let oHtml = "";
-            origins.forEach(origin => { oHtml += `<div class="p-6 text-white font-luxury text-xs tracking-widest cursor-pointer border-b border-[rgba(197,160,89,0.05)]" onclick="filterByOrigin('${origin}')">${origin.toUpperCase()}</div>`; });
+            
+            origins.forEach((origin, index) => {
+                const brandsInOrigin = [...new Set(data.filter(p => p.origem === origin).map(p => p.marca))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+                const submenuId = `submenu_${index}`;
+                
+                oHtml += `
+                    <div class="sidebar-item p-6 text-white font-luxury text-xs tracking-widest cursor-pointer border-b border-[rgba(197,160,89,0.05)] flex justify-between items-center" onclick="toggleSubmenu('${submenuId}')">
+                        ${origin.toUpperCase()}
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div id="${submenuId}" class="hidden bg-[rgba(0,0,0,0.2)]">
+                        <div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(197,160,89,0.03)]" onclick="filterByOrigin('${origin}'); toggleSidebar(false)">VER TODOS</div>
+                        ${brandsInOrigin.map(brand => `
+                            <div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(197,160,89,0.03)]" onclick="filterByBrand('${brand}'); toggleSidebar(false)">${brand.toUpperCase()}</div>
+                        `).join('')}
+                    </div>
+                `;
+            });
             sidebarOriginsList.innerHTML = oHtml;
         }
 
@@ -532,7 +541,6 @@
             displayProducts(database.filter(p => p.nome.toLowerCase().includes(term) || p.marca.toLowerCase().includes(term)));
         }
 
-        // BIZU: FRASES ALTERADAS PARA "BOAS COMPRAS" E "ITEM ADICIONADO AO CARRINHO"
         function addToCart(id) { 
             const p = database.find(i => i.id === id); 
             cart.push({ ...p, qty: 1 }); 
