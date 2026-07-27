@@ -338,7 +338,7 @@
             font-weight: bold; border: 2px solid #fff;
         }
 
-        /* ESTILIZAÇÃO DO RODAPÉ (REVISADA PARA IMAGEM) */
+        /* ESTILIZAÇÃO DO RODAPÉ (ICONES ORIGINAIS) */
         footer { 
             text-align: center; padding: 60px 20px; margin-top: 60px; 
             border-top: 1px solid rgba(197, 160, 89, 0.15); background: rgba(0, 0, 0, 0.2);
@@ -358,17 +358,10 @@
             font-weight: 300;
             margin-bottom: 40px;
         }
-        .social-icons-wrapper { display: flex; gap: 30px; justify-content: center; align-items: center; }
-        .social-link { color: var(--dourado-logo); transition: 0.3s; display: flex; align-items: center; justify-content: center; }
-        .social-link:hover { transform: translateY(-3px); color: #fff; }
-        
-        /* Estilos específicos para cada formato da imagem */
-        .fb-icon { background: var(--dourado-logo); border-radius: 8px; width: 32px; height: 32px; padding: 4px; }
-        .fb-icon svg { fill: var(--verde-fundo); width: 100%; height: 100%; }
-        
-        .wa-icon svg { fill: var(--dourado-logo); width: 38px; height: 38px; }
-        
-        .ig-icon svg { fill: none; stroke: var(--dourado-logo); stroke-width: 1.5; width: 36px; height: 36px; }
+        .social-icons-wrapper { display: flex; gap: 25px; justify-content: center; align-items: center; }
+        .social-link { transition: transform 0.3s ease; display: flex; align-items: center; justify-content: center; }
+        .social-link:hover { transform: translateY(-3px); }
+        .social-link svg { width: 38px; height: 38px; }
     </style>
 </head>
 <body>
@@ -442,22 +435,26 @@
         <div class="footer-copyright">© 2026 Assinatura Parfum. Todos os direitos reservados.</div>
         <div class="footer-location">Boa Vista - RR</div>
         <div class="social-icons-wrapper mt-6">
-            <!-- FACEBOOK (BLOCO SÓLIDO) -->
-            <a href="LINK_DO_FACEBOOK" target="_blank" class="social-link fb-icon" title="Facebook">
-                <svg viewBox="0 0 24 24"><path d="M17 12h-3v8h-3v-8H9v-3h2V7.7C11 5.3 12.3 4 14.5 4h2.5v3h-1.5c-.8 0-1 .4-1 1v1h3l-.5 3z"/></svg>
+            <!-- FACEBOOK ORIGINAL BLUE -->
+            <a href="LINK_DO_FACEBOOK" target="_blank" class="social-link" title="Facebook">
+                <svg viewBox="0 0 24 24">
+                    <rect x="0" y="0" width="24" height="24" rx="5" fill="#1877F2"/>
+                    <path d="M15 14l.5-3.5h-3.5v-2c0-1 .5-2 2-2h1.5V3.5s-1.5-.5-3-.5c-3 0-5 2-5 5v3H9v3.5h3V21h4v-7h3z" fill="white"/>
+                </svg>
             </a>
             
-            <!-- WHATSAPP (ESTILO BALÃO) -->
-            <a href="https://wa.me/5595991154395" target="_blank" class="social-link wa-icon" title="WhatsApp">
-                <svg viewBox="0 0 24 24"><path d="M12.1 3c-4.9 0-9 4-9 9 0 1.6.4 3.1 1.2 4.4L3 21l4.7-1.2c1.3.7 2.8 1.1 4.3 1.1 4.9 0 9-4 9-9s-4-8.9-8.9-8.9zm4.3 13c-.2.6-1.1 1.1-1.5 1.2-.4.1-.9.2-2.6-.5-2.2-.9-3.6-3.1-3.7-3.3s-.9-1.2-.9-2.3c0-1.1.6-1.6.8-1.9.2-.2.4-.3.6-.3h.4c.1 0 .3 0 .5.4.2.5.6 1.5.7 1.7.1.1.1.3 0 .4s-.2.3-.3.4c-.1.1-.3.3-.4.4-.1.1-.2.3-.1.5.2.3.8 1.4 1.8 2.3 1.2 1.1 2.3 1.4 2.6 1.6.3.1.4.1.6-.1.2-.2.8-.9 1-1.2.2-.3.4-.2.6-.1.2.1 1.4.7 1.7.8.2.1.4.2.5.3.1.2.1 1.1-.1 1.6z"/></svg>
+            <!-- WHATSAPP ORIGINAL GREEN -->
+            <a href="https://wa.me/5595991154395" target="_blank" class="social-link" title="WhatsApp">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12.1 3c-4.9 0-9 4-9 9 0 1.6.4 3.1 1.2 4.4L3 21l4.7-1.2c1.3.7 2.8 1.1 4.3 1.1 4.9 0 9-4 9-9s-4-8.9-8.9-8.9zm4.3 13c-.2.6-1.1 1.1-1.5 1.2-.4.1-.9.2-2.6-.5-2.2-.9-3.6-3.1-3.7-3.3s-.9-1.2-.9-2.3c0-1.1.6-1.6.8-1.9.2-.2.4-.3.6-.3h.4c.1 0 .3 0 .5.4.2.5.6 1.5.7 1.7.1.1.1.3 0 .4s-.2.3-.3.4c-.1.1-.3.3-.4.4-.1.1-.2.3-.1.5.2.3.8 1.4 1.8 2.3 1.2 1.1 2.3 1.4 2.6 1.6.3.1.4.1.6-.1.2-.2.8-.9 1-1.2.2-.3.4-.2.6-.1.2.1 1.4.7 1.7.8.2.1.4.2.5.3.1.2.1 1.1-.1 1.6z" fill="#25D366"/>
+                </svg>
             </a>
 
-            <!-- INSTAGRAM (OUTLINE) -->
-            <a href="LINK_DO_INSTAGRAM" target="_blank" class="social-link ig-icon" title="Instagram">
+            <!-- INSTAGRAM ORIGINAL PINK/CAM -->
+            <a href="LINK_DO_INSTAGRAM" target="_blank" class="social-link" title="Instagram">
                 <svg viewBox="0 0 24 24">
-                    <rect x="2" y="2" width="20" height="20" rx="5"></rect>
-                    <circle cx="12" cy="12" r="4"></circle>
-                    <circle cx="18" cy="6" r="1.5"></circle>
+                    <rect x="0" y="0" width="24" height="24" rx="5" fill="#E4405F"/>
+                    <path d="M12 7c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.2c-1.8 0-3.2-1.4-3.2-3.2s1.4-3.2 3.2-3.2 3.2 1.4 3.2 3.2-1.4 3.2-3.2 3.2zm4.7-9.4c-.6 0-1.2.5-1.2 1.2s.5 1.2 1.2 1.2 1.2-.5 1.2-1.2-.5-1.2-1.2-1.2zm2.3 3.1c-.1-1.3-.4-2.4-1.3-3.3-.9-.9-2-1.2-3.3-1.3-1.3-.1-5.3-.1-6.6 0-1.3.1-2.4.4-3.3 1.3-.9.9-1.2 2-1.3 3.3-.1 1.3-.1 5.3 0 6.6.1 1.3.4 2.4 1.3 3.3.9.9 2 1.2 3.3 1.3 1.3.1 5.3.1 6.6 0 1.3-.1 2.4-.4 3.3-1.3.9-.9 1.2-2 1.3-3.3.1-1.3.1-5.3 0-6.6z" fill="white"/>
                 </svg>
             </a>
         </div>
