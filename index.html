@@ -585,7 +585,23 @@
             document.getElementById('cartSummaryList').innerHTML = cart.map(i => { 
                 const sub = i.preco * i.qty; 
                 total += sub; 
-                return `<div class="flex justify-between items-center py-4 border-b"><div class="flex items-center gap-3"><img src="${i.imagem}" class="w-12 h-12 object-contain" onerror="this.src='assinatura.png'"><div><div class="flex items-center gap-2"><p class="text-xs font-bold uppercase">${i.nome}</p><span class="text-red-500 cursor-pointer text-lg leading-none font-bold" onclick="removeFromCart('${i.id}')">&times;</span></div><div class="flex items-center gap-3 mt-2"><button class="qty-btn" onclick="changeQty('${i.id}', -1)">-</button><span class="text-xs">${i.qty}</span><button class="qty-btn" onclick="changeQty('${i.id}', 1)">+</button></div></div></div><p class="text-sm font-bold">R$ ${sub.toFixed(2).replace('.', ',')}</p></div>`; 
+                return `<div class="flex justify-between items-center py-6 border-b relative">
+                            <div class="flex items-center gap-3">
+                                <img src="${i.imagem}" class="w-12 h-12 object-contain" onerror="this.src='assinatura.png'">
+                                <div>
+                                    <p class="text-[10px] font-bold uppercase pr-8 leading-tight">${i.nome}</p>
+                                    <div class="flex items-center gap-3 mt-2">
+                                        <button class="qty-btn" onclick="changeQty('${i.id}', -1)">-</button>
+                                        <span class="text-xs">${i.qty}</span>
+                                        <button class="qty-btn" onclick="changeQty('${i.id}', 1)">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right flex flex-col items-end">
+                                <span class="text-red-500 cursor-pointer text-2xl leading-none font-bold absolute top-2 right-0" onclick="removeFromCart('${i.id}')">&times;</span>
+                                <p class="text-sm font-bold whitespace-nowrap mt-4">R$ ${sub.toFixed(2).replace('.', ',')}</p>
+                            </div>
+                        </div>`; 
             }).join(''); 
             document.getElementById('cartSummaryTotal').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`; 
         }
