@@ -245,7 +245,7 @@
         .qty-value { font-size: 14px; font-weight: 400; width: 20px; color: #fff; }
 
         /* MODAIS */
-        #productModal, #cartModal {
+        #productModal, #cartModal, #brandListModal {
             display: none;
             position: fixed;
             top: 0; left: 0;
@@ -401,6 +401,19 @@
         .bg-whatsapp { background-color: #25D366; }
         .bg-instagram { background-color: #E4405F; }
         .bg-facebook { background-color: #1877F2; }
+
+        /* LISTA DE MARCAS VERTICAL NO MODAL */
+        .brand-list-item {
+            padding: 15px;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-align: center;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .brand-list-item:hover { color: var(--dourado-logo); }
     </style>
 </head>
 <body>
@@ -437,6 +450,15 @@
         <div class="modal-container" onclick="event.stopPropagation()">
             <span class="close-modal" onclick="closeModal('productModal')">&times;</span>
             <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- NOVO MODAL DE LISTA DE MARCAS -->
+    <div id="brandListModal" onclick="closeModalExterno(event, 'brandListModal')">
+        <div class="modal-container" onclick="event.stopPropagation()">
+            <span class="close-modal" onclick="closeModal('brandListModal')">&times;</span>
+            <h2 class="font-luxury text-xl text-center mb-6 border-b border-[#c5a05933] pb-4 text-[#c5a059]">MARCAS</h2>
+            <div id="fullBrandList"></div>
         </div>
     </div>
 
@@ -544,10 +566,33 @@
 
         function generateBrandMenu(data) {
             const menu = document.getElementById('brandMenu');
+            const fullListContainer = document.getElementById('fullBrandList');
             const brands = [...new Set(data.map(p => p.marca.trim()))].sort();
-            let html = `<div class="brand-item active" onclick="filterByBrand('Todos', this)">TODOS</div>`;
+            
+            // Gerar menu horizontal com os 3 pauzinhos
+            let html = `
+                <div class="brand-item active flex items-center gap-2">
+                    <span onclick="event.stopPropagation(); openBrandListModal()" class="cursor-pointer">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </span>
+                    <span onclick="filterByBrand('Todos', this.parentElement)">TODOS</span>
+                </div>
+            `;
+            
+            // Marcas no horizontal
             brands.forEach(b => html += `<div class="brand-item" onclick="filterByBrand('${b}', this)">${b.toUpperCase()}</div>`);
             menu.innerHTML = html;
+
+            // Gerar lista vertical para o modal
+            let listHtml = `<div class="brand-list-item" onclick="filterByBrand('Todos', null); closeModal('brandListModal')">VER TODOS</div>`;
+            brands.forEach(b => {
+                listHtml += `<div class="brand-list-item" onclick="filterByBrand('${b}', null); closeModal('brandListModal')">${b.toUpperCase()}</div>`;
+            });
+            fullListContainer.innerHTML = listHtml;
+        }
+
+        function openBrandListModal() {
+            document.getElementById('brandListModal').style.display = 'flex';
         }
 
         function displayProducts(products) {
@@ -730,7 +775,14 @@
 
         function filterByBrand(brand, element) {
             document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active'));
-            element.classList.add('active');
+            if(element) element.classList.add('active');
+            else {
+                // Se não passou elemento (veio do modal), busca o item correspondente no menu horizontal para ativar
+                const items = document.querySelectorAll('.brand-item');
+                items.forEach(el => {
+                    if(el.innerText.includes(brand.toUpperCase())) el.classList.add('active');
+                });
+            }
             const filtered = (brand === 'Todos') ? database : database.filter(p => p.marca.trim() === brand);
             displayProducts(filtered);
         }
