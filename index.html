@@ -13,9 +13,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
-        /* ============================================================
-           BIZU: CORES PRINCIPAIS DO SITE
-           ============================================================ */
         :root {
             --verde-fundo: #00160f; 
             --verde-detalhe: #002419;
@@ -32,38 +29,18 @@
             overflow-x: hidden;
         }
 
-        /* BARRA DE PROGRESSO DOURADA */
+        /* BARRA DE PROGRESSO */
         #scrollProgress {
             position: fixed;
             top: 0; left: 0;
             width: 0%; height: 2px;
             background: linear-gradient(90deg, var(--dourado-logo), var(--dourado-brilho));
-            z-index: 10000;
+            z-index: 10001;
             box-shadow: 0 0 8px rgba(197, 160, 89, 0.5);
             transition: width 0.1s ease-out;
         }
 
-        .font-luxury { font-family: 'Cinzel', serif; }
-
-        .badge-best-seller {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: linear-gradient(90deg, #8b6d31, #c5a059);
-            color: white;
-            font-size: 8px;
-            font-weight: 700;
-            padding: 4px 8px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            z-index: 20;
-            text-transform: uppercase;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-            letter-spacing: 0.5px;
-        }
-
+        /* 1. REFINAMENTO SPLASH SCREEN */
         #splash-screen {
             position: fixed;
             top: 0; left: 0;
@@ -73,305 +50,172 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
         }
+
+        .splash-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .splash-hidden { opacity: 0; visibility: hidden; }
+        .splash-hidden .splash-content { transform: scale(0.85); }
 
         .mist-effect {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 220px; height: 220px;
-            background: radial-gradient(circle, rgba(197, 160, 89, 0.4) 0%, transparent 70%);
-            filter: blur(15px);
+            width: 250px; height: 250px;
+            background: radial-gradient(circle, rgba(197, 160, 89, 0.3) 0%, transparent 70%);
+            filter: blur(20px);
             border-radius: 50%;
-            z-index: 1;
             animation: mist-breathe 2.5s infinite ease-in-out;
         }
 
         @keyframes mist-breathe {
             0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.3; }
-            50% { transform: translate(-50%, -50%) scale(1.4); opacity: 0.7; }
+            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.6; }
         }
 
-        .welcome-text {
-            color: var(--dourado-logo);
-            letter-spacing: 0.6em;
-            font-size: 11px;
-            font-weight: 400;
-            z-index: 11;
-            margin-top: -135px; 
-            text-shadow: 0 0 10px rgba(197, 160, 89, 0.4);
-            text-align: center;
-            padding: 0 20px;
+        /* 2. HEADER FIXO (STICKY) E GLASSMORPHISM */
+        .sticky-header-container {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(0, 22, 15, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+            transition: background 0.3s ease;
         }
 
-        .header-container {
-            position: relative;
-            padding: 0.5rem 1rem 0 1rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            z-index: 10;
-            overflow: hidden; 
-            background: radial-gradient(circle at center, rgba(197, 160, 89, 0.05) 0%, transparent 70%);
-        }
+        .logo-main { width: 130px; transition: transform 0.3s ease; margin-bottom: -35px; margin-top: -5px;}
+        .font-luxury { font-family: 'Cinzel', serif; }
 
-        .header-container::after {
-            content: "";
-            position: absolute;
-            top: 0; left: -150%;
-            width: 60%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(197, 160, 89, 0.15), transparent);
-            transform: skewX(-25deg);
-            animation: topShine 7s infinite ease-in-out;
-            pointer-events: none;
-        }
-
-        @keyframes topShine {
-            0% { left: -150%; }
-            20% { left: 250%; }
-            100% { left: 250%; }
-        }
-
-        .golden-line-bg {
-            position: absolute;
-            top: 85px; left: 0; width: 100%; height: 1px;
-            background: linear-gradient(90deg, transparent 0%, rgba(197, 160, 89, 0.1) 15%, rgba(197, 160, 89, 0.8) 50%, rgba(197, 160, 89, 0.1) 85%, transparent 100%);
-            box-shadow: 0 0 15px rgba(197, 160, 89, 0.3);
-            z-index: 1;
-        }
-
-        .logo-main { width: 150px; position: relative; z-index: 5; margin-bottom: -55px; margin-top: -10px; }
-        .search-area { padding: 1rem 1.5rem; position: relative; z-index: 11; }
-
+        .search-area { padding: 1rem 1.5rem; }
         .search-container {
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(197, 160, 89, 0.2);
             border-radius: 50px;
             padding: 10px 20px;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .search-input {
-            width: 100%; 
-            background: transparent; 
-            border: none;
-            outline: none; 
-            text-transform: uppercase; 
-            font-size: 11px;
-            color: #fff; 
-            letter-spacing: 2px; 
-            text-align: center; 
-            font-weight: 300;
+            width: 100%; background: transparent; border: none; outline: none; 
+            text-transform: uppercase; font-size: 11px; color: #fff; 
+            letter-spacing: 2px; text-align: center;
         }
 
-        #brandMenu {
-            display: flex; 
-            overflow-x: auto; 
-            gap: 12px; 
-            padding: 10px 15px;
-            scrollbar-width: none; 
-            justify-content: flex-start;
-            align-items: center;
-        }
-
-        #brandMenu::-webkit-scrollbar { display: none; }
-        
-        .brand-item {
-            font-family: 'Cinzel', serif; 
-            border: 1px solid rgba(197, 160, 89, 0.15);
-            padding: 8px 20px; 
-            font-size: 10px; 
-            text-transform: uppercase;
-            color: rgba(197, 160, 89, 0.7); 
-            background: rgba(255, 255, 255, 0.02); 
-            white-space: nowrap;
-            letter-spacing: 1.5px;
-            transition: all 0.4s;
-            cursor: pointer;
-            border-radius: 4px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-        }
-
-        .brand-item.active { 
-            background: rgba(197, 160, 89, 0.1); 
-            color: #fff; 
-            border-color: var(--dourado-logo);
-        }
-
-        #sidebar {
-            position: fixed;
-            top: 0; left: -300px;
-            width: 280px; height: 100%;
-            background-color: var(--verde-fundo);
-            z-index: 3000;
-            transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            border-right: 1px solid rgba(197, 160, 89, 0.3);
-            display: flex;
-            flex-direction: column;
-        }
-
-        #sidebar.open { left: 0; }
-
-        .sidebar-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(4px);
-            z-index: 2999;
-            display: none;
-        }
-
-        .menu-hamburger {
-            min-width: 45px; height: 38px;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; border: 1px solid rgba(197, 160, 89, 0.2);
-            background: rgba(255,255,255,0.02); border-radius: 4px;
-            margin-left: 15px;
-        }
-
-        .product-grid { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 20px; padding: 0 15px; 
-        }
-
-        @media (min-width: 1024px) {
-            .product-grid { grid-template-columns: repeat(4, 1fr); max-width: 1400px; margin: 0 auto; gap: 30px; }
-        }
-
-        /* ANIMAÇÃO DE FADE-IN PREMIUM */
-        @keyframes cardAppear {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        /* 4. MICRO-INTERAÇÕES NOS CARDS */
         .product-card {
             position: relative;
             background: rgba(255,255,255,0.02); 
             border: 1px solid rgba(197, 160, 89, 0.08);
             padding: 20px 15px; 
             text-align: center; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between;
+            display: flex; flex-direction: column; justify-content: space-between;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        .card-animate {
-            opacity: 0;
-            animation: cardAppear 0.6s ease forwards;
+        .product-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(197, 160, 89, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            z-index: 10;
         }
 
-        /* TAGS DE NOTAS NO CARD */
-        .card-notes-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 4px;
-            margin-bottom: 12px;
-            min-height: 18px;
+        .product-img { 
+            height: 180px; display: flex; align-items: center; justify-content: center; 
+            margin-bottom: 15px; cursor: pointer; overflow: hidden;
+        }
+        
+        .product-img img { 
+            max-height: 100%; object-fit: contain; 
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        .card-note-tag {
-            font-size: 7px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 2px 6px;
-            border: 1px solid rgba(197, 160, 89, 0.3);
-            color: var(--dourado-logo);
-            background: rgba(197, 160, 89, 0.05);
-            border-radius: 2px;
-            white-space: nowrap;
+        .product-card:hover .product-img img { transform: scale(1.1); }
+
+        /* 8. CARRINHO LATERAL (DRAWER) */
+        #cartModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); z-index: 5000; backdrop-filter: blur(5px);
+            justify-content: flex-end; /* Alinha o conteúdo à direita */
         }
 
-        .product-img { height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; cursor: pointer; }
-        .product-img img { max-height: 100%; object-fit: contain; }
-        .product-brand { font-size: 9px; color: var(--dourado-logo); text-transform: uppercase; margin-bottom: 6px; letter-spacing: 2px; }
-        .product-name { font-size: 13px; font-weight: 400; text-transform: uppercase; line-height: 1.3; height: 2.6em; overflow: hidden; margin-bottom: 10px; color: #fff; letter-spacing: 1px; }
-        .product-price { font-size: 15px; font-weight: 300; color: #fff; margin-bottom: 18px; letter-spacing: 1px; }
-
-        /* BOTÃO COM BRILHO METÁLICO */
-        .btn-add {
-            background: #ffffff; color: #000; width: 100%; padding: 12px 0; border: 1px solid #ffffff;
-            font-family: 'Cinzel', serif; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
-            cursor: pointer; transition: 0.4s;
-            position: relative; overflow: hidden;
+        #cartModal .modal-container {
+            background: #fff; color: #000; width: 100%; max-width: 400px; height: 100%;
+            margin: 0; padding: 0; position: relative; display: flex; flex-direction: column;
+            animation: drawerSlide 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        .btn-add::after {
-            content: "";
-            position: absolute;
-            top: -50%; left: -60%;
-            width: 20%; height: 200%;
-            background: rgba(255, 255, 255, 0.8);
-            transform: rotate(30deg);
-            transition: all 0.7s;
-            animation: btnShine 4s infinite ease-in-out;
+        @keyframes drawerSlide {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
         }
 
-        @keyframes btnShine {
-            0% { left: -60%; }
-            20% { left: 120%; }
-            100% { left: 120%; }
+        /* ELEMENTOS ORIGINAIS DO CARRINHO ADAPTADOS AO DRAWER */
+        #cartModal h2 { 
+            color: #fff; background-color: var(--verde-fundo); 
+            padding: 30px 20px; text-transform: uppercase; font-weight: 700; 
+            letter-spacing: 2px; margin: 0; text-align: center;
         }
 
-        .qty-selector {
-            display: flex; align-items: center; justify-content: center; gap: 15px;
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(197, 160, 89, 0.2); padding: 10px 5px;
-        }
+        #cartSummaryList { flex: 1; overflow-y: auto; padding: 20px; }
 
+        /* SIDEBAR ORIGENS */
+        #sidebar {
+            position: fixed; top: 0; left: -300px; width: 280px; height: 100%;
+            background-color: var(--verde-fundo); z-index: 6000;
+            transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            border-right: 1px solid rgba(197, 160, 89, 0.3);
+            display: flex; flex-direction: column;
+        }
+        #sidebar.open { left: 0; }
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); z-index: 5999; display: none; }
+
+        /* BRAND MENU HORIZONTAL */
+        #brandMenu { display: flex; overflow-x: auto; gap: 12px; padding: 10px 15px; scrollbar-width: none; align-items: center; }
+        #brandMenu::-webkit-scrollbar { display: none; }
+        .brand-item {
+            font-family: 'Cinzel', serif; border: 1px solid rgba(197, 160, 89, 0.15);
+            padding: 8px 20px; font-size: 10px; text-transform: uppercase;
+            color: rgba(197, 160, 89, 0.7); background: rgba(255, 255, 255, 0.02); 
+            white-space: nowrap; border-radius: 4px; cursor: pointer; transition: 0.3s;
+        }
+        .brand-item.active { background: rgba(197, 160, 89, 0.1); color: #fff; border-color: var(--dourado-logo); }
+
+        /* BOTÕES E TAGS */
+        .badge-best-seller { position: absolute; top: 10px; left: 10px; background: linear-gradient(90deg, #8b6d31, #c5a059); color: white; font-size: 8px; font-weight: 700; padding: 4px 8px; border-radius: 4px; z-index: 20; text-transform: uppercase; }
+        .card-note-tag { font-size: 7px; text-transform: uppercase; letter-spacing: 1px; padding: 2px 6px; border: 1px solid rgba(197, 160, 89, 0.3); color: var(--dourado-logo); background: rgba(197, 160, 89, 0.05); border-radius: 2px; }
+        .btn-add { background: #ffffff; color: #000; width: 100%; padding: 12px 0; border: 1px solid #ffffff; font-family: 'Cinzel', serif; font-weight: 700; font-size: 10px; text-transform: uppercase; cursor: pointer; position: relative; overflow: hidden; }
+        
+        .qty-selector { display: flex; align-items: center; justify-content: center; gap: 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(197, 160, 89, 0.2); padding: 10px 5px; }
         .qty-btn { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: #fff; color: #000; border-radius: 50%; font-weight: bold; }
         
-        #productModal, #cartModal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.9); z-index: 200; backdrop-filter: blur(8px);
-            justify-content: center; align-items: center; padding: 20px;
-        }
+        /* MODAL PRODUTO DETALHES */
+        #productModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 4000; backdrop-filter: blur(8px); justify-content: center; align-items: center; padding: 20px; }
+        .modal-container-prod { background: var(--verde-fundo); border: 1px solid var(--dourado-logo); width: 100%; max-width: 450px; padding: 40px 25px; position: relative; max-height: 90vh; overflow-y: auto; }
+        .close-modal { position: absolute; top: 10px; right: 20px; color: #ff0000; font-size: 40px; cursor: pointer; z-index: 5100; font-weight: bold; }
 
-        .modal-container {
-            background: var(--verde-fundo); border: 1px solid var(--dourado-logo); width: 100%; max-width: 450px;
-            padding: 40px 25px; position: relative; max-height: 90vh; overflow-y: auto;
-        }
-        
-        /* BIZU: ESTILO DA PIRÂMIDE OLFATIVA */
-        .pyramid-section {
-            border-top: 1px solid rgba(197, 160, 89, 0.1);
-            margin-top: 25px;
-            padding-top: 20px;
-            text-align: left;
-        }
-        .pyramid-title {
-            font-family: 'Cinzel', serif;
-            color: var(--dourado-logo);
-            font-size: 11px;
-            letter-spacing: 2px;
-            text-align: center;
-            margin-bottom: 15px;
-            display: block;
-        }
-        .note-item { margin-bottom: 12px; }
-        .note-label { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 3px; }
-        .note-content { font-size: 11px; color: #fff; font-weight: 300; }
-
-        #cartModal .modal-container { background: #ffffff; color: #000; padding-top: 0; overflow-y: auto; }
-        #cartModal h2 { color: #fff; background-color: var(--verde-fundo); padding: 35px 20px; margin: 0 -25px 25px -25px; text-transform: uppercase; font-weight: 700; letter-spacing: 2px; }
-        .close-modal { position: absolute; top: 5px; right: 15px; color: #ff0000 !important; font-size: 45px; cursor: pointer; z-index: 300; line-height: 1; font-weight: bold; }
-
-        .cart-float { position: fixed; bottom: 30px; right: 20px; background: #fff; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 100; box-shadow: 0 6px 25px rgba(0,0,0,0.7); cursor: pointer; }
+        /* FLOATING CART */
+        .cart-float { position: fixed; bottom: 30px; right: 20px; background: #fff; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 1000; box-shadow: 0 6px 25px rgba(0,0,0,0.7); cursor: pointer; }
         .cart-count { position: absolute; top: 0px; right: 0px; background: #ff0000; color: #fff; font-size: 11px; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; }
 
-        #luxuryToast { visibility: hidden; min-width: 300px; background-color: var(--verde-detalhe); color: #fff; text-align: center; border: 1px solid var(--dourado-logo); padding: 16px; position: fixed; z-index: 1000; left: 50%; bottom: 100px; transform: translateX(-50%); font-family: 'Cinzel', serif; }
-        #luxuryToast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
-        @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 100px; opacity: 1; } }
-        @keyframes fadeout { from { bottom: 100px; opacity: 1; } to { bottom: 0; opacity: 0; } }
+        /* TOAST */
+        #luxuryToast { visibility: hidden; min-width: 250px; background-color: var(--verde-detalhe); color: #fff; text-align: center; border: 1px solid var(--dourado-logo); padding: 16px; position: fixed; z-index: 7000; left: 50%; bottom: 50px; transform: translateX(-50%); font-family: 'Cinzel', serif; font-size: 10px; }
+        #luxuryToast.show { visibility: visible; animation: fadein 0.5s; }
+        @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
 
-        footer { text-align: center; padding: 60px 20px; border-top: 1px solid rgba(197, 160, 89, 0.15); display: flex; flex-direction: column; align-items: center; }
+        /* GRID */
+        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
+        @media (min-width: 1024px) { .product-grid { grid-template-columns: repeat(4, 1fr); max-width: 1400px; margin: 0 auto; gap: 30px; } }
     </style>
 </head>
 <body>
@@ -379,41 +223,41 @@
     <div id="scrollProgress"></div>
     <div id="luxuryToast"></div>
 
+    <!-- SIDEBAR ORIGENS (MANTIDO COMPLETO) -->
     <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
     <nav id="sidebar">
         <div class="sidebar-header flex justify-between items-center p-6 border-b border-[rgba(197,160,89,0.2)]">
-            <span class="font-luxury text-sm text-white tracking-widest">MENU</span>
+            <span class="font-luxury text-sm text-white tracking-widest">CATEGORIAS</span>
             <span class="text-2xl cursor-pointer text-white" onclick="toggleSidebar(false)">&times;</span>
         </div>
-        <div class="overflow-y-auto">
-            <div id="sidebarOriginsList"></div>
-        </div>
+        <div id="sidebarOriginsList" class="overflow-y-auto"></div>
     </nav>
 
+    <!-- 1. SPLASH SCREEN ATUALIZADA -->
     <div id="splash-screen">
-        <div class="splash-wrapper relative flex flex-col items-center justify-center w-full">
-            <div class="mist-effect"></div>
-            <div class="flex flex-col items-center">
-                <img src="assinatura.png" alt="Logo" class="w-[280px] z-10 relative">
-                <h1 class="font-luxury welcome-text">SEJA BEM VINDO</h1>
+        <div class="mist-effect"></div>
+        <div class="splash-content">
+            <img src="assinatura.png" alt="Logo" class="w-[250px] mb-4">
+            <h1 class="font-luxury text-[10px] tracking-[0.6em] text-[#c5a059] welcome-text">CARREGANDO FRAGRÂNCIAS</h1>
+        </div>
+    </div>
+
+    <!-- 2. HEADER FIXO GLASSMORPHISM -->
+    <div class="sticky-header-container">
+        <header class="flex flex-col items-center pt-4">
+            <img src="assinatura.png" alt="Logo" class="logo-main">
+        </header>
+
+        <div class="search-area">
+            <div class="search-container">
+                <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="BUSQUE SUA FRAGRÂNCIA..." class="search-input">
             </div>
         </div>
     </div>
 
-    <div class="golden-line-bg"></div>
-
-    <header class="header-container">
-        <img src="assinatura.png" alt="Logo" class="logo-main">
-    </header>
-
-    <div class="search-area">
-        <div class="search-container">
-            <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="BUSQUE SUA FRAGRÂNCIA..." class="search-input">
-        </div>
-    </div>
-
-    <div class="flex items-center mb-4">
-        <div class="menu-hamburger" onclick="toggleSidebar(true)">
+    <!-- MENU DE MARCAS E HAMBURGUER -->
+    <div class="flex items-center my-4">
+        <div class="ml-4 min-w-[45px] h-[38px] flex items-center justify-center cursor-pointer border border-[rgba(197,160,89,0.2)] bg-[rgba(255,255,255,0.02)] rounded" onclick="toggleSidebar(true)">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c5a059" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </div>
         <div id="brandMenu" class="flex-1"></div>
@@ -421,50 +265,55 @@
 
     <main class="product-grid" id="productGrid"></main>
 
+    <!-- MODAL PRODUTO (DETALHES) -->
     <div id="productModal" onclick="closeModalExterno(event, 'productModal')">
-        <div class="modal-container" onclick="event.stopPropagation()">
+        <div class="modal-container-prod" onclick="event.stopPropagation()">
             <span class="close-modal" onclick="closeModal('productModal')">&times;</span>
             <div id="modalContent"></div>
         </div>
     </div>
 
+    <!-- 8. CARRINHO DRAWER LATERAL -->
     <div id="cartModal" onclick="closeModalExterno(event, 'cartModal')">
         <div class="modal-container" onclick="event.stopPropagation()">
-            <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
-            <h2 class="font-luxury text-xl text-center mb-6">RESUMO DO PEDIDO</h2>
-            <div id="cartSummaryList" class="px-6"></div>
-            <div class="mt-6 flex justify-between items-center font-bold px-6">
-                <span class="text-sm tracking-widest text-gray-500">TOTAL:</span>
-                <span id="cartSummaryTotal" class="text-xl">R$ 0,00</span>
-            </div>
-            <div class="flex justify-center mt-6 px-6">
-                <img src="pagamento.webp" alt="Pagamento" class="max-w-[80%]">
-            </div>
-            <div class="delivery-option-box px-6 p-4 mt-4 border-t border-gray-100">
-                <p class="text-[10px] tracking-widest mb-4">OPÇÕES DE RECEBIMENTO</p>
-                <label class="flex items-center gap-2 mb-2 cursor-pointer">
-                    <input type="radio" name="deliveryMethod" value="Retirar na Loja" checked onclick="toggleDeliveryWarning(false)">
-                    <span class="uppercase text-xs">Retirar na Loja</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                    <input type="radio" name="deliveryMethod" value="Entregar no Endereço" onclick="toggleDeliveryWarning(true)">
-                    <span class="uppercase text-xs">Entregar no Endereço</span>
-                </label>
-                <div id="feeWarning" class="text-[11px] text-red-500 mt-2 italic hidden">⚠️ Verificar taxa de entrega com o vendedor.</div>
-            </div>
-            <div class="px-6 pb-8">
-                <button class="btn-add mt-8 bg-black text-white" onclick="finalizeOrder()">FINALIZAR NO WHATSAPP</button>
+            <span class="close-modal" onclick="closeModal('cartModal')" style="top: 25px; right: 15px;">&times;</span>
+            <h2 class="font-luxury">RESUMO DO PEDIDO</h2>
+            
+            <div id="cartSummaryList"></div>
+            
+            <div class="p-6 border-t border-gray-100 bg-gray-50">
+                <div class="flex justify-between items-center mb-6 font-bold">
+                    <span class="text-xs tracking-widest text-gray-500 uppercase">TOTAL:</span>
+                    <span id="cartSummaryTotal" class="text-xl">R$ 0,00</span>
+                </div>
+                
+                <div class="mb-6">
+                    <p class="text-[10px] tracking-widest mb-3 uppercase font-bold">Opção de Recebimento:</p>
+                    <div class="flex flex-col gap-2">
+                        <label class="flex items-center gap-2 text-xs cursor-pointer">
+                            <input type="radio" name="deliveryMethod" value="Retirar na Loja" checked onclick="toggleDeliveryWarning(false)"> RETIRAR NA LOJA
+                        </label>
+                        <label class="flex items-center gap-2 text-xs cursor-pointer">
+                            <input type="radio" name="deliveryMethod" value="Entrega no Endereço" onclick="toggleDeliveryWarning(true)"> ENTREGAR NO ENDEREÇO
+                        </label>
+                    </div>
+                    <div id="feeWarning" class="text-[10px] text-red-500 mt-2 italic hidden">⚠️ Taxa de entrega a consultar.</div>
+                </div>
+
+                <button class="btn-add bg-black text-white py-4" onclick="finalizeOrder()">FINALIZAR NO WHATSAPP</button>
+                <div class="flex justify-center mt-4">
+                    <img src="pagamento.webp" alt="Pagamento" class="max-w-[70%] opacity-80">
+                </div>
             </div>
         </div>
     </div>
 
-    <footer>
-        <div class="text-xs mb-1">© 2026 Assinatura Parfum</div>
-        <div class="text-[9px] text-gray-500 uppercase tracking-widest mb-6">Boa Vista - RR</div>
+    <footer class="text-center py-12 border-t border-[rgba(197,160,89,0.1)]">
+        <div class="text-[10px] text-gray-500 uppercase tracking-widest">© 2024 Assinatura Parfum • Boa Vista - RR</div>
     </footer>
 
     <div class="cart-float" onclick="openCartModal()">
-        <svg width="28" height="28" viewBox="0 0 16 16"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
+        <svg width="24" height="24" viewBox="0 0 16 16"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5z"/></svg>
         <div class="cart-count" id="cartBadge">0</div>
     </div>
 
@@ -476,24 +325,18 @@
         let isMaintenance = false;
         const whatsappNumber = "5595991154395";
 
-        // FUNÇÃO PARA BARRA DE PROGRESSO
+        // SCROLL PROGRESS
         window.onscroll = function() {
             let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            let scrolled = (winScroll / height) * 100;
-            document.getElementById("scrollProgress").style.width = scrolled + "%";
+            document.getElementById("scrollProgress").style.width = (winScroll / height) * 100 + "%";
         };
 
         function toggleSidebar(open) {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
-            if (open) {
-                sidebar.classList.add('open');
-                overlay.style.display = 'block';
-            } else {
-                sidebar.classList.remove('open');
-                overlay.style.display = 'none';
-            }
+            if (open) { sidebar.classList.add('open'); overlay.style.display = 'block'; } 
+            else { sidebar.classList.remove('open'); overlay.style.display = 'none'; }
         }
 
         function toggleSubmenu(id) {
@@ -508,9 +351,10 @@
                 const allRows = data.split(/\r?\n/);
                 const headers = allRows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                 
+                // MODO MANUTENÇÃO
                 if (headers[12]?.replace(/"/g, '').trim() === "0") {
                     isMaintenance = true;
-                    document.querySelector('.welcome-text').innerText = "Desculpa! Site em manutenção";
+                    document.querySelector('.welcome-text').innerText = "SITE EM MANUTENÇÃO";
                     return; 
                 }
 
@@ -534,197 +378,201 @@
                 }).filter(p => p.nome && p.nome.length > 2);
 
                 generateMenus(database);
-                displayProducts(database, true); 
-            } catch (e) { console.error("Erro ao carregar dados:", e); }
+                displayProducts(database);
+
+                // REFINAMENTO SPLASH: REMOVE APÓS CARREGAR
+                const splash = document.getElementById('splash-screen');
+                splash.classList.add('splash-hidden');
+                setTimeout(() => splash.remove(), 800);
+
+            } catch (e) { console.error("Erro ao carregar:", e); }
         }
 
         function generateMenus(data) {
             const horizontalMenu = document.getElementById('brandMenu');
             const sidebarOriginsList = document.getElementById('sidebarOriginsList');
-            const brands = [...new Set(data.map(p => p.marca))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+            
+            // Marcas Horizontal
+            const brands = [...new Set(data.map(p => p.marca))].sort();
             let hHtml = `<div class="brand-item active" onclick="filterByBrand('Todos', this)">TODOS</div>`;
             brands.forEach(b => { hHtml += `<div class="brand-item" onclick="filterByBrand('${b}', this)">${b.toUpperCase()}</div>`; });
             horizontalMenu.innerHTML = hHtml;
 
-            const origins = [...new Set(data.map(p => p.origem).filter(o => o))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+            // Origens Sidebar
+            const origins = [...new Set(data.map(p => p.origem).filter(o => o))].sort();
             let oHtml = "";
             origins.forEach((origin, index) => {
-                const brandsInOrigin = [...new Set(data.filter(p => p.origem === origin).map(p => p.marca))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
-                const submenuId = `submenu_${index}`;
+                const brandsInOrigin = [...new Set(data.filter(p => p.origem === origin).map(p => p.marca))].sort();
+                const subId = `submenu_${index}`;
                 oHtml += `
-                    <div class="sidebar-item p-6 text-white font-luxury text-xs tracking-widest cursor-pointer border-b border-[rgba(197,160,89,0.05)] flex justify-between items-center" onclick="toggleSubmenu('${submenuId}')">
+                    <div class="p-6 text-white font-luxury text-[11px] tracking-widest cursor-pointer border-b border-[rgba(197,160,89,0.05)] flex justify-between items-center" onclick="toggleSubmenu('${subId}')">
                         ${origin.toUpperCase()}
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </div>
-                    <div id="${submenuId}" class="hidden bg-[rgba(0,0,0,0.2)]">
-                        <div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(197,160,89,0.03)]" onclick="filterByOrigin('${origin}'); toggleSidebar(false)">VER TODOS</div>
-                        ${brandsInOrigin.map(brand => `<div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(197,160,89,0.03)]" onclick="filterByBrand('${brand}'); toggleSidebar(false)">${brand.toUpperCase()}</div>`).join('')}
-                    </div>
-                `;
+                    <div id="${subId}" class="hidden bg-[rgba(0,0,0,0.2)]">
+                        <div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer" onclick="filterByOrigin('${origin}')">VER TODOS</div>
+                        ${brandsInOrigin.map(brand => `<div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer" onclick="filterByBrand('${brand}')">${brand}</div>`).join('')}
+                    </div>`;
             });
             sidebarOriginsList.innerHTML = oHtml;
         }
 
-        function getPriceDisplay(p) {
-            if (p.preco <= 0) return '<span style="color: #ff0000; font-weight: 600;">INDISPONÍVEL</span>';
-            if (p.promocao > 0) {
-                return `<span style="text-decoration: line-through; opacity: 0.5; font-size: 0.9em; white-space: nowrap;">R$ ${p.preco.toFixed(2).replace('.', ',')}</span><br><span style="color: #ff4d4d; font-weight: 700; white-space: nowrap;">R$ ${p.promocao.toFixed(2).replace('.', ',')}</span>`;
-            }
-            return `<span style="white-space: nowrap;">R$ ${p.preco.toFixed(2).replace('.', ',')}</span>`;
-        }
-
-        function displayProducts(products, shouldAnimate = false) {
+        function displayProducts(products) {
             const grid = document.getElementById('productGrid');
-            grid.innerHTML = products.map((p, index) => {
+            grid.innerHTML = products.map((p) => {
                 const itemInCart = cart.find(i => i.id === p.id);
-                const qty = itemInCart ? itemInCart.qty : 0;
-                const precoDisplay = getPriceDisplay(p);
+                const precoDisplay = p.promocao > 0 
+                    ? `<span class="line-through opacity-50 text-[11px]">R$ ${p.preco.toFixed(2)}</span> <span class="text-[#ff4d4d]">R$ ${p.promocao.toFixed(2)}</span>` 
+                    : `R$ ${p.preco.toFixed(2)}`;
                 
-                const allNotes = p.notasTopo ? p.notasTopo.split(',') : [];
-                const highlightTags = allNotes.slice(0, 3).map(tag => `<span class="card-note-tag">${tag.trim()}</span>`).join('');
+                const tags = p.notasTopo ? p.notasTopo.split(',').slice(0, 2).map(t => `<span class="card-note-tag">${t.trim()}</span>`).join('') : '';
 
-                const animClass = shouldAnimate ? 'card-animate' : '';
-                const animationDelay = shouldAnimate ? (index % 12) * 0.1 : 0;
-                const styleAttr = shouldAnimate ? `style="animation-delay: ${animationDelay}s"` : 'style="opacity: 1"';
-
-                let controlsHtml = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector"><button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button><span class="qty-value">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR AO CARRINHO</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`;
-                
                 return `
-                <div class="product-card ${animClass}" ${styleAttr}>
-                    ${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}
+                <div class="product-card">
+                    ${p.maisVendido ? '<div class="badge-best-seller">★ BEST SELLER</div>' : ''}
                     <div onclick="openModal('${p.id}')">
                         <div class="product-img"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div>
-                        <p class="product-brand">${p.marca}</p>
-                        <h2 class="product-name font-luxury">${p.nome}</h2>
-                        <div class="card-notes-container">${highlightTags}</div>
+                        <p class="text-[9px] text-[#c5a059] tracking-widest mb-1 uppercase">${p.marca}</p>
+                        <h2 class="product-name font-luxury text-[11px] h-8 overflow-hidden mb-2">${p.nome}</h2>
+                        <div class="flex justify-center gap-1 mb-3 h-4">${tags}</div>
                     </div>
                     <div>
-                        <p class="product-price">${precoDisplay}</p>
-                        ${controlsHtml}
+                        <p class="text-sm font-light mb-4">${precoDisplay}</p>
+                        ${p.preco > 0 ? (itemInCart ? 
+                            `<div class="qty-selector"><button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button><span>${itemInCart.qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button></div>` : 
+                            `<button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR</button>`) : 
+                            `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`}
                     </div>
                 </div>`;
             }).join('');
         }
 
-        function filterByBrand(brand, element) {
-            document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active'));
-            if (element) element.classList.add('active');
-            const filtered = brand === 'Todos' ? database : database.filter(p => p.marca === brand);
-            displayProducts(filtered, true); 
+        function filterByBrand(brand, el) {
+            if(el) {
+                document.querySelectorAll('.brand-item').forEach(i => i.classList.remove('active'));
+                el.classList.add('active');
+            }
+            toggleSidebar(false);
+            displayProducts(brand === 'Todos' ? database : database.filter(p => p.marca === brand));
         }
 
         function filterByOrigin(origin) {
             toggleSidebar(false);
-            const filtered = database.filter(p => p.origem.toLowerCase() === origin.toLowerCase());
-            displayProducts(filtered, true); 
+            displayProducts(database.filter(p => p.origem === origin));
         }
 
         function filterProducts() {
             const term = document.getElementById('searchInput').value.toLowerCase();
-            displayProducts(database.filter(p => p.nome.toLowerCase().includes(term) || p.marca.toLowerCase().includes(term)), true); 
+            displayProducts(database.filter(p => p.nome.toLowerCase().includes(term) || p.marca.toLowerCase().includes(term)));
         }
 
-        function addToCart(id) { 
-            const p = database.find(i => i.id === id); 
-            cart.push({ ...p, qty: 1 }); 
-            updateBadge(); 
-            displayProducts(database, false); 
-            showLuxuryToast("Boas compras", "item adicionado ao carrinho"); 
+        function addToCart(id) {
+            const p = database.find(i => i.id === id);
+            cart.push({...p, qty: 1});
+            updateUI();
+            showLuxuryToast("ADICIONADO", p.nome);
         }
 
-        function changeQty(id, delta) { 
-            const idx = cart.findIndex(i => i.id === id); 
-            if (idx > -1) { cart[idx].qty = Math.max(0, cart[idx].qty + delta); if (cart[idx].qty === 0) cart.splice(idx, 1); } 
-            updateBadge(); 
-            displayProducts(database, false); 
-            if (document.getElementById('cartModal').style.display === 'flex') renderCartSummary(); 
-        }
-        
-        function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateBadge(); displayProducts(database, false); if (cart.length === 0) closeModal('cartModal'); else renderCartSummary(); }
-        function updateBadge() { document.getElementById('cartBadge').innerText = cart.reduce((s, i) => s + i.qty, 0); }
-        function openCartModal() { if (cart.length === 0) return showLuxuryToast("CARRINHO VAZIO", "Adicione itens"); renderCartSummary(); document.getElementById('cartModal').style.display = 'flex'; }
-        
-        function renderCartSummary() { 
-            let total = 0; 
-            document.getElementById('cartSummaryList').innerHTML = cart.map(i => { 
-                const precoEfetivo = i.promocao > 0 ? i.promocao : i.preco;
-                const sub = precoEfetivo * i.qty; 
-                total += sub; 
-                return `<div class="flex justify-between items-center py-6 border-b relative"><div class="flex items-center gap-3"><img src="${i.imagem}" class="w-12 h-12 object-contain" onerror="this.src='assinatura.png'"><div><p class="text-[10px] font-bold uppercase pr-8 leading-tight">${i.nome}</p><div class="flex items-center gap-3 mt-2"><button class="qty-btn" onclick="changeQty('${i.id}', -1)">-</button><span class="text-xs">${i.qty}</span><button class="qty-btn" onclick="changeQty('${i.id}', 1)">+</button></div></div></div><div class="text-right flex flex-col items-end"><span class="text-red-500 cursor-pointer text-2xl leading-none font-bold absolute top-2 right-0" onclick="removeFromCart('${i.id}')">&times;</span><p class="text-sm font-bold whitespace-nowrap mt-4">R$ ${sub.toFixed(2).replace('.', ',')}</p></div></div>`; 
-            }).join(''); 
-            document.getElementById('cartSummaryTotal').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`; 
+        function changeQty(id, delta) {
+            const idx = cart.findIndex(i => i.id === id);
+            if(idx > -1) {
+                cart[idx].qty += delta;
+                if(cart[idx].qty <= 0) cart.splice(idx, 1);
+            }
+            updateUI();
         }
 
-        function openModal(id) { 
-            const p = database.find(item => item.id === id); 
-            const itemInCart = cart.find(i => i.id === p.id); 
-            const qty = itemInCart ? itemInCart.qty : 0; 
-            const precoDisplay = getPriceDisplay(p);
-            
-            let pyramidHtml = "";
-            if (p.notasTopo || p.notasCoracao || p.notasBase) {
-                pyramidHtml = `
-                    <div class="pyramid-section">
-                        <span class="pyramid-title">PIRÂMIDE OLFATIVA</span>
-                        ${p.notasTopo ? `<div class="note-item"><span class="note-label">Notas de Topo</span><p class="note-content">${p.notasTopo}</p></div>` : ''}
-                        ${p.notasCoracao ? `<div class="note-item"><span class="note-label">Notas de Coração</span><p class="note-content">${p.notasCoracao}</p></div>` : ''}
-                        ${p.notasBase ? `<div class="note-item"><span class="note-label">Notas de Base</span><p class="note-content">${p.notasBase}</p></div>` : ''}
+        function updateUI() {
+            displayProducts(database);
+            document.getElementById('cartBadge').innerText = cart.reduce((s, i) => s + i.qty, 0);
+            if(document.getElementById('cartModal').style.display === 'flex') renderCart();
+        }
+
+        function openCartModal() {
+            if(cart.length === 0) return showLuxuryToast("CARRINHO VAZIO", "Escolha um perfume");
+            renderCart();
+            document.getElementById('cartModal').style.display = 'flex';
+        }
+
+        function renderCart() {
+            let total = 0;
+            const list = document.getElementById('cartSummaryList');
+            list.innerHTML = cart.map(i => {
+                const preco = i.promocao > 0 ? i.promocao : i.preco;
+                const sub = preco * i.qty;
+                total += sub;
+                return `
+                <div class="flex gap-4 py-6 border-b relative">
+                    <img src="${i.imagem}" class="w-16 h-16 object-contain">
+                    <div class="flex-1">
+                        <p class="text-[10px] font-bold uppercase mb-1 pr-6">${i.nome}</p>
+                        <p class="text-xs mb-3 text-gray-500">R$ ${preco.toFixed(2)}</p>
+                        <div class="flex items-center gap-4">
+                            <div class="flex items-center gap-3 bg-gray-100 rounded-full px-3 py-1">
+                                <button onclick="changeQty('${i.id}', -1)">-</button>
+                                <span class="text-xs font-bold">${i.qty}</span>
+                                <button onclick="changeQty('${i.id}', 1)">+</button>
+                            </div>
+                        </div>
                     </div>
-                `;
+                    <span class="absolute top-6 right-0 text-red-500 font-bold cursor-pointer" onclick="changeQty('${i.id}', -${i.qty})">&times;</span>
+                </div>`;
+            }).join('');
+            document.getElementById('cartSummaryTotal').innerText = `R$ ${total.toFixed(2).replace('.',',')}`;
+        }
+
+        function openModal(id) {
+            const p = database.find(i => i.id === id);
+            const itemInCart = cart.find(c => c.id === p.id);
+            const qty = itemInCart ? itemInCart.qty : 0;
+            const preco = p.promocao > 0 ? p.promocao : p.preco;
+
+            let pyramid = "";
+            if(p.notasTopo || p.notasCoracao || p.notasBase) {
+                pyramid = `
+                <div class="mt-8 pt-6 border-t border-[rgba(197,160,89,0.1)]">
+                    <p class="font-luxury text-[#c5a059] text-[10px] tracking-widest text-center mb-4">PIRÂMIDE OLFATIVA</p>
+                    ${p.notasTopo ? `<div class="mb-3 text-[10px]"><span class="text-gray-500 uppercase block">Topo:</span> ${p.notasTopo}</div>` : ''}
+                    ${p.notasCoracao ? `<div class="mb-3 text-[10px]"><span class="text-gray-500 uppercase block">Coração:</span> ${p.notasCoracao}</div>` : ''}
+                    ${p.notasBase ? `<div class="mb-3 text-[10px]"><span class="text-gray-500 uppercase block">Base:</span> ${p.notasBase}</div>` : ''}
+                </div>`;
             }
 
-            let controls = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector mx-auto w-max mb-4"><button class="qty-btn" onclick="changeQty('${p.id}', -1); openModal('${p.id}')">-</button><span class="qty-value text-center">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1); openModal('${p.id}')">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}'); openModal('${p.id}')">ADICIONAR AO CARRINHO</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`; 
             document.getElementById('modalContent').innerHTML = `
-                <div class="flex justify-center mb-6 relative">${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}<img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'"></div>
-                <p class="product-brand text-center">${p.marca}</p>
-                <h2 class="font-luxury text-2xl text-center text-white mb-3">${p.nome}</h2>
-                <div class="w-12 h-[1px] bg-[#c5a059] mx-auto mb-6"></div>
-                <p class="text-sm italic text-center text-gray-400 mb-6 px-4">"${p.descricao}"</p>
-                <p class="text-center text-white font-semibold text-xl mb-6">${precoDisplay}</p>
-                ${controls}
-                ${pyramidHtml}
-            `; 
-            document.getElementById('productModal').style.display = 'flex'; 
+                <div class="flex justify-center mb-6"><img src="${p.imagem}" class="h-60 object-contain"></div>
+                <p class="text-[#c5a059] text-center text-[10px] tracking-widest uppercase mb-1">${p.marca}</p>
+                <h2 class="font-luxury text-xl text-center text-white mb-4">${p.nome}</h2>
+                <p class="text-xs italic text-gray-400 text-center mb-6 px-4">"${p.descricao}"</p>
+                <p class="text-center text-white font-bold text-lg mb-6">R$ ${preco.toFixed(2)}</p>
+                ${p.preco > 0 ? (qty > 0 ? 
+                    `<div class="qty-selector w-max mx-auto mb-4"><button class="qty-btn" onclick="changeQty('${p.id}', -1); openModal('${p.id}')">-</button><span class="mx-4">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1); openModal('${p.id}')">+</button></div>` : 
+                    `<button class="btn-add" onclick="addToCart('${p.id}'); openModal('${p.id}')">ADICIONAR AO CARRINHO</button>`) : 
+                    `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`}
+                ${pyramid}
+            `;
+            document.getElementById('productModal').style.display = 'flex';
         }
 
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-        function closeModalExterno(e, id) { if (e.target.id === id) closeModal(id); }
-        function toggleDeliveryWarning(show) { document.getElementById('feeWarning').style.display = show ? 'block' : 'none'; }
-        
-        function finalizeOrder() { 
-            const method = document.querySelector('input[name="deliveryMethod"]:checked').value; 
-            let msg = "Olá! Gostaria de fazer um pedido:\n\n"; 
-            let total = 0; 
-            cart.forEach((i, index) => { 
-                const precoEfetivo = i.promocao > 0 ? i.promocao : i.preco;
-                let sub = precoEfetivo * i.qty; 
-                msg += `• *${i.qty}x ${i.nome}* - R$ ${sub.toFixed(2).replace('.', ',')}`; 
-                if (index < cart.length - 1) msg += "\n\n"; else msg += "\n";
-                total += sub; 
-            }); 
-            msg += `\n*TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*\n*OPÇÃO:* ${method}`; 
-            window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank'); 
+        function closeModalExterno(e, id) { if(e.target.id === id) closeModal(id); }
+        function toggleDeliveryWarning(show) { document.getElementById('feeWarning').classList.toggle('hidden', !show); }
+
+        function finalizeOrder() {
+            if(cart.length === 0) return;
+            const method = document.querySelector('input[name="deliveryMethod"]:checked').value;
+            let msg = `Olá! Gostaria de fazer um pedido:\n\n` + cart.map(i => `• *${i.qty}x ${i.nome}*`).join('\n');
+            msg += `\n\n*Total: ${document.getElementById('cartSummaryTotal').innerText}*\n*Opção:* ${method}`;
+            window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`);
         }
 
-        function showLuxuryToast(title, subtext) { 
-            const toast = document.getElementById("luxuryToast"); 
-            toast.innerHTML = `<span style="color:var(--dourado-logo)">${title}</span><br>${subtext}`; 
-            toast.className = "show"; 
-            setTimeout(() => { toast.className = ""; }, 3000); 
+        function showLuxuryToast(title, sub) {
+            const t = document.getElementById("luxuryToast");
+            t.innerHTML = `<span class="text-[#c5a059]">${title}</span><br>${sub}`;
+            t.className = "show";
+            setTimeout(() => t.className = "", 3000);
         }
 
-        window.addEventListener('load', () => {
-            loadSheetData().then(() => {
-                if (!isMaintenance) {
-                    setTimeout(() => {
-                        const splash = document.getElementById('splash-screen');
-                        splash.style.transition = 'opacity 0.8s ease';
-                        splash.style.opacity = '0'; 
-                        setTimeout(() => splash.remove(), 800);
-                    }, 2500); 
-                }
-            });
-        });
+        window.onload = loadSheetData;
     </script>
 </body>
 </html>
