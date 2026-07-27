@@ -47,7 +47,7 @@
             background-image: url('data:image/svg+xml,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)"/></svg>');
         }
 
-        /* MUDANÇA: CSS PARA O RASTRO DE POEIRA DE OURO */
+        /* ELEMENTO CANVAS PARA A POEIRA DE OURO */
         #magicDustCanvas {
             position: fixed;
             top: 0; left: 0;
@@ -429,19 +429,33 @@
 
         .qty-btn { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: #fff; color: #000; border-radius: 50%; font-weight: bold; }
         
+        /* MUDANÇA: CSS DA TRANSIÇÃO DE REFRAÇÃO LÍQUIDA DO MODAL */
+        @keyframes liquidReveal {
+            0% { transform: scale(0.6) translateY(30px); opacity: 0; filter: blur(15px); }
+            100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); }
+        }
+
         #productModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8); z-index: 200; backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.85); z-index: 200; backdrop-filter: blur(12px);
             justify-content: center; align-items: center; padding: 20px;
+            transition: all 0.4s ease;
+        }
+
+        /* Seletor JS via atributo de estilo para disparar a animação */
+        #productModal[style*="display: flex"] .modal-container {
+            animation: liquidReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .modal-container {
-            background: rgba(0, 22, 15, 0.7); 
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            background: rgba(0, 22, 15, 0.75); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1); 
             width: 100%; max-width: 450px;
             padding: 40px 25px; position: relative; max-height: 90vh; overflow-y: auto;
+            border-radius: 8px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8);
         }
 
         #cartModal {
@@ -466,6 +480,8 @@
             display: flex; flex-direction: column;
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
+            border-radius: 0;
+            animation: none !important; /* Drawer não usa liquidReveal */
         }
 
         #cartModal.open .modal-container { margin-right: 0; }
@@ -505,7 +521,7 @@
 </head>
 <body>
 
-    <!-- MUDANÇA: ELEMENTO CANVAS PARA A POEIRA DE OURO -->
+    <!-- ELEMENTO CANVAS PARA A POEIRA DE OURO -->
     <canvas id="magicDustCanvas"></canvas>
 
     <div class="noise-bg"></div>
@@ -611,7 +627,7 @@
         let isMaintenance = false;
         const whatsappNumber = "5595991154395";
 
-        // MUDANÇA: LÓGICA DO RASTRO DE POEIRA DE OURO (CANVAS)
+        // LÓGICA DO RASTRO DE POEIRA DE OURO (CANVAS)
         const canvas = document.getElementById('magicDustCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -648,7 +664,6 @@
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
-                // Efeito de brilho sutil
                 if (Math.random() > 0.8) {
                     ctx.shadowBlur = 10;
                     ctx.shadowColor = this.color;
@@ -661,7 +676,6 @@
         function handleParticles(e) {
             const x = e.touches ? e.touches[0].clientX : e.clientX;
             const y = e.touches ? e.touches[0].clientY : e.clientY;
-            // Cria 3 partículas por movimento para um rastro denso mas leve
             for (let i = 0; i < 3; i++) {
                 particles.push(new Particle(x, y));
             }
