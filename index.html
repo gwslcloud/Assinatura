@@ -191,10 +191,10 @@
 
         .btn-add {
             background: transparent; 
-            color: var(--dourado-logo); 
+            color: #fff; 
             width: 100%; 
             padding: 12px 0; 
-            border: 1px solid rgba(197, 160, 89, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             font-weight: 400; 
             font-size: 10px; 
             text-transform: uppercase; 
@@ -217,7 +217,7 @@
         
         .qty-btn {
             width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
-            background: var(--dourado-logo); color: #000; border-radius: 50%; 
+            background: #fff; color: #000; border-radius: 50%; 
             font-weight: bold; cursor: pointer; font-size: 14px;
         }
         .qty-value { font-size: 14px; font-weight: 400; width: 20px; color: #fff; }
@@ -252,8 +252,10 @@
             background: #ffffff;
             border: 1px solid #e5e7eb;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding-top: 0;
+            overflow: hidden;
         }
-        #cartModal h2 { color: #111827; border-bottom-color: #f3f4f6; }
+        #cartModal h2 { color: #fff; background-color: var(--verde-fundo); padding: 20px; margin: 0 -25px 25px -25px; }
         #cartModal .cart-item-row { border-bottom-color: #f3f4f6; }
         #cartModal .cart-item-row p { color: #1f2937; }
         #cartModal .cart-item-row .text-sm { color: #111827; }
@@ -265,7 +267,7 @@
         #cartModal #cartSummaryTotal { color: #000; }
         #cartModal .text-sm.tracking-widest { color: #6b7280; }
         #cartModal .btn-finalize { background: var(--verde-fundo); color: #fff; }
-        #cartModal .close-modal { color: #111827; }
+        #cartModal .close-modal { color: #fff; top: 12px; }
 
         @keyframes modalFadeUp {
             from { transform: translateY(40px); opacity: 0; }
@@ -421,17 +423,17 @@
         <div class="modal-container" onclick="event.stopPropagation()">
             <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
             <h2 class="font-luxury text-xl text-center mb-6 border-b pb-4">RESUMO DO PEDIDO</h2>
-            <div id="cartSummaryList"></div>
-            <div class="mt-6 flex justify-between items-center font-bold">
+            <div id="cartSummaryList" class="px-6"></div>
+            <div class="mt-6 flex justify-between items-center font-bold px-6">
                 <span class="text-sm tracking-widest">TOTAL:</span>
                 <span id="cartSummaryTotal" class="text-xl">R$ 0,00</span>
             </div>
 
-            <div class="flex justify-center mt-6">
+            <div class="flex justify-center mt-6 px-6">
                 <img src="pagamento.webp" alt="Formas de Pagamento" class="max-w-[80%] h-auto">
             </div>
 
-            <div class="delivery-option-box">
+            <div class="delivery-option-box mx-6">
                 <p class="text-[10px] tracking-widest mb-4">OPÇÕES DE RECEBIMENTO</p>
                 <label class="delivery-radio-label">
                     <input type="radio" name="deliveryMethod" value="Retirar na Loja" checked onclick="toggleDeliveryWarning(false)">
@@ -443,7 +445,9 @@
                 </label>
                 <div id="feeWarning" class="fee-warning">⚠️ Verificar taxa de entrega com o vendedor.</div>
             </div>
-            <button class="btn-add btn-finalize mt-8" onclick="finalizeOrder()">FINALIZAR NO WHATSAPP</button>
+            <div class="px-6 pb-8">
+                <button class="btn-add btn-finalize mt-8" onclick="finalizeOrder()">FINALIZAR NO WHATSAPP</button>
+            </div>
         </div>
     </div>
 
@@ -551,7 +555,7 @@
                         <h2 class="product-name font-luxury">${p.nome}</h2>
                     </div>
                     <div>
-                        <p class="product-price">${p.preco > 0 ? 'R$ ' + p.preco.toFixed(2).replace('.', ',') : 'INDISPONÍVEL'}</p>
+                        <p class="product-price">${p.preco > 0 ? 'R$ ' + p.preco.toFixed(2).replace('.', ',') : '<span style="color: #ff0000; font-weight: 500;">INDISPONÍVEL</span>'}</p>
                         ${controlsHtml}
                     </div>
                 </div>`;
@@ -609,7 +613,7 @@
                 <h2 class="font-luxury text-2xl text-center text-white mb-3">${p.nome}</h2>
                 <div class="w-12 h-[1px] bg-gold mx-auto mb-6" style="background:var(--dourado-logo)"></div>
                 <p class="text-sm italic text-center text-gray-400 mb-6 px-4">"${p.descricao}"</p>
-                <p class="text-center text-white font-semibold text-xl mb-6">${p.preco > 0 ? 'R$ ' + p.preco.toFixed(2).replace('.', ',') : 'ESGOTADO'}</p>
+                <p class="text-center text-white font-semibold text-xl mb-6">${p.preco > 0 ? 'R$ ' + p.preco.toFixed(2).replace('.', ',') : '<span style="color: #ff0000; font-weight: 500;">INDISPONÍVEL</span>'}</p>
                 ${modalControls}`;
             document.getElementById('productModal').style.display = 'flex';
         }
