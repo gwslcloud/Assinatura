@@ -136,7 +136,7 @@
             font-weight: 300;
         }
 
-        /* FILTROS */
+        /* FILTROS HORIZONTAIS */
         #brandMenu {
             display: flex; 
             overflow-x: auto; 
@@ -213,6 +213,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            text-transform: uppercase;
         }
         .sidebar-submenu {
             display: none;
@@ -228,6 +229,7 @@
             letter-spacing: 1px;
             color: rgba(255,255,255,0.6);
             border-bottom: 1px solid rgba(197, 160, 89, 0.03);
+            cursor: pointer;
         }
 
         .menu-hamburger {
@@ -322,20 +324,19 @@
     <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
     <nav id="sidebar">
         <div class="sidebar-header">
-            <span class="font-luxury text-sm text-white tracking-widest">MENU</span>
+            <span class="font-luxury text-sm text-white tracking-widest">MENU EXCLUSIVO</span>
             <span class="text-2xl cursor-pointer text-white" onclick="toggleSidebar(false)">&times;</span>
         </div>
         <div class="overflow-y-auto">
+            <!-- Hierarquia: Todas as Marcas (Menu Expandível) -->
             <div class="sidebar-item" onclick="toggleSubmenu(event)">
                 TODAS AS MARCAS
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </div>
             <div id="submenuBrands" class="sidebar-submenu"></div>
             
-            <div class="sidebar-item" onclick="filterByOrigin('Arabe')">ÁRABE</div>
-            <div class="sidebar-item" onclick="filterByOrigin('Frances')">FRANCES</div>
-            <div class="sidebar-item" onclick="filterByOrigin('Nacional')">NACIONAL</div>
-            <div class="sidebar-item" onclick="filterByOrigin('Decante')">DECANTES</div>
+            <!-- Hierarquia: Origens dinâmicas da Coluna C -->
+            <div id="sidebarOriginsList"></div>
         </div>
     </nav>
 
@@ -428,7 +429,6 @@
         let cart = [];
         const whatsappNumber = "5595991154395";
 
-        // Funções de Interface
         function toggleSidebar(open) {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
@@ -446,14 +446,6 @@
             document.getElementById('submenuBrands').classList.toggle('show');
         }
 
-        function showLuxuryToast(title, subtext) {
-            const toast = document.getElementById("luxuryToast");
-            toast.innerHTML = `<span style="color:var(--dourado-logo)">${title}</span><br>${subtext}`;
-            toast.className = "show";
-            setTimeout(() => { toast.className = ""; }, 3000);
-        }
-
-        // Processamento de Dados
         function parseCSVLine(line) {
             const result = [];
             let cur = '';
@@ -480,216 +472,96 @@
                     return {
                         id: columns[0]?.trim(),
                         marca: columns[1]?.trim(),
-                        origem: columns[2]?.trim(), // Coluna C (Nova)
-                        nome: columns[3]?.trim(),   // Coluna D (Antiga C)
-                        preco: parseFloat(columns[4]?.replace(',', '.').trim() || 0), // Coluna E
-                        imagem: columns[5]?.trim(), // Coluna F
-                        descricao: columns[6]?.trim() || "Fragrância exclusiva.", // Coluna G
-                        maisVendido: columns[7]?.trim() === "1" // Coluna H
+                        origem: columns[2]?.trim(), // Coluna C
+                        nome: columns[3]?.trim(),   // Coluna D
+                        preco: parseFloat(columns[4]?.replace(',', '.').trim() || 0),
+                        imagem: columns[5]?.trim(),
+                        descricao: columns[6]?.trim() || "Fragrância exclusiva.",
+                        maisVendido: columns[7]?.trim() === "1"
                     };
                 }).filter(p => p.nome && p.nome.length > 2);
 
                 generateMenus(database);
                 displayProducts(database);
-            } catch (e) {
-                console.error("Erro ao carregar dados:", e);
-            }
+            } catch (e) { console.error("Erro ao carregar dados:", e); }
         }
 
         function generateMenus(data) {
             const horizontalMenu = document.getElementById('brandMenu');
             const sidebarSubmenu = document.getElementById('submenuBrands');
+            const sidebarOriginsList = document.getElementById('sidebarOriginsList');
+            
+            // Pega marcas únicas
             const brands = [...new Set(data.map(p => p.marca))].sort();
             
-            // Menu Superior
+            // Pega origens únicas (Coluna C) e limpa valores vazios
+            const origins = [...new Set(data.map(p => p.origem).filter(o => o && o.length > 0))].sort();
+            
+            // 1. Menu Superior (Horizontal)
             let hHtml = `<div class="brand-item active" onclick="filterByBrand('Todos', this)">TODOS</div>`;
             brands.forEach(b => {
                 hHtml += `<div class="brand-item" onclick="filterByBrand('${b}', this)">${b.toUpperCase()}</div>`;
             });
             horizontalMenu.innerHTML = hHtml;
 
-            // Submenu Lateral
+            // 2. Submenu Lateral (Lista de Marcas)
             let sHtml = `<div class="submenu-item" onclick="filterByBrand('Todos'); toggleSidebar(false)">VER TODAS</div>`;
             brands.forEach(b => {
                 sHtml += `<div class="submenu-item" onclick="filterByBrand('${b}'); toggleSidebar(false)">${b.toUpperCase()}</div>`;
             });
             sidebarSubmenu.innerHTML = sHtml;
+
+            // 3. Menu Lateral Dinâmico (Lista de Origens da Coluna C)
+            let oHtml = "";
+            origins.forEach(origin => {
+                oHtml += `<div class="sidebar-item" onclick="filterByOrigin('${origin}')">${origin.toUpperCase()}</div>`;
+            });
+            sidebarOriginsList.innerHTML = oHtml;
         }
 
-        // Lógica de Filtros
         function displayProducts(products) {
             const grid = document.getElementById('productGrid');
             grid.innerHTML = products.map(p => {
                 const itemInCart = cart.find(i => i.id === p.id);
                 const qty = itemInCart ? itemInCart.qty : 0;
-                
-                let controlsHtml = '';
-                if (p.preco > 0) {
-                    if (qty > 0) {
-                        controlsHtml = `
-                            <div class="qty-selector">
-                                <button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button>
-                                <span class="qty-value">${qty}</span>
-                                <button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button>
-                            </div>`;
-                    } else {
-                        controlsHtml = `<button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR AO CARRINHO</button>`;
-                    }
-                } else {
-                    controlsHtml = `<button class="btn-add opacity-50 cursor-not-allowed" disabled>ESGOTADO</button>`;
-                }
-
-                return `
-                <div class="product-card">
-                    ${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}
-                    <div onclick="openModal('${p.id}')">
-                        <div class="product-img"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div>
-                        <p class="product-brand">${p.marca}</p>
-                        <h2 class="product-name font-luxury">${p.nome}</h2>
-                    </div>
-                    <div>
-                        <p class="product-price">${p.preco > 0 ? 'R$ ' + p.preco.toFixed(2).replace('.', ',') : 'INDISPONÍVEL'}</p>
-                        ${controlsHtml}
-                    </div>
-                </div>`;
+                let controlsHtml = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector"><button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button><span class="qty-value">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR AO CARRINHO</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`;
+                return `<div class="product-card">${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}<div onclick="openModal('${p.id}')"><div class="product-img"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div><p class="product-brand">${p.marca}</p><h2 class="product-name font-luxury">${p.nome}</h2></div><div><p class="product-price">${p.preco > 0 ? 'R$ ' + p.preco.toFixed(2).replace('.', ',') : 'INDISPONÍVEL'}</p>${controlsHtml}</div></div>`;
             }).join('');
         }
 
         function filterByBrand(brand, element) {
             document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active'));
-            if (element) {
-                element.classList.add('active');
-            } else {
-                const items = document.querySelectorAll('.brand-item');
-                items.forEach(item => {
-                    if (brand === 'Todos' && item.innerText === 'TODOS') item.classList.add('active');
-                    else if (item.innerText === brand.toUpperCase()) item.classList.add('active');
-                });
-            }
+            if (element) element.classList.add('active');
             const filtered = brand === 'Todos' ? database : database.filter(p => p.marca === brand);
             displayProducts(filtered);
         }
 
         function filterByOrigin(origin) {
             toggleSidebar(false);
+            // Remove destaque de qualquer marca no menu horizontal
             document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active'));
-            const filtered = database.filter(p => p.origem.toLowerCase().includes(origin.toLowerCase()));
+            // Filtra por correspondência exata de texto (ignorando apenas maiúsculas/minúsculas)
+            const filtered = database.filter(p => p.origem.toLowerCase() === origin.toLowerCase());
             displayProducts(filtered);
         }
 
         function filterProducts() {
             const term = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = database.filter(p => p.nome.toLowerCase().includes(term) || p.marca.toLowerCase().includes(term));
-            displayProducts(filtered);
+            displayProducts(database.filter(p => p.nome.toLowerCase().includes(term) || p.marca.toLowerCase().includes(term)));
         }
 
-        // Carrinho
-        function addToCart(id) {
-            const p = database.find(i => i.id === id);
-            cart.push({ ...p, qty: 1 });
-            updateBadge();
-            displayProducts(database);
-            showLuxuryToast("ADICIONADO", "Item inserido no seu carrinho");
-        }
-
-        function changeQty(id, delta) {
-            const idx = cart.findIndex(i => i.id === id);
-            if (idx > -1) {
-                cart[idx].qty = Math.max(0, cart[idx].qty + delta);
-                if (cart[idx].qty === 0) cart.splice(idx, 1);
-            }
-            updateBadge();
-            displayProducts(database);
-            if (document.getElementById('cartModal').style.display === 'flex') {
-                if (cart.length === 0) closeModal('cartModal');
-                else renderCartSummary();
-            }
-        }
-
-        function updateBadge() {
-            const total = cart.reduce((s, i) => s + i.qty, 0);
-            document.getElementById('cartBadge').innerText = total;
-        }
-
-        function openCartModal() {
-            if (cart.length === 0) {
-                showLuxuryToast("CARRINHO VAZIO", "Adicione produtos primeiro");
-                return;
-            }
-            renderCartSummary();
-            document.getElementById('cartModal').style.display = 'flex';
-        }
-
-        function renderCartSummary() {
-            const list = document.getElementById('cartSummaryList');
-            let total = 0;
-            list.innerHTML = cart.map(item => {
-                const sub = item.preco * item.qty;
-                total += sub;
-                return `
-                <div class="flex justify-between items-center py-4 border-b">
-                    <div>
-                        <p class="text-xs font-bold uppercase">${item.nome}</p>
-                        <div class="flex items-center gap-3 mt-2">
-                            <button class="qty-btn" onclick="changeQty('${item.id}', -1)">-</button>
-                            <span class="text-xs">${item.qty}</span>
-                            <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
-                        </div>
-                    </div>
-                    <p class="text-sm font-bold">R$ ${sub.toFixed(2).replace('.', ',')}</p>
-                </div>`;
-            }).join('');
-            document.getElementById('cartSummaryTotal').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
-        }
-
-        function toggleDeliveryWarning(show) {
-            document.getElementById('feeWarning').style.display = show ? 'block' : 'none';
-        }
-
-        function finalizeOrder() {
-            const method = document.querySelector('input[name="deliveryMethod"]:checked').value;
-            let msg = "Olá! Gostaria de fazer um pedido:\n\n";
-            let total = 0;
-            cart.forEach(i => {
-                let sub = i.preco * i.qty;
-                msg += `*${i.qty}x ${i.nome}* - R$ ${sub.toFixed(2)}\n`;
-                total += sub;
-            });
-            msg += `\n*TOTAL: R$ ${total.toFixed(2)}*\n*OPÇÃO:* ${method}`;
-            window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
-        }
-
-        // Modal de Produto
-        function openModal(id) {
-            const p = database.find(item => item.id === id);
-            const itemInCart = cart.find(i => i.id === p.id);
-            const qty = itemInCart ? itemInCart.qty : 0;
-
-            let controlsHtml = p.preco > 0 ? (qty > 0 ? 
-                `<div class="qty-selector mx-auto w-max mb-4">
-                    <button class="qty-btn" onclick="changeQty('${p.id}', -1); openModal('${p.id}')">-</button>
-                    <span class="qty-value text-center">${qty}</span>
-                    <button class="qty-btn" onclick="changeQty('${p.id}', 1); openModal('${p.id}')">+</button>
-                </div>` : 
-                `<button class="btn-add" onclick="addToCart('${p.id}'); openModal('${p.id}')">ADICIONAR AO CARRINHO</button>`) 
-                : `<button class="btn-add opacity-50 cursor-not-allowed" disabled>ESGOTADO</button>`;
-
-            document.getElementById('modalContent').innerHTML = `
-                <div class="flex justify-center mb-6 relative">
-                    ${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}
-                    <img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'">
-                </div>
-                <p class="product-brand text-center">${p.marca}</p>
-                <h2 class="font-luxury text-2xl text-center text-white mb-3">${p.nome}</h2>
-                <div class="w-12 h-[1px] bg-[#c5a059] mx-auto mb-6"></div>
-                <p class="text-sm italic text-center text-gray-400 mb-6 px-4">"${p.descricao}"</p>
-                <p class="text-center text-white font-semibold text-xl mb-6">R$ ${p.preco.toFixed(2).replace('.', ',')}</p>
-                ${controlsHtml}`;
-            document.getElementById('productModal').style.display = 'flex';
-        }
-
+        // --- CARRINHO E MODAL ---
+        function addToCart(id) { const p = database.find(i => i.id === id); cart.push({ ...p, qty: 1 }); updateBadge(); displayProducts(database); showLuxuryToast("ADICIONADO", "Item no carrinho"); }
+        function changeQty(id, delta) { const idx = cart.findIndex(i => i.id === id); if (idx > -1) { cart[idx].qty = Math.max(0, cart[idx].qty + delta); if (cart[idx].qty === 0) cart.splice(idx, 1); } updateBadge(); displayProducts(database); if (document.getElementById('cartModal').style.display === 'flex') renderCartSummary(); }
+        function updateBadge() { document.getElementById('cartBadge').innerText = cart.reduce((s, i) => s + i.qty, 0); }
+        function openCartModal() { if (cart.length === 0) return showLuxuryToast("CARRINHO VAZIO", "Adicione itens"); renderCartSummary(); document.getElementById('cartModal').style.display = 'flex'; }
+        function renderCartSummary() { let total = 0; document.getElementById('cartSummaryList').innerHTML = cart.map(i => { const sub = i.preco * i.qty; total += sub; return `<div class="flex justify-between items-center py-4 border-b"><div><p class="text-xs font-bold uppercase">${i.nome}</p><div class="flex items-center gap-3 mt-2"><button class="qty-btn" onclick="changeQty('${i.id}', -1)">-</button><span class="text-xs">${i.qty}</span><button class="qty-btn" onclick="changeQty('${i.id}', 1)">+</button></div></div><p class="text-sm font-bold">R$ ${sub.toFixed(2).replace('.', ',')}</p></div>`; }).join(''); document.getElementById('cartSummaryTotal').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`; }
+        function openModal(id) { const p = database.find(item => item.id === id); const itemInCart = cart.find(i => i.id === p.id); const qty = itemInCart ? itemInCart.qty : 0; let controls = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector mx-auto w-max mb-4"><button class="qty-btn" onclick="changeQty('${p.id}', -1); openModal('${p.id}')">-</button><span class="qty-value text-center">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1); openModal('${p.id}')">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}'); openModal('${p.id}')">ADICIONAR AO CARRINHO</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`; document.getElementById('modalContent').innerHTML = `<div class="flex justify-center mb-6 relative">${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}<img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'"></div><p class="product-brand text-center">${p.marca}</p><h2 class="font-luxury text-2xl text-center text-white mb-3">${p.nome}</h2><div class="w-12 h-[1px] bg-[#c5a059] mx-auto mb-6"></div><p class="text-sm italic text-center text-gray-400 mb-6 px-4">"${p.descricao}"</p><p class="text-center text-white font-semibold text-xl mb-6">R$ ${p.preco.toFixed(2).replace('.', ',')}</p>${controls}`; document.getElementById('productModal').style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function closeModalExterno(e, id) { if (e.target.id === id) closeModal(id); }
+        function toggleDeliveryWarning(show) { document.getElementById('feeWarning').style.display = show ? 'block' : 'none'; }
+        function finalizeOrder() { const method = document.querySelector('input[name="deliveryMethod"]:checked').value; let msg = "Olá! Gostaria de fazer um pedido:\n\n"; let total = 0; cart.forEach(i => { let sub = i.preco * i.qty; msg += `*${i.qty}x ${i.nome}* - R$ ${sub.toFixed(2)}\n`; total += sub; }); msg += `\n*TOTAL: R$ ${total.toFixed(2)}*\n*OPÇÃO:* ${method}`; window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank'); }
+        function showLuxuryToast(title, subtext) { const toast = document.getElementById("luxuryToast"); toast.innerHTML = `<span style="color:var(--dourado-logo)">${title}</span><br>${subtext}`; toast.className = "show"; setTimeout(() => { toast.className = ""; }, 3000); }
 
         window.addEventListener('load', () => {
             loadSheetData();
