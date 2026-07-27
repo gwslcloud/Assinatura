@@ -11,9 +11,6 @@
     <!-- FRAMEWORKS E FONTES -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-    
-    <!-- AOS - ANIMATE ON SCROLL (NOVO) -->
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <style>
         /* ============================================================
@@ -622,7 +619,6 @@
         <div class="cart-count" id="cartBadge">0</div>
     </div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
         const BASE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS0crXc21GaE7jllSoyZqiE5xIa7lGGvtKEFjbK-0oil1dQWdMwcz6cRpH70qPbWMwzZF1KlLEP8d83/pub?gid=0&single=true&output=csv'; 
         
@@ -635,7 +631,6 @@
         const canvas = document.getElementById('magicDustCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-        let isHoveringButton = false; // Flag para densidade de partículas
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -681,24 +676,13 @@
         function handleParticles(e) {
             const x = e.touches ? e.touches[0].clientX : e.clientX;
             const y = e.touches ? e.touches[0].clientY : e.clientY;
-            
-            // C. MICRO-INTERAÇÃO: Aumenta densidade se estiver sobre o botão
-            const count = isHoveringButton ? 12 : 3;
-            for (let i = 0; i < count; i++) {
+            for (let i = 0; i < 3; i++) {
                 particles.push(new Particle(x, y));
             }
         }
 
         window.addEventListener('mousemove', handleParticles);
         window.addEventListener('touchmove', handleParticles);
-
-        // Listener para detectar hover nos botões de adicionar
-        window.addEventListener('mouseover', (e) => {
-            if (e.target.classList.contains('btn-add')) isHoveringButton = true;
-        });
-        window.addEventListener('mouseout', (e) => {
-            if (e.target.classList.contains('btn-add')) isHoveringButton = false;
-        });
 
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -828,9 +812,8 @@
 
                 let controlsHtml = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector"><button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button><span class="qty-value">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR AO CARRINHO</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`;
                 
-                // B. TRANSIÇÕES SMOOTH: Adicionado data-aos para revelação suave no scroll
                 return `
-                <div class="product-card ${animClass}" ${styleAttr} data-aos="fade-up">
+                <div class="product-card ${animClass}" ${styleAttr}>
                     ${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}
                     <div onclick="openModal('${p.id}')">
                         <div class="product-img"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div>
@@ -844,9 +827,6 @@
                     </div>
                 </div>`;
             }).join('');
-            
-            // Reinicializa o AOS para novos elementos injetados
-            if (typeof AOS !== 'undefined') AOS.refresh();
         }
 
         function filterByBrand(brand, element) {
@@ -975,8 +955,6 @@
                         splash.style.opacity = '0'; 
                         splash.style.transform = 'scale(1.1)'; 
                         setTimeout(() => splash.remove(), 800);
-                        // Inicializa o AOS após o splash sumir
-                        AOS.init({ duration: 800, once: true });
                     }, 500); 
                 }
             });
