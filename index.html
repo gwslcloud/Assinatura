@@ -1,3 +1,5 @@
+--- START OF FILE text/plain ---
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -73,6 +75,7 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
+            transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
         .mist-effect {
@@ -261,6 +264,15 @@
             display: flex; 
             flex-direction: column; 
             justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* MUDANÇA 1: HOVER NO CARD */
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            border-color: rgba(197, 160, 89, 0.4);
+            z-index: 10;
         }
 
         .card-animate {
@@ -290,8 +302,14 @@
             white-space: nowrap;
         }
 
-        .product-img { height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; cursor: pointer; }
-        .product-img img { max-height: 100%; object-fit: contain; }
+        .product-img { height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; cursor: pointer; overflow: hidden; }
+        .product-img img { max-height: 100%; object-fit: contain; transition: transform 0.5s ease; }
+        
+        /* MUDANÇA 1: ZOOM NA IMAGEM NO HOVER */
+        .product-card:hover .product-img img {
+            transform: scale(1.1);
+        }
+
         .product-brand { font-size: 9px; color: var(--dourado-logo); text-transform: uppercase; margin-bottom: 6px; letter-spacing: 2px; }
         .product-name { font-size: 13px; font-weight: 400; text-transform: uppercase; line-height: 1.3; height: 2.6em; overflow: hidden; margin-bottom: 10px; color: #fff; letter-spacing: 1px; }
         .product-price { font-size: 15px; font-weight: 300; color: #fff; margin-bottom: 18px; letter-spacing: 1px; }
@@ -328,16 +346,40 @@
 
         .qty-btn { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: #fff; color: #000; border-radius: 50%; font-weight: bold; }
         
-        #productModal, #cartModal {
+        #productModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.9); z-index: 200; backdrop-filter: blur(8px);
             justify-content: center; align-items: center; padding: 20px;
+        }
+
+        /* MUDANÇA 2: ESTILO DRAWER PARA O CARRINHO */
+        #cartModal {
+            display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0); z-index: 200; 
+            justify-content: flex-end; align-items: center; 
+            pointer-events: none; transition: background 0.4s ease;
+        }
+
+        #cartModal.open {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            pointer-events: auto;
         }
 
         .modal-container {
             background: var(--verde-fundo); border: 1px solid var(--dourado-logo); width: 100%; max-width: 450px;
             padding: 40px 25px; position: relative; max-height: 90vh; overflow-y: auto;
         }
+
+        /* DRAWER CONTAINER */
+        #cartModal .modal-container {
+            background: #ffffff; color: #000; padding: 0; width: 100%; max-width: 400px; height: 100%; max-height: 100vh;
+            margin-right: -420px; transition: margin-right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            border: none; border-left: 1px solid var(--dourado-logo);
+            display: flex; flex-direction: column;
+        }
+
+        #cartModal.open .modal-container { margin-right: 0; }
         
         /* BIZU: ESTILO DA PIRÂMIDE OLFATIVA */
         .pyramid-section {
@@ -359,8 +401,7 @@
         .note-label { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 3px; }
         .note-content { font-size: 11px; color: #fff; font-weight: 300; }
 
-        #cartModal .modal-container { background: #ffffff; color: #000; padding-top: 0; overflow-y: auto; }
-        #cartModal h2 { color: #fff; background-color: var(--verde-fundo); padding: 35px 20px; margin: 0 -25px 25px -25px; text-transform: uppercase; font-weight: 700; letter-spacing: 2px; }
+        #cartModal h2 { color: #fff; background-color: var(--verde-fundo); padding: 35px 20px; margin: 0; text-transform: uppercase; font-weight: 700; letter-spacing: 2px; }
         .close-modal { position: absolute; top: 5px; right: 15px; color: #ff0000 !important; font-size: 45px; cursor: pointer; z-index: 300; line-height: 1; font-weight: bold; }
 
         .cart-float { position: fixed; bottom: 30px; right: 20px; background: #fff; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 100; box-shadow: 0 6px 25px rgba(0,0,0,0.7); cursor: pointer; }
@@ -394,7 +435,7 @@
         <div class="splash-wrapper relative flex flex-col items-center justify-center w-full">
             <div class="mist-effect"></div>
             <div class="flex flex-col items-center">
-                <img src="assinatura.png" alt="Logo" class="w-[280px] z-10 relative">
+                <img src="assinatura.png" alt="Logo" class="w-[280px] z-10 relative splash-logo">
                 <h1 class="font-luxury welcome-text">SEJA BEM VINDO</h1>
             </div>
         </div>
@@ -431,29 +472,31 @@
     <div id="cartModal" onclick="closeModalExterno(event, 'cartModal')">
         <div class="modal-container" onclick="event.stopPropagation()">
             <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
-            <h2 class="font-luxury text-xl text-center mb-6">RESUMO DO PEDIDO</h2>
-            <div id="cartSummaryList" class="px-6"></div>
-            <div class="mt-6 flex justify-between items-center font-bold px-6">
-                <span class="text-sm tracking-widest text-gray-500">TOTAL:</span>
-                <span id="cartSummaryTotal" class="text-xl">R$ 0,00</span>
-            </div>
-            <div class="flex justify-center mt-6 px-6">
-                <img src="pagamento.webp" alt="Pagamento" class="max-w-[80%]">
-            </div>
-            <div class="delivery-option-box px-6 p-4 mt-4 border-t border-gray-100">
-                <p class="text-[10px] tracking-widest mb-4">OPÇÕES DE RECEBIMENTO</p>
-                <label class="flex items-center gap-2 mb-2 cursor-pointer">
-                    <input type="radio" name="deliveryMethod" value="Retirar na Loja" checked onclick="toggleDeliveryWarning(false)">
-                    <span class="uppercase text-xs">Retirar na Loja</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                    <input type="radio" name="deliveryMethod" value="Entregar no Endereço" onclick="toggleDeliveryWarning(true)">
-                    <span class="uppercase text-xs">Entregar no Endereço</span>
-                </label>
-                <div id="feeWarning" class="text-[11px] text-red-500 mt-2 italic hidden">⚠️ Verificar taxa de entrega com o vendedor.</div>
+            <h2 class="font-luxury text-xl text-center">RESUMO DO PEDIDO</h2>
+            <div class="flex-1 overflow-y-auto">
+                <div id="cartSummaryList" class="px-6"></div>
+                <div class="mt-6 flex justify-between items-center font-bold px-6">
+                    <span class="text-sm tracking-widest text-gray-500">TOTAL:</span>
+                    <span id="cartSummaryTotal" class="text-xl">R$ 0,00</span>
+                </div>
+                <div class="flex justify-center mt-6 px-6">
+                    <img src="pagamento.webp" alt="Pagamento" class="max-w-[80%]">
+                </div>
+                <div class="delivery-option-box px-6 p-4 mt-4 border-t border-gray-100">
+                    <p class="text-[10px] tracking-widest mb-4">OPÇÕES DE RECEBIMENTO</p>
+                    <label class="flex items-center gap-2 mb-2 cursor-pointer">
+                        <input type="radio" name="deliveryMethod" value="Retirar na Loja" checked onclick="toggleDeliveryWarning(false)">
+                        <span class="uppercase text-xs">Retirar na Loja</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="deliveryMethod" value="Entregar no Endereço" onclick="toggleDeliveryWarning(true)">
+                        <span class="uppercase text-xs">Entregar no Endereço</span>
+                    </label>
+                    <div id="feeWarning" class="text-[11px] text-red-500 mt-2 italic hidden">⚠️ Verificar taxa de entrega com o vendedor.</div>
+                </div>
             </div>
             <div class="px-6 pb-8">
-                <button class="btn-add mt-8 bg-black text-white" onclick="finalizeOrder()">FINALIZAR NO WHATSAPP</button>
+                <button class="btn-add mt-4 bg-black text-white" onclick="finalizeOrder()">FINALIZAR NO WHATSAPP</button>
             </div>
         </div>
     </div>
@@ -535,7 +578,8 @@
 
                 generateMenus(database);
                 displayProducts(database, true); 
-            } catch (e) { console.error("Erro ao carregar dados:", e); }
+                return true; // SINALIZA FIM DO CARREGAMENTO
+            } catch (e) { console.error("Erro ao carregar dados:", e); return false; }
         }
 
         function generateMenus(data) {
@@ -637,12 +681,18 @@
             if (idx > -1) { cart[idx].qty = Math.max(0, cart[idx].qty + delta); if (cart[idx].qty === 0) cart.splice(idx, 1); } 
             updateBadge(); 
             displayProducts(database, false); 
-            if (document.getElementById('cartModal').style.display === 'flex') renderCartSummary(); 
+            if (document.getElementById('cartModal').classList.contains('open')) renderCartSummary(); 
         }
         
         function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateBadge(); displayProducts(database, false); if (cart.length === 0) closeModal('cartModal'); else renderCartSummary(); }
         function updateBadge() { document.getElementById('cartBadge').innerText = cart.reduce((s, i) => s + i.qty, 0); }
-        function openCartModal() { if (cart.length === 0) return showLuxuryToast("CARRINHO VAZIO", "Adicione itens"); renderCartSummary(); document.getElementById('cartModal').style.display = 'flex'; }
+        
+        // MUDANÇA 2: DRAWER OPEN
+        function openCartModal() { 
+            if (cart.length === 0) return showLuxuryToast("CARRINHO VAZIO", "Adicione itens"); 
+            renderCartSummary(); 
+            document.getElementById('cartModal').classList.add('open');
+        }
         
         function renderCartSummary() { 
             let total = 0; 
@@ -687,7 +737,13 @@
             document.getElementById('productModal').style.display = 'flex'; 
         }
 
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function closeModal(id) { 
+            if(id === 'cartModal') {
+                document.getElementById(id).classList.remove('open');
+            } else {
+                document.getElementById(id).style.display = 'none'; 
+            }
+        }
         function closeModalExterno(e, id) { if (e.target.id === id) closeModal(id); }
         function toggleDeliveryWarning(show) { document.getElementById('feeWarning').style.display = show ? 'block' : 'none'; }
         
@@ -713,15 +769,19 @@
             setTimeout(() => { toast.className = ""; }, 3000); 
         }
 
+        // MUDANÇA 3: REFINAMENTO DA SPLASH SCREEN (SUMIR APÓS CARREGAR)
         window.addEventListener('load', () => {
-            loadSheetData().then(() => {
+            loadSheetData().then((success) => {
                 if (!isMaintenance) {
+                    const splash = document.getElementById('splash-screen');
+                    const splashLogo = document.querySelector('.splash-logo');
+                    
+                    // Pequeno delay para suavidade
                     setTimeout(() => {
-                        const splash = document.getElementById('splash-screen');
-                        splash.style.transition = 'opacity 0.8s ease';
                         splash.style.opacity = '0'; 
+                        splash.style.transform = 'scale(1.1)'; // EFEITO ZOOM-OUT SUAVE
                         setTimeout(() => splash.remove(), 800);
-                    }, 2500); 
+                    }, 500); 
                 }
             });
         });
