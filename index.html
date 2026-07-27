@@ -298,7 +298,7 @@
             background: #ffffff; 
             color: #000; 
             padding-top: 0; 
-            overflow-y: auto; /* Alterado de hidden para auto para permitir rolagem */
+            overflow-y: auto;
         }
         #cartModal h2 { 
             color: #fff; 
@@ -310,9 +310,10 @@
             letter-spacing: 2px;
         }
         #cartModal .delivery-option-box p {
-            color: #8b6d31; /* Destaque leve em tom dourado/marrom */
+            color: #8b6d31; 
             font-weight: 700;
             font-size: 12px;
+            white-space: nowrap; /* Impede a quebra de linha */
             border-bottom: 1px solid rgba(139, 109, 49, 0.2);
             padding-bottom: 8px;
             margin-bottom: 15px;
@@ -326,7 +327,7 @@
             color: #ff0000 !important; 
             font-size: 45px; 
             cursor: pointer; 
-            z-index: 300; /* Garante que fique em cima do cabeçalho verde */
+            z-index: 300; 
             line-height: 1;
             font-weight: bold;
         }
@@ -350,7 +351,6 @@
         @keyframes fadeout { from { bottom: 100px; opacity: 1; } to { bottom: 0; opacity: 0; } }
 
         footer { text-align: center; padding: 60px 20px; border-top: 1px solid rgba(197, 160, 89, 0.15); display: flex; flex-direction: column; align-items: center; }
-        .social-link { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
@@ -424,7 +424,7 @@
             <div class="flex justify-center mt-6 px-6">
                 <img src="pagamento.webp" alt="Pagamento" class="max-w-[80%]">
             </div>
-            <div class="delivery-option-box mx-6 bg-gray-50 p-4 mt-4 border border-gray-100">
+            <div class="delivery-option-box px-6 p-4 mt-4 border-t border-gray-100">
                 <p class="text-[10px] tracking-widest mb-4">OPÇÕES DE RECEBIMENTO</p>
                 <label class="flex items-center gap-2 mb-2 cursor-pointer">
                     <input type="radio" name="deliveryMethod" value="Retirar na Loja" checked onclick="toggleDeliveryWarning(false)">
@@ -540,7 +540,6 @@
             grid.innerHTML = products.map(p => {
                 const itemInCart = cart.find(i => i.id === p.id);
                 const qty = itemInCart ? itemInCart.qty : 0;
-                // LOGICA DO PREÇO COM "INDISPONIVEL" EM VERMELHO SOLICITADA
                 const precoDisplay = p.preco > 0 ? 'R$ ' + p.preco.toFixed(2).replace('.', ',') : '<span style="color: #ff0000; font-weight: 600;">INDISPONÍVEL</span>';
                 
                 let controlsHtml = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector"><button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button><span class="qty-value">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR AO CARRINHO</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`;
@@ -578,7 +577,7 @@
             document.getElementById('cartSummaryList').innerHTML = cart.map(i => { 
                 const sub = i.preco * i.qty; 
                 total += sub; 
-                return `<div class="flex justify-between items-center py-4 border-b"><div><p class="text-xs font-bold uppercase">${i.nome}</p><div class="flex items-center gap-3 mt-2"><button class="qty-btn" onclick="changeQty('${i.id}', -1)">-</button><span class="text-xs">${i.qty}</span><button class="qty-btn" onclick="changeQty('${i.id}', 1)">+</button></div></div><p class="text-sm font-bold">R$ ${sub.toFixed(2).replace('.', ',')}</p></div>`; 
+                return `<div class="flex justify-between items-center py-4 border-b"><div class="flex items-center gap-3"><img src="${i.imagem}" class="w-12 h-12 object-contain" onerror="this.src='assinatura.png'"><div><p class="text-xs font-bold uppercase">${i.nome}</p><div class="flex items-center gap-3 mt-2"><button class="qty-btn" onclick="changeQty('${i.id}', -1)">-</button><span class="text-xs">${i.qty}</span><button class="qty-btn" onclick="changeQty('${i.id}', 1)">+</button></div></div></div><p class="text-sm font-bold">R$ ${sub.toFixed(2).replace('.', ',')}</p></div>`; 
             }).join(''); 
             document.getElementById('cartSummaryTotal').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`; 
         }
@@ -587,8 +586,6 @@
             const p = database.find(item => item.id === id); 
             const itemInCart = cart.find(i => i.id === p.id); 
             const qty = itemInCart ? itemInCart.qty : 0; 
-            
-            // LOGICA DO PREÇO COM "INDISPONIVEL" EM VERMELHO SOLICITADA
             const precoDisplay = p.preco > 0 ? 'R$ ' + p.preco.toFixed(2).replace('.', ',') : '<span style="color: #ff0000; font-weight: 600;">INDISPONÍVEL</span>';
 
             let controls = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector mx-auto w-max mb-4"><button class="qty-btn" onclick="changeQty('${p.id}', -1); openModal('${p.id}')">-</button><span class="qty-value text-center">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1); openModal('${p.id}')">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}'); openModal('${p.id}')">ADICIONAR AO CARRINHO</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`; 
