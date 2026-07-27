@@ -146,7 +146,7 @@
             display: flex; 
             overflow-x: auto; 
             gap: 12px; 
-            padding: 0.5rem 15px 1.5rem 15px;
+            padding: 0.5rem 15px 1.5rem 0px;
             scrollbar-width: none; 
             justify-content: flex-start;
         }
@@ -172,6 +172,61 @@
             border-color: var(--dourado-logo);
             box-shadow: 0 0 15px rgba(197, 160, 89, 0.1);
             text-shadow: 0 0 5px rgba(197, 160, 89, 0.3);
+        }
+
+        /* NOVOS ESTILOS MENU LATERAL (SIDEBAR) */
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100%;
+            background-color: var(--verde-fundo);
+            z-index: 3000;
+            transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            border-right: 1px solid rgba(197, 160, 89, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+        #sidebar.open { left: 0; }
+        .sidebar-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(4px);
+            z-index: 2999;
+            display: none;
+        }
+        .sidebar-header {
+            padding: 25px;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sidebar-item {
+            padding: 18px 25px;
+            font-family: 'Cinzel', serif;
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #fff;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.05);
+            cursor: pointer;
+        }
+        .sidebar-item:active { background: rgba(197, 160, 89, 0.1); }
+        .menu-hamburger {
+            min-width: 45px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            margin-left: 15px;
+            margin-bottom: 15px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 4px;
         }
 
         .product-grid { 
@@ -407,6 +462,16 @@
 
     <div id="luxuryToast"></div>
 
+    <!-- ESTRUTURA MENU LATERAL -->
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <span class="font-luxury text-sm text-white tracking-widest">MARCAS</span>
+            <span class="text-2xl cursor-pointer text-white" onclick="toggleSidebar(false)">&times;</span>
+        </div>
+        <div id="sidebarBrands" class="overflow-y-auto"></div>
+    </nav>
+
     <div id="splash-screen">
         <div class="splash-wrapper">
             <div class="mist-effect"></div>
@@ -429,7 +494,13 @@
         </div>
     </div>
 
-    <div id="brandMenu"></div>
+    <!-- SEÇÃO DE FILTROS COM HAMBURGUER -->
+    <div class="flex items-end">
+        <div class="menu-hamburger" onclick="toggleSidebar(true)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c5a059" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </div>
+        <div id="brandMenu" class="flex-1"></div>
+    </div>
 
     <main class="product-grid" id="productGrid"></main>
 
@@ -440,7 +511,6 @@
         </div>
     </div>
 
-    <!-- MODAL CARRINHO (BRANCO) -->
     <div id="cartModal" onclick="closeModalExterno(event, 'cartModal')">
         <div class="modal-container" onclick="event.stopPropagation()">
             <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
@@ -496,6 +566,18 @@
         let cart = [];
         const whatsappNumber = "5595991154395";
 
+        function toggleSidebar(open) {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            if (open) {
+                sidebar.classList.add('open');
+                overlay.style.display = 'block';
+            } else {
+                sidebar.classList.remove('open');
+                overlay.style.display = 'none';
+            }
+        }
+
         function parseCSVLine(line) {
             const result = [];
             let cur = '';
@@ -519,7 +601,6 @@
 
         async function loadSheetData() {
             try {
-                // Adiciona um parâmetro de tempo para evitar cache do navegador e pegar sempre a planilha atualizada
                 const freshUrl = BASE_SHEET_URL + '&t=' + new Date().getTime();
                 const response = await fetch(freshUrl);
                 const data = await response.text();
@@ -534,7 +615,7 @@
                         preco: parseFloat(columns[3]?.replace(',', '.').trim() || 0),
                         imagem: columns[4]?.trim(),
                         descricao: columns[5]?.trim() || "Fragrância exclusiva da Assinatura Parfum.",
-                        maisVendido: valMaisVendido === "1" // Só é verdadeiro se for exatamente 1
+                        maisVendido: valMaisVendido === "1"
                     };
                 }).filter(p => p.nome && p.nome.length > 2 && p.preco >= 0);
                 generateBrandMenu(database);
@@ -544,10 +625,20 @@
 
         function generateBrandMenu(data) {
             const menu = document.getElementById('brandMenu');
+            const sidebarBrands = document.getElementById('sidebarBrands');
             const brands = [...new Set(data.map(p => p.marca.trim()))].sort();
+            
+            // Menu Horizontal
             let html = `<div class="brand-item active" onclick="filterByBrand('Todos', this)">TODOS</div>`;
             brands.forEach(b => html += `<div class="brand-item" onclick="filterByBrand('${b}', this)">${b.toUpperCase()}</div>`);
             menu.innerHTML = html;
+
+            // Menu Lateral (Sidebar)
+            let sidebarHtml = `<div class="sidebar-item" onclick="filterByBrand('Todos', null); toggleSidebar(false)">TODAS AS MARCAS</div>`;
+            brands.forEach(b => {
+                sidebarHtml += `<div class="sidebar-item" onclick="filterByBrand('${b}', null); toggleSidebar(false)">${b.toUpperCase()}</div>`;
+            });
+            sidebarBrands.innerHTML = sidebarHtml;
         }
 
         function displayProducts(products) {
@@ -730,7 +821,18 @@
 
         function filterByBrand(brand, element) {
             document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active'));
-            element.classList.add('active');
+            
+            if (element) {
+                element.classList.add('active');
+            } else {
+                // Sincroniza o menu horizontal se o clique veio do sidebar
+                const items = document.querySelectorAll('.brand-item');
+                items.forEach(item => {
+                    if (brand === 'Todos' && item.innerText === 'TODOS') item.classList.add('active');
+                    else if (item.innerText === brand.toUpperCase()) item.classList.add('active');
+                });
+            }
+
             const filtered = (brand === 'Todos') ? database : database.filter(p => p.marca.trim() === brand);
             displayProducts(filtered);
         }
