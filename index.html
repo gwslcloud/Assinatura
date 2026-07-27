@@ -268,26 +268,35 @@
             animation: cardAppear 0.6s ease forwards;
         }
 
-        /* TAGS DE NOTAS NO CARD */
+        /* TAGS DE NOTAS NO CARD - ESTILO PREMIUM COM ÍCONE */
         .card-notes-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 4px;
+            gap: 6px;
             margin-bottom: 12px;
-            min-height: 18px;
+            min-height: 22px;
         }
 
         .card-note-tag {
-            font-size: 7px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 8px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            padding: 2px 6px;
-            border: 1px solid rgba(197, 160, 89, 0.3);
+            padding: 3px 8px;
+            border: 1px solid rgba(197, 160, 89, 0.2);
             color: var(--dourado-logo);
-            background: rgba(197, 160, 89, 0.05);
-            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 4px;
             white-space: nowrap;
+        }
+
+        .note-icon-img {
+            width: 14px;
+            height: 14px;
+            object-fit: contain;
         }
 
         .product-img { height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; cursor: pointer; }
@@ -476,7 +485,6 @@
         let isMaintenance = false;
         const whatsappNumber = "5595991154395";
 
-        // FUNÇÃO PARA BARRA DE PROGRESSO
         window.onscroll = function() {
             let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -499,6 +507,28 @@
         function toggleSubmenu(id) {
             const el = document.getElementById(id);
             if (el) el.classList.toggle('hidden');
+        }
+
+        // FUNÇÃO PARA PEGAR O ÍCONE DA FRUTA AUTOMATICAMENTE
+        function getNoteIcon(note) {
+            const translationMap = {
+                "Bergamota": "bergamot",
+                "Limão": "lemon",
+                "Lima": "lime",
+                "Laranja": "orange",
+                "Maçã": "apple",
+                "Canela": "cinnamon",
+                "Lavanda": "lavender",
+                "Pimenta": "chili-pepper",
+                "Madeira": "wood",
+                "Baunilha": "vanilla",
+                "Menta": "mint",
+                "Hortelã": "mint",
+                "Toranja": "grapefruit",
+                "Abacaxi": "pineapple"
+            };
+            const term = translationMap[note.trim()] || note.trim().toLowerCase();
+            return `https://img.icons8.com/fluency/48/${term}.png`;
         }
 
         async function loadSheetData() {
@@ -580,8 +610,12 @@
                 const qty = itemInCart ? itemInCart.qty : 0;
                 const precoDisplay = getPriceDisplay(p);
                 
+                // GERA AS TAGS COM ÍCONES AUTOMÁTICOS
                 const allNotes = p.notasTopo ? p.notasTopo.split(',') : [];
-                const highlightTags = allNotes.slice(0, 3).map(tag => `<span class="card-note-tag">${tag.trim()}</span>`).join('');
+                const highlightTags = allNotes.slice(0, 2).map(tag => {
+                    const iconUrl = getNoteIcon(tag);
+                    return `<span class="card-note-tag"><img src="${iconUrl}" class="note-icon-img" onerror="this.style.display='none'">${tag.trim()}</span>`;
+                }).join('');
 
                 const animClass = shouldAnimate ? 'card-animate' : '';
                 const animationDelay = shouldAnimate ? (index % 12) * 0.1 : 0;
