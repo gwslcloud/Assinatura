@@ -313,7 +313,7 @@
             color: #8b6d31; 
             font-weight: 700;
             font-size: 12px;
-            white-space: nowrap; /* Impede a quebra de linha */
+            white-space: nowrap; 
             border-bottom: 1px solid rgba(139, 109, 49, 0.2);
             padding-bottom: 8px;
             margin-bottom: 15px;
@@ -569,6 +569,14 @@
 
         function addToCart(id) { const p = database.find(i => i.id === id); cart.push({ ...p, qty: 1 }); updateBadge(); displayProducts(database); showLuxuryToast("ADICIONADO", "Item no carrinho"); }
         function changeQty(id, delta) { const idx = cart.findIndex(i => i.id === id); if (idx > -1) { cart[idx].qty = Math.max(0, cart[idx].qty + delta); if (cart[idx].qty === 0) cart.splice(idx, 1); } updateBadge(); displayProducts(database); if (document.getElementById('cartModal').style.display === 'flex') renderCartSummary(); }
+        
+        function removeFromCart(id) { 
+            cart = cart.filter(i => i.id !== id); 
+            updateBadge(); 
+            displayProducts(database); 
+            if (cart.length === 0) { closeModal('cartModal'); } else { renderCartSummary(); }
+        }
+
         function updateBadge() { document.getElementById('cartBadge').innerText = cart.reduce((s, i) => s + i.qty, 0); }
         function openCartModal() { if (cart.length === 0) return showLuxuryToast("CARRINHO VAZIO", "Adicione itens"); renderCartSummary(); document.getElementById('cartModal').style.display = 'flex'; }
         
@@ -577,7 +585,7 @@
             document.getElementById('cartSummaryList').innerHTML = cart.map(i => { 
                 const sub = i.preco * i.qty; 
                 total += sub; 
-                return `<div class="flex justify-between items-center py-4 border-b"><div class="flex items-center gap-3"><img src="${i.imagem}" class="w-12 h-12 object-contain" onerror="this.src='assinatura.png'"><div><p class="text-xs font-bold uppercase">${i.nome}</p><div class="flex items-center gap-3 mt-2"><button class="qty-btn" onclick="changeQty('${i.id}', -1)">-</button><span class="text-xs">${i.qty}</span><button class="qty-btn" onclick="changeQty('${i.id}', 1)">+</button></div></div></div><p class="text-sm font-bold">R$ ${sub.toFixed(2).replace('.', ',')}</p></div>`; 
+                return `<div class="flex justify-between items-center py-4 border-b"><div class="flex items-center gap-3"><img src="${i.imagem}" class="w-12 h-12 object-contain" onerror="this.src='assinatura.png'"><div><div class="flex items-center gap-2"><p class="text-xs font-bold uppercase">${i.nome}</p><span class="text-red-500 cursor-pointer text-lg leading-none font-bold" onclick="removeFromCart('${i.id}')">&times;</span></div><div class="flex items-center gap-3 mt-2"><button class="qty-btn" onclick="changeQty('${i.id}', -1)">-</button><span class="text-xs">${i.qty}</span><button class="qty-btn" onclick="changeQty('${i.id}', 1)">+</button></div></div></div><p class="text-sm font-bold">R$ ${sub.toFixed(2).replace('.', ',')}</p></div>`; 
             }).join(''); 
             document.getElementById('cartSummaryTotal').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`; 
         }
