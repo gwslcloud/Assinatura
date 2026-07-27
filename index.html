@@ -250,6 +250,10 @@
             display: flex; 
             flex-direction: column; 
             justify-content: space-between;
+        }
+
+        /* Classe de animação aplicada condicionalmente via JS */
+        .card-animate {
             opacity: 0;
             animation: cardAppear 0.6s ease forwards;
         }
@@ -492,7 +496,7 @@
                 }).filter(p => p.nome && p.nome.length > 2);
 
                 generateMenus(database);
-                displayProducts(database);
+                displayProducts(database, true); // Anima no carregamento inicial
             } catch (e) { console.error("Erro ao carregar dados:", e); }
         }
 
@@ -531,24 +535,25 @@
             return `<span style="white-space: nowrap;">R$ ${p.preco.toFixed(2).replace('.', ',')}</span>`;
         }
 
-        function displayProducts(products) {
+        function displayProducts(products, shouldAnimate = false) {
             const grid = document.getElementById('productGrid');
             grid.innerHTML = products.map((p, index) => {
                 const itemInCart = cart.find(i => i.id === p.id);
                 const qty = itemInCart ? itemInCart.qty : 0;
                 const precoDisplay = getPriceDisplay(p);
                 
-                // GERA AS TAGS DE NOTAS (PEGA AS 3 PRIMEIRAS DA TABELA)
                 const allNotes = p.notasTopo ? p.notasTopo.split(',') : [];
                 const highlightTags = allNotes.slice(0, 3).map(tag => `<span class="card-note-tag">${tag.trim()}</span>`).join('');
 
-                // CALCULA O DELAY DA ANIMAÇÃO (STAGGERED)
-                const animationDelay = (index % 12) * 0.1;
+                // LOGICA DE ANIMAÇÃO CONDICIONAL
+                const animClass = shouldAnimate ? 'card-animate' : '';
+                const animationDelay = shouldAnimate ? (index % 12) * 0.1 : 0;
+                const styleAttr = shouldAnimate ? `style="animation-delay: ${animationDelay}s"` : 'style="opacity: 1"';
 
                 let controlsHtml = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector"><button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button><span class="qty-value">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR AO CARRINHO</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`;
                 
                 return `
-                <div class="product-card" style="animation-delay: ${animationDelay}s">
+                <div class="product-card ${animClass}" ${styleAttr}>
                     ${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}
                     <div onclick="openModal('${p.id}')">
                         <div class="product-img"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div>
@@ -568,36 +573,37 @@
             document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active'));
             if (element) element.classList.add('active');
             const filtered = brand === 'Todos' ? database : database.filter(p => p.marca === brand);
-            displayProducts(filtered);
+            displayProducts(filtered, true); // Anima ao filtrar por marca
         }
 
         function filterByOrigin(origin) {
             toggleSidebar(false);
             const filtered = database.filter(p => p.origem.toLowerCase() === origin.toLowerCase());
-            displayProducts(filtered);
+            displayProducts(filtered, true); // Anima ao filtrar por origem
         }
 
         function filterProducts() {
             const term = document.getElementById('searchInput').value.toLowerCase();
-            displayProducts(database.filter(p => p.nome.toLowerCase().includes(term) || p.marca.toLowerCase().includes(term)));
+            displayProducts(database.filter(p => p.nome.toLowerCase().includes(term) || p.marca.toLowerCase().includes(term)), true); // Anima ao buscar
         }
 
         function addToCart(id) { 
             const p = database.find(i => i.id === id); 
             cart.push({ ...p, qty: 1 }); 
             updateBadge(); 
-            displayProducts(database); 
+            displayProducts(database, false); // NÃO anima ao adicionar ao carrinho
             showLuxuryToast("Boas compras", "item adicionado ao carrinho"); 
         }
 
         function changeQty(id, delta) { 
             const idx = cart.findIndex(i => i.id === id); 
             if (idx > -1) { cart[idx].qty = Math.max(0, cart[idx].qty + delta); if (cart[idx].qty === 0) cart.splice(idx, 1); } 
-            updateBadge(); displayProducts(database); 
+            updateBadge(); 
+            displayProducts(database, false); // NÃO anima ao alterar quantidade
             if (document.getElementById('cartModal').style.display === 'flex') renderCartSummary(); 
         }
         
-        function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateBadge(); displayProducts(database); if (cart.length === 0) closeModal('cartModal'); else renderCartSummary(); }
+        function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateBadge(); displayProducts(database, false); if (cart.length === 0) closeModal('cartModal'); else renderCartSummary(); }
         function updateBadge() { document.getElementById('cartBadge').innerText = cart.reduce((s, i) => s + i.qty, 0); }
         function openCartModal() { if (cart.length === 0) return showLuxuryToast("CARRINHO VAZIO", "Adicione itens"); renderCartSummary(); document.getElementById('cartModal').style.display = 'flex'; }
         
