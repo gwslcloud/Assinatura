@@ -193,7 +193,7 @@
             background: transparent; 
             color: var(--dourado-logo); 
             width: 100%; 
-            padding: 12px 5px; 
+            padding: 12px 0; 
             border: 1px solid rgba(197, 160, 89, 0.4);
             font-weight: 400; 
             font-size: 10px; 
@@ -246,6 +246,27 @@
             overflow-y: auto;
             animation: modalFadeUp 0.4s ease-out;
         }
+
+        /* ESTILO EXCLUSIVO CARRINHO BRANCO */
+        #cartModal .modal-container {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        #cartModal h2 { color: #111827; border-bottom-color: #f3f4f6; }
+        #cartModal .cart-item-row { border-bottom-color: #f3f4f6; }
+        #cartModal .cart-item-row p { color: #1f2937; }
+        #cartModal .cart-item-row .text-sm { color: #111827; }
+        #cartModal .qty-btn { background: #f3f4f6; color: #111827; }
+        #cartModal .qty-value-display { color: #111827; }
+        #cartModal .delivery-option-box { background: #f9fafb; border-color: #e5e7eb; }
+        #cartModal .delivery-option-box p { color: var(--dourado-logo); }
+        #cartModal .delivery-radio-label span { color: #374151; }
+        #cartModal #cartSummaryTotal { color: #000; }
+        #cartModal .text-sm.tracking-widest { color: #6b7280; }
+        #cartModal .btn-finalize { background: var(--verde-fundo); color: #fff; }
+        #cartModal .close-modal { color: #111827; }
+
         @keyframes modalFadeUp {
             from { transform: translateY(40px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
@@ -293,11 +314,12 @@
             border-bottom: 1px solid rgba(197, 160, 89, 0.1);
         }
         .remove-item {
-            color: #ff4d4d;
+            color: #ef4444;
             font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 1px;
             cursor: pointer;
+            font-weight: 600;
         }
 
         .delivery-option-box {
@@ -317,7 +339,7 @@
         .delivery-radio-label input { accent-color: var(--dourado-logo); }
         .fee-warning {
             font-size: 11px;
-            color: var(--dourado-logo);
+            color: #d97706;
             margin-top: 10px;
             font-style: italic;
             display: none;
@@ -338,58 +360,23 @@
             font-weight: bold; border: 2px solid #fff;
         }
 
-        /* ESTILIZAÇÃO DO RODAPÉ (LIMPO E CENTRALIZADO) */
+        /* ESTILIZAÇÃO DO RODAPÉ */
         footer { 
-            text-align: center; 
-            padding: 60px 20px; 
-            margin-top: 60px; 
-            border-top: 1px solid rgba(197, 160, 89, 0.15); 
-            background: rgba(0, 0, 0, 0.2);
+            text-align: center; padding: 60px 20px; margin-top: 60px; 
+            border-top: 1px solid rgba(197, 160, 89, 0.15); background: rgba(0, 0, 0, 0.2);
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
         }
-        .footer-copyright { 
-            color: #fff; 
-            font-size: 11px; 
-            letter-spacing: 1px; 
-            font-weight: 400; 
-            margin-bottom: 4px;
-            text-align: center;
-        }
-        .footer-location { 
-            color: #555; 
-            font-size: 9px; 
-            text-transform: uppercase; 
-            letter-spacing: 2px; 
-            font-weight: 300;
-            margin-bottom: 40px;
-            text-align: center;
-        }
-        .social-icons-wrapper { 
-            display: flex; 
-            gap: 20px; 
-            justify-content: center; 
-            align-items: center; 
-        }
-        .social-link { 
-            transition: transform 0.3s ease; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            overflow: hidden;
-        }
+        .footer-copyright { color: #fff; font-size: 11px; letter-spacing: 1px; font-weight: 400; margin-bottom: 4px; }
+        .footer-location { color: #555; font-size: 9px; text-transform: uppercase; letter-spacing: 2px; font-weight: 300; margin-bottom: 40px; }
+        .social-icons-wrapper { display: flex; gap: 20px; justify-content: center; align-items: center; }
+        .social-link { transition: transform 0.3s ease; display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 9px; overflow: hidden; }
         .social-link:hover { transform: translateY(-3px); }
         .social-link svg { width: 24px; height: 24px; fill: white; }
-
         .bg-whatsapp { background-color: #25D366; }
         .bg-instagram { background-color: #E4405F; }
         .bg-facebook { background-color: #1877F2; }
-
     </style>
 </head>
 <body>
@@ -429,58 +416,44 @@
         </div>
     </div>
 
+    <!-- MODAL CARRINHO (BRANCO) -->
     <div id="cartModal" onclick="closeModalExterno(event, 'cartModal')">
         <div class="modal-container" onclick="event.stopPropagation()">
             <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
-            <h2 class="font-luxury text-xl text-center text-white mb-6 border-b border-white border-opacity-10 pb-4">RESUMO DO PEDIDO</h2>
+            <h2 class="font-luxury text-xl text-center mb-6 border-b pb-4">RESUMO DO PEDIDO</h2>
             <div id="cartSummaryList"></div>
-            <div class="mt-6 flex justify-between items-center text-white font-bold">
+            <div class="mt-6 flex justify-between items-center font-bold">
                 <span class="text-sm tracking-widest">TOTAL:</span>
                 <span id="cartSummaryTotal" class="text-xl">R$ 0,00</span>
             </div>
 
             <div class="flex justify-center mt-6">
-                <img src="pagamento.webp" alt="Formas de Pagamento" class="max-w-[80%] h-auto opacity-90">
+                <img src="pagamento.webp" alt="Formas de Pagamento" class="max-w-[80%] h-auto">
             </div>
 
             <div class="delivery-option-box">
-                <p class="text-[10px] tracking-widest text-[#c5a059] mb-4">OPÇÕES DE RECEBIMENTO</p>
+                <p class="text-[10px] tracking-widest mb-4">OPÇÕES DE RECEBIMENTO</p>
                 <label class="delivery-radio-label">
                     <input type="radio" name="deliveryMethod" value="Retirar na Loja" checked onclick="toggleDeliveryWarning(false)">
-                    <span class="text-white uppercase tracking-tighter">Retirar na Loja</span>
+                    <span class="uppercase tracking-tighter">Retirar na Loja</span>
                 </label>
                 <label class="delivery-radio-label">
                     <input type="radio" name="deliveryMethod" value="Entregar no Endereço" onclick="toggleDeliveryWarning(true)">
-                    <span class="text-white uppercase tracking-tighter">Entregar no Endereço</span>
+                    <span class="uppercase tracking-tighter">Entregar no Endereço</span>
                 </label>
                 <div id="feeWarning" class="fee-warning">⚠️ Verificar taxa de entrega com o vendedor.</div>
             </div>
-            <button class="btn-add !bg-white !text-black mt-8" onclick="finalizeOrder()">FINALIZAR NO WHATSAPP</button>
+            <button class="btn-add btn-finalize mt-8" onclick="finalizeOrder()">FINALIZAR NO WHATSAPP</button>
         </div>
     </div>
 
     <footer>
         <div class="footer-copyright">© 2026 Assinatura Parfum</div>
         <div class="footer-location">Boa Vista - RR</div>
-        
         <div class="social-icons-wrapper">
-            <!-- WHATSAPP ORIGINAL -->
-            <a href="https://wa.me/5595991154395" target="_blank" class="social-link bg-whatsapp" title="WhatsApp">
-                <svg viewBox="0 0 24 24">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            </a>
-            
-            <!-- INSTAGRAM ORIGINAL -->
-            <a href="LINK_DO_INSTAGRAM" target="_blank" class="social-link bg-instagram" title="Instagram">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.805.249 2.227.412.56.216.96.474 1.38.894.42.42.678.82.894 1.38.163.422.358 1.057.412 2.227.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.249 1.805-.412 2.227-.216.56-.474.96-.894 1.38-.42.42-.82.678-1.38.894-.422.163-1.057.358-2.227.412-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.805-.249-2.227-.412-.56-.216-.96-.474-1.38-.894-.42-.42-.678-.82-.894-1.38-.163-.422-.358-1.057-.412-2.227-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.054-1.17.249-1.805.412-2.227.216-.56.474-.96.894-1.38.42-.42.82-.678 1.38-.894.422.163 1.057.358-2.227.412 1.266-.058 1.646-.07 4.85-.07M12 0C8.741 0 8.333.014 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.741 0 12s.014 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126s1.337 1.078 2.126 1.384c.766.296 1.636.499 2.913.558C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384s1.078-1.337 1.384-2.126c.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.014-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126s-1.337-1.078-2.126-1.384c-.765-.296-1.636-.499-2.913-.558C15.667.012 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-            </a>
-            
-            <!-- FACEBOOK ORIGINAL -->
-            <a href="LINK_DO_FACEBOOK" target="_blank" class="social-link bg-facebook" title="Facebook">
-                <svg viewBox="0 0 24 24">
-                    <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.323-1.325z"/></svg>
-            </a>
+            <a href="https://wa.me/5595991154395" target="_blank" class="social-link bg-whatsapp" title="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+            <a href="LINK_DO_INSTAGRAM" target="_blank" class="social-link bg-instagram" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.805.249 2.227.412.56.216.96.474 1.38.894.42.42.678.82.894 1.38.163.422.358 1.057.412 2.227.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.249 1.805-.412 2.227-.216.56-.474.96-.894 1.38-.42.42-.82.678-1.38.894-.422.163-1.057.358-2.227.412-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.805-.249-2.227-.412-.56-.216-.96-.474-1.38-.894-.42-.42-.678-.82-.894-1.38-.163-.422-.358-1.057-.412-2.227-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.054-1.17.249-1.805.412-2.227.216-.56.474-.96.894-1.38.42-.42.82-.678 1.38-.894.422.163-1.057.358-2.227-.412 1.266-.058 1.646-.07 4.85-.07M12 0C8.741 0 8.333.014 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.741 0 12s.014 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126s1.337 1.078 2.126 1.384c.766.296 1.636.499 2.913.558C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384s1.078-1.337 1.384-2.126c.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.014-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126s-1.337-1.078-2.126-1.384c-.765-.296-1.636-.499-2.913-.558C15.667.012 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+            <a href="LINK_DO_FACEBOOK" target="_blank" class="social-link bg-facebook" title="Facebook"><svg viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.323-1.325z"/></svg></a>
         </div>
     </footer>
 
@@ -663,17 +636,17 @@
                 total += sub;
                 return `
                 <div class="cart-item-row flex items-center gap-4">
-                    <img src="${item.imagem}" class="w-12 h-12 object-contain bg-white bg-opacity-5 rounded" onerror="this.src='assinatura.png'">
+                    <img src="${item.imagem}" class="w-12 h-12 object-contain bg-gray-50 rounded" onerror="this.src='assinatura.png'">
                     <div class="flex-1">
-                        <p class="text-white text-[11px] font-bold uppercase leading-tight">${item.nome}</p>
+                        <p class="text-[11px] font-bold uppercase leading-tight">${item.nome}</p>
                         <div class="flex items-center gap-2 mt-2">
                             <button class="qty-btn !w-6 !h-6 !text-xs" onclick="changeQty('${item.id}', -1)">-</button>
-                            <span class="text-white text-xs w-4 text-center">${item.qty}</span>
+                            <span class="qty-value-display text-xs w-4 text-center">${item.qty}</span>
                             <button class="qty-btn !w-6 !h-6 !text-xs" onclick="changeQty('${item.id}', 1)">+</button>
                         </div>
                         <span class="remove-item mt-1 inline-block" onclick="removeFromCart('${item.id}')">Remover</span>
                     </div>
-                    <div class="text-white text-sm font-semibold">R$ ${sub.toFixed(2).replace('.', ',')}</div>
+                    <div class="text-sm font-semibold">R$ ${sub.toFixed(2).replace('.', ',')}</div>
                 </div>`;
             }).join('');
             document.getElementById('cartSummaryTotal').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
