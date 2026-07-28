@@ -87,19 +87,15 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             border: 1px solid rgba(0,0,0,0.15);
-            box-shadow: 
-                1px 2px 4px rgba(0,0,0,0.5), 
-                inset 1px 1px 1px rgba(255,255,255,0.4),
-                inset -1px -1px 1px rgba(0,0,0,0.2);
+            box-shadow: 1px 2px 4px rgba(0,0,0,0.5), inset 1px 1px 1px rgba(255,255,255,0.4);
             text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
         }
 
-        /* TAG DE PROMOÇÃO PREMIUM */
+        /* TAG DE OFERTA REFINADA */
         .badge-promo {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: radial-gradient(circle at 30% 30%, #ff5f5f, #b30000 60%, #800000);
+            left: 10px;
+            background: linear-gradient(135deg, #8b0000 0%, #cc0000 50%, #8b0000 100%);
             color: white;
             font-size: 7px;
             font-weight: 700;
@@ -108,14 +104,11 @@
             display: flex;
             align-items: center;
             gap: 4px;
-            z-index: 20;
+            z-index: 19;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border: 1px solid rgba(0,0,0,0.15);
-            box-shadow: 
-                1px 2px 4px rgba(0,0,0,0.5), 
-                inset 1px 1px 1px rgba(255,255,255,0.4),
-                inset -1px -1px 1px rgba(0,0,0,0.2);
+            letter-spacing: 0.8px;
+            border: 1px solid rgba(197, 160, 89, 0.5);
+            box-shadow: 1px 2px 4px rgba(0,0,0,0.5);
             text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
         }
 
@@ -822,7 +815,7 @@
     </footer>
 
     <div class="cart-float" onclick="openCartModal()">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00160f" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4H6z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 01-8 0"></path></svg>
         <div class="cart-count" id="cartBadge">0</div>
     </div>
 
@@ -955,8 +948,10 @@
                 const precoDisplay = getPriceDisplay(p);
                 const highlightTags = (p.notasTopo ? p.notasTopo.split(',') : []).slice(0, 3).map(tag => `<span class="card-note-tag">${tag.trim()}</span>`).join('');
                 const animationDelay = shouldAnimate ? (index % 12) * 0.1 : 0;
+                const bestSellerTag = p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : '';
+                const promoTag = p.promocao > 0 ? `<div class="badge-promo" style="${p.maisVendido ? 'top:32px' : 'top:10px'}">Oferta Especial</div>` : '';
                 let controlsHtml = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector"><button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button><span class="qty-value">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR AO CARRINHO</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`;
-                return `<div class="product-card ${shouldAnimate ? 'card-animate' : ''}" style="animation-delay: ${animationDelay}s">${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}${p.promocao > 0 ? '<div class="badge-promo">Oferta</div>' : ''}<div onclick="openModal('${p.id}')"><div class="product-img"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div><p class="product-brand">${p.marca}</p><h2 class="product-name font-luxury">${p.nome}</h2><div class="card-notes-container">${highlightTags}</div></div><div><p class="product-price">${precoDisplay}</p>${controlsHtml}</div></div>`;
+                return `<div class="product-card ${shouldAnimate ? 'card-animate' : ''}" style="animation-delay: ${animationDelay}s">${bestSellerTag}${promoTag}<div onclick="openModal('${p.id}')"><div class="product-img"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div><p class="product-brand">${p.marca}</p><h2 class="product-name font-luxury">${p.nome}</h2><div class="card-notes-container">${highlightTags}</div></div><div><p class="product-price">${precoDisplay}</p>${controlsHtml}</div></div>`;
             }).join('');
         }
 
@@ -986,9 +981,11 @@
             const itemInCart = cart.find(i => i.id === p.id); 
             const qty = itemInCart ? itemInCart.qty : 0; 
             const precoDisplay = getPriceDisplay(p);
+            const bestSellerTag = p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : '';
+            const promoTag = p.promocao > 0 ? `<div class="badge-promo" style="${p.maisVendido ? 'top:32px' : 'top:10px'}">Oferta Especial</div>` : '';
             let pyramidHtml = (p.notasTopo || p.notasCoracao || p.notasBase) ? `<div class="pyramid-section"><span class="pyramid-title">PIRÂMIDE OLFATIVA</span>${p.notasTopo ? `<div class="note-item"><span class="note-label">Notas de Topo</span><p class="note-content">${p.notasTopo}</p></div>` : ''}${p.notasCoracao ? `<div class="note-item"><span class="note-label">Notas de Coração</span><p class="note-content">${p.notasCoracao}</p></div>` : ''}${p.notasBase ? `<div class="note-item"><span class="note-label">Notas de Base</span><p class="note-content">${p.notasBase}</p></div>` : ''}</div>` : "";
             let controls = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector mx-auto w-max mb-4"><button class="qty-btn" onclick="changeQty('${p.id}', -1); openModal('${p.id}')">-</button><span class="qty-value text-center">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1); openModal('${p.id}')">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}'); openModal('${p.id}')">ADICIONAR AO CARRINHO</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`; 
-            document.getElementById('modalContent').innerHTML = `<div class="flex justify-center mb-6 relative">${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}${p.promocao > 0 ? '<div class="badge-promo">Oferta</div>' : ''}<img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'"></div><p class="product-brand text-center">${p.marca}</p><h2 class="font-luxury text-2xl text-center text-white mb-3">${p.nome}</h2><div class="w-12 h-[1px] bg-[#c5a059] mx-auto mb-6"></div><p class="text-sm italic text-center text-gray-400 mb-6 px-4">"${p.descricao}"</p><p class="text-center text-white font-semibold text-xl mb-6">${precoDisplay}</p>${controls}${pyramidHtml}`; 
+            document.getElementById('modalContent').innerHTML = `<div class="flex justify-center mb-6 relative">${bestSellerTag}${promoTag}<img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'"></div><p class="product-brand text-center">${p.marca}</p><h2 class="font-luxury text-2xl text-center text-white mb-3">${p.nome}</h2><div class="w-12 h-[1px] bg-[#c5a059] mx-auto mb-6"></div><p class="text-sm italic text-center text-gray-400 mb-6 px-4">"${p.descricao}"</p><p class="text-center text-white font-semibold text-xl mb-6">${precoDisplay}</p>${controls}${pyramidHtml}`; 
             document.getElementById('productModal').style.display = 'flex'; 
         }
 
