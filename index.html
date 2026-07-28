@@ -949,7 +949,7 @@
                 const highlightTags = (p.notasTopo ? p.notasTopo.split(',') : []).slice(0, 3).map(tag => `<span class="card-note-tag">${tag.trim()}</span>`).join('');
                 const animationDelay = shouldAnimate ? (index % 12) * 0.1 : 0;
                 const bestSellerTag = p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : '';
-                const promoTag = p.promocao > 0 ? `<div class="badge-promo" style="${p.maisVendido ? 'top:32px' : 'top:10px'}">Oferta Especial</div>` : '';
+                const promoTag = p.promocao > 0 ? `<div class="badge-promo" style="${p.maisVendido ? 'top:32px' : 'top:10px'}">Promoção</div>` : '';
                 let controlsHtml = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector"><button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button><span class="qty-value">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR AO CARRINHO</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`;
                 return `<div class="product-card ${shouldAnimate ? 'card-animate' : ''}" style="animation-delay: ${animationDelay}s">${bestSellerTag}${promoTag}<div onclick="openModal('${p.id}')"><div class="product-img"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div><p class="product-brand">${p.marca}</p><h2 class="product-name font-luxury">${p.nome}</h2><div class="card-notes-container">${highlightTags}</div></div><div><p class="product-price">${precoDisplay}</p>${controlsHtml}</div></div>`;
             }).join('');
