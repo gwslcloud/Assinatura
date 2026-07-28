@@ -107,18 +107,22 @@
             overflow: hidden;
         }
 
-        /* MÁSCARA PARA ESCONDER BORDAS DO VÍDEO */
+        /* MÁSCARA MELHORADA PARA ESCONDER BORDAS (CENTRO TRANSPARENTE, BORDAS PRETO ABSOLUTO) */
         .video-vignette {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, transparent 20%, #000 80%);
+            background: 
+                radial-gradient(circle, transparent 20%, #000 95%),
+                linear-gradient(to bottom, transparent 80%, #000 100%),
+                linear-gradient(to top, transparent 80%, #000 100%);
             pointer-events: none;
             z-index: 10000;
         }
 
         #introVideo {
             width: 100%; height: 100%; object-fit: contain;
-            filter: contrast(1.1) brightness(0.9); /* Ajuste fino para mesclar o preto */
+            filter: contrast(1.1) brightness(0.9);
+            transform: scale(1.05); /* Zoom leve para esconder as bordas do arquivo de video */
         }
 
         .header-container {
@@ -1096,7 +1100,7 @@
             setTimeout(() => { toast.className = ""; }, 3000); 
         }
 
-        // LÓGICA DE ENTRADA COM VÍDEO (AJUSTADO PARA 1 SEGUNDO)
+        // LÓGICA DE ENTRADA COM VÍDEO (AJUSTADO PARA 1 SEGUNDO COM FAIL-SAFE)
         window.addEventListener('load', () => {
             const splash = document.getElementById('splash-screen');
             const video = document.getElementById('introVideo');
