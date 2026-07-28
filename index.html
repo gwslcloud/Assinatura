@@ -1096,7 +1096,7 @@
             setTimeout(() => { toast.className = ""; }, 3000); 
         }
 
-        // LÓGICA DE ENTRADA COM VÍDEO (REVISADA COM FAIL-SAFE)
+        // LÓGICA DE ENTRADA COM VÍDEO (AJUSTADO PARA 1 SEGUNDO)
         window.addEventListener('load', () => {
             const splash = document.getElementById('splash-screen');
             const video = document.getElementById('introVideo');
@@ -1113,14 +1113,14 @@
                 closeSplash();
             });
 
-            // Se o vídeo terminar, fecha a splash
+            // Se o vídeo terminar antes de 1 segundo, fecha a splash
             video.onended = closeSplash;
 
             // Carrega os dados da planilha em paralelo
             loadSheetData();
 
-            // Fail-safe: Se em 3.5 segundos nada acontecer, fecha a tela preta automaticamente
-            setTimeout(closeSplash, 3500); 
+            // AJUSTE: Após exatamente 1 segundo, fecha a tela preta automaticamente
+            setTimeout(closeSplash, 1000); 
         });
     </script>
 </body>
