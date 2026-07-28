@@ -412,7 +412,7 @@
             width: 100%;
         }
 
-        /* AJUSTE PARA O TEXTO INDISPONÍVEL FICAR VERMELHO E HARMÔNICO */
+        /* TEXTO INDISPONÍVEL CORRIGIDO: VERMELHO E HARMÔNICO */
         .status-unavailable {
             color: #ff3b3b !important;
             -webkit-text-fill-color: #ff3b3b !important;
@@ -862,17 +862,17 @@
             window.scrollPauseTimeout = setTimeout(() => { isInteracting = false; }, 2000);
         });
 
-        // AUTO SCROLL CALIBRADO PARA VELOCIDADE PREMIUM (0.7)
+        // AUTO SCROLL CORRIGIDO PARA FLUIDEZ TOTAL (60FPS / 16ms)
         function autoScrollMenu() {
             if (!brandMenu || isInteracting) return;
-            brandMenu.scrollLeft += 0.7 * scrollDirection;
+            brandMenu.scrollLeft += 1.1 * scrollDirection; 
             if (brandMenu.scrollLeft >= (brandMenu.scrollWidth - brandMenu.clientWidth)) {
                 scrollDirection = -1;
             } else if (brandMenu.scrollLeft <= 0) {
                 scrollDirection = 1;
             }
         }
-        setInterval(autoScrollMenu, 40);
+        setInterval(autoScrollMenu, 16); 
 
         window.onscroll = function() {
             let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
