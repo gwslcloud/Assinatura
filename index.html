@@ -107,7 +107,6 @@
             overflow: hidden;
         }
 
-        /* MÁSCARA MELHORADA PARA ESCONDER BORDAS (CENTRO TRANSPARENTE, BORDAS PRETO ABSOLUTO) */
         .video-vignette {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -122,13 +121,12 @@
         #introVideo {
             width: 100%; height: 100%; object-fit: contain;
             filter: contrast(1.1) brightness(0.9);
-            mix-blend-mode: lighten; /* Remove bordas acinzentadas fundindo o vídeo com o fundo preto */
+            mix-blend-mode: lighten; 
         }
 
-        /* ALTERADO: Redução drástica de paddings para aproximar os elementos */
         .header-container {
             position: relative;
-            padding: 0.8rem 1rem 0.2rem 1rem; /* Reduzido o topo e base */
+            padding: 0.8rem 1rem 0.2rem 1rem; 
             display: flex;
             flex-direction: row;
             justify-content: space-between;
@@ -136,10 +134,9 @@
             z-index: 10;
             overflow: hidden; 
             background: linear-gradient(to bottom, #001f15 0%, var(--verde-fundo) 100%);
-            min-height: 85px; /* Altura controlada para manter a logo sem vácuo */
+            min-height: 85px; 
         }
 
-        /* EFEITO DA LINHA DOURADA PULSANTE (LUXURY LINE) */
         .luxury-line-container {
             flex-grow: 1;
             margin-left: 20px;
@@ -191,10 +188,9 @@
             transition: transform 0.4s ease;
         }
 
-        /* ALTERADO: Margem negativa para subir a busca e matar o vácuo marcado em vermelho */
         .search-area { 
             padding: 0rem 1.5rem 0.8rem; 
-            margin-top: -12px; /* Força a subida em direção à logo */
+            margin-top: -12px; 
             position: relative; 
             z-index: 11; 
             max-width: 100%; 
@@ -206,7 +202,7 @@
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 50px;
-            padding: 8px 20px; /* Reduzido padding interno da busca */
+            padding: 8px 20px; 
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
@@ -225,20 +221,42 @@
             font-weight: 300;
         }
 
-        /* MANTIDO O RESTANTE DOS ESTILOS CONFORME SOLICITADO */
+        /* ALTERADO: Menu com movimento e barra dourada fina */
         #brandMenu {
             display: flex; 
             overflow-x: auto; 
             gap: 12px; 
-            padding: 10px 15px;
-            scrollbar-width: none; 
+            padding: 10px 15px 12px 15px; /* Padding inferior aumentado para a barra */
+            scrollbar-width: thin; 
+            scrollbar-color: var(--dourado-logo) transparent;
             justify-content: flex-start;
             align-items: center;
             max-width: 100%;
+            scroll-behavior: smooth;
         }
 
-        #brandMenu::-webkit-scrollbar { display: none; }
+        /* Barra de rolagem manual dourada fina e luxuosa */
+        #brandMenu::-webkit-scrollbar { 
+            display: block; 
+            height: 2px; 
+        }
+        #brandMenu::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        #brandMenu::-webkit-scrollbar-thumb {
+            background: var(--dourado-logo);
+            border-radius: 10px;
+        }
         
+        /* Botão "Todos" Fixo */
+        .brand-item:first-child {
+            position: sticky;
+            left: 0;
+            z-index: 20;
+            background: var(--verde-fundo); 
+            box-shadow: 10px 0 15px -5px var(--verde-fundo);
+        }
+
         .brand-item {
             font-family: 'Cinzel', serif; 
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -614,7 +632,6 @@
             text-transform: uppercase;
         }
 
-        /* BARRA DOURADA DE PROMOÇÕES NO MENU */
         .promo-menu-bar {
             background: linear-gradient(135deg, #c5a059 0%, #fcf6ba 50%, #b38728 100%);
             color: #00160f;
@@ -663,7 +680,7 @@
         </video>
     </div>
 
-    <!-- HEADER ALTERADO: Linha Dourada Pulsante e Menos Espaço -->
+    <!-- HEADER -->
     <header class="header-container">
         <img src="assinatura.png" alt="Logo" class="logo-main">
         
@@ -769,7 +786,7 @@
         let isMaintenance = false;
         const whatsappNumber = "5595991154395";
 
-        // LÓGICA DO RASTRO DE POEIRA DE OURO (CANVAS)
+        // LÓGICA DO RASTRO DE POEIRA DE OURO
         const canvas = document.getElementById('magicDustCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -839,6 +856,25 @@
             requestAnimationFrame(animateParticles);
         }
         animateParticles();
+
+        // LÓGICA DE MOVIMENTO AUTOMÁTICO DO MENU
+        let scrollDirection = 1;
+        function autoScrollMenu() {
+            const menu = document.getElementById('brandMenu');
+            if (!menu) return;
+            
+            // Incrementa o scroll bem devagar
+            menu.scrollLeft += 0.5 * scrollDirection;
+
+            // Se chegar no final, inverte. Se chegar no começo, inverte.
+            if (menu.scrollLeft >= (menu.scrollWidth - menu.clientWidth)) {
+                scrollDirection = -1;
+            } else if (menu.scrollLeft <= 0) {
+                scrollDirection = 1;
+            }
+        }
+        // Inicia o intervalo de movimento suave
+        setInterval(autoScrollMenu, 40);
 
         window.onscroll = function() {
             let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
