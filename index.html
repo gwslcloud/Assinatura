@@ -843,6 +843,38 @@
         }
         .theme-toggle svg { stroke: var(--dourado-logo); }
 
+        /* UI DO CUPOM */
+        .coupon-box {
+            background: rgba(197, 160, 89, 0.03);
+            border: 1px solid rgba(197, 160, 89, 0.1);
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .coupon-input {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            width: 100%;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            outline: none;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .btn-apply-coupon {
+            background: #000;
+            color: #fff;
+            width: 100%;
+            padding: 10px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
@@ -1027,10 +1059,28 @@
             <h2 class="font-luxury text-xl text-center">RESUMO DO PEDIDO</h2>
             <div class="flex-1 overflow-y-auto">
                 <div id="cartSummaryList" class="px-6"></div>
-                <div class="mt-6 flex justify-between items-center font-bold px-6">
-                    <span class="text-sm tracking-widest text-gray-500">TOTAL:</span>
-                    <span id="cartSummaryTotal" class="text-xl">R$ 0,00</span>
+                
+                <div id="couponArea" class="px-6 mt-4">
+                    <div class="coupon-box">
+                        <p class="text-[9px] uppercase tracking-widest mb-2 opacity-60">Possui um cupom?</p>
+                        <div class="flex gap-2">
+                            <input type="text" id="couponInput" placeholder="EX: PAI35" class="coupon-input">
+                        </div>
+                        <button class="btn-apply-coupon" onclick="applyCoupon()">Validar Cupom</button>
+                    </div>
                 </div>
+
+                <div class="mt-6 flex flex-col gap-2 px-6">
+                    <div id="discountDisplay" class="hidden flex justify-between items-center text-red-500 font-bold">
+                        <span class="text-[10px] tracking-widest">DESCONTO APLICADO:</span>
+                        <span id="discountValue">- R$ 0,00</span>
+                    </div>
+                    <div class="flex justify-between items-center font-bold">
+                        <span class="text-sm tracking-widest text-gray-500">TOTAL:</span>
+                        <span id="cartSummaryTotal" class="text-xl">R$ 0,00</span>
+                    </div>
+                </div>
+
                 <div class="flex justify-center mt-6 px-6">
                     <img src="pagamento.webp" alt="Pagamento" class="max-w-[80%]">
                 </div>
@@ -1098,6 +1148,7 @@
         let cart = [];
         let isMaintenance = false;
         let quizAnswers = { family: '', occasion: '', vibe: '' };
+        let appliedCoupon = null;
 
         const canvas = document.getElementById('magicDustCanvas');
         const ctx = canvas.getContext('2d');
@@ -1191,7 +1242,8 @@
                         maisVendido: columns[8]?.trim() === "1",
                         notasTopo: columns[9]?.replace(/"/g, '').trim() || "",
                         notasCoracao: columns[10]?.replace(/"/g, '').trim() || "",
-                        notasBase: columns[11]?.replace(/"/g, '').trim() || ""
+                        notasBase: columns[11]?.replace(/"/g, '').trim() || "",
+                        cupom: columns[13]?.replace(/"/g, '').trim() || ""
                     };
                 }).filter(p => p.nome && p.nome.length > 2);
                 localStorage.setItem('ap_sheet_cache', JSON.stringify(database));
@@ -1258,7 +1310,41 @@
                 const sub = precoEfetivo * i.qty; total += sub; 
                 return `<div class="flex justify-between items-center py-6 border-b relative"><div class="flex items-center gap-3"><img src="${i.imagem}" class="w-12 h-12 object-contain" onerror="this.src='assinatura.png'"><div><p class="text-[10px] font-bold uppercase pr-8 leading-tight">${i.nome}</p><div class="flex items-center gap-3 mt-2"><button class="qty-btn" onclick="changeQty('${i.id}', -1)">-</button><span class="text-xs">${i.qty}</span><button class="qty-btn" onclick="changeQty('${i.id}', 1)">+</button></div></div></div><div class="text-right flex flex-col items-end"><span class="text-red-500 cursor-pointer text-2xl leading-none font-bold absolute top-2 right-0" onclick="removeFromCart('${i.id}')">&times;</span><p class="text-sm font-bold whitespace-nowrap mt-4">R$ ${sub.toFixed(2).replace('.', ',')}</p></div></div>`; 
             }).join(''); 
-            document.getElementById('cartSummaryTotal').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`; 
+            
+            let finalTotal = total;
+            if (appliedCoupon) {
+                const discountAmount = total * (appliedCoupon.percent / 100);
+                finalTotal = total - discountAmount;
+                document.getElementById('discountDisplay').classList.remove('hidden');
+                document.getElementById('discountValue').innerText = `- R$ ${discountAmount.toFixed(2).replace('.', ',')}`;
+            } else {
+                document.getElementById('discountDisplay').classList.add('hidden');
+            }
+
+            document.getElementById('cartSummaryTotal').innerText = `R$ ${finalTotal.toFixed(2).replace('.', ',')}`; 
+        }
+
+        function applyCoupon() {
+            const input = document.getElementById('couponInput').value.trim().toUpperCase();
+            if (!input) return;
+
+            // Procura na database se algum produto contém esse cupom na coluna 14
+            const found = database.find(p => p.cupom === input);
+
+            if (found) {
+                const percent = parseInt(found.cupom.replace(/\D/g, '')); // Pega os números, ex: "PAI35" vira 35
+                if (!isNaN(percent)) {
+                    appliedCoupon = { code: input, percent: percent };
+                    showLuxuryToast("CUPOM ATIVADO", `${percent}% DE DESCONTO`);
+                    renderCartSummary();
+                } else {
+                    showLuxuryToast("ERRO", "Formato de cupom inválido");
+                }
+            } else {
+                appliedCoupon = null;
+                showLuxuryToast("INVÁLIDO", "Cupom não encontrado");
+                renderCartSummary();
+            }
         }
 
         function openModal(id) { 
@@ -1312,7 +1398,16 @@
                 const precoEfetivo = i.promocao > 0 ? i.promocao : i.preco;
                 let sub = precoEfetivo * i.qty; msg += `• *${i.qty}x ${i.nome}* - R$ ${sub.toFixed(2).replace('.', ',')}\n`; total += sub; 
             }); 
-            msg += `\n*TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*\n*OPÇÃO:* ${method}`; 
+            
+            let finalTotal = total;
+            if (appliedCoupon) {
+                const discount = total * (appliedCoupon.percent / 100);
+                finalTotal = total - discount;
+                msg += `\n*CUPOM APLICADO:* ${appliedCoupon.code} (-${appliedCoupon.percent}%)`;
+                msg += `\n*DESCONTO:* R$ ${discount.toFixed(2).replace('.', ',')}`;
+            }
+
+            msg += `\n*TOTAL FINAL: R$ ${finalTotal.toFixed(2).replace('.', ',')}*\n*OPÇÃO DE RECEBIMENTO:* ${method}`; 
             window.open(`https://wa.me/${selectedNumber}?text=${encodeURIComponent(msg)}`, '_blank'); 
             closeModal('sellerModal');
         }
