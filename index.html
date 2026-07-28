@@ -221,6 +221,7 @@
             font-weight: 300;
         }
 
+        /* ALINHAMENTO DO MENU DE MARCAS MANUAL */
         .brand-section-container {
             display: flex;
             align-items: flex-start;
@@ -251,7 +252,7 @@
             max-width: 100%;
             scrollbar-width: thin;
             scrollbar-color: var(--dourado-logo) transparent;
-            scroll-behavior: auto; /* Necessário para o JS não conflitar */
+            -webkit-overflow-scrolling: touch; /* ROLAGEM SUAVE NO IPHONE */
         }
 
         #brandMenu::-webkit-scrollbar { 
@@ -279,7 +280,7 @@
             backdrop-filter: blur(8px);
             white-space: nowrap;
             letter-spacing: 1px;
-            transition: background 0.4s, color 0.4s;
+            transition: all 0.4s;
             cursor: pointer;
             border-radius: 4px;
             height: 38px;
@@ -413,7 +414,7 @@
             width: 100%;
         }
 
-        /* TEXTO INDISPONÍVEL: VERMELHO HARMÔNICO SEM MÁSCARA DOURADA */
+        /* TEXTO INDISPONÍVEL CORRIGIDO PARA VERMELHO HARMÔNICO */
         .status-unavailable {
             color: #ff0000 !important;
             -webkit-text-fill-color: #ff0000 !important;
@@ -425,7 +426,6 @@
             font-weight: 600;
             text-transform: uppercase;
             animation: none !important;
-            display: inline-block;
         }
 
         @keyframes goldFoil {
@@ -851,37 +851,6 @@
             requestAnimationFrame(animateParticles);
         }
         animateParticles();
-
-        let scrollDirection = 1;
-        let isInteracting = false;
-        const brandMenu = document.getElementById('brandMenu');
-
-        brandMenu.addEventListener('touchstart', () => isInteracting = true);
-        brandMenu.addEventListener('touchend', () => isInteracting = false);
-        brandMenu.addEventListener('mousedown', () => isInteracting = true);
-        brandMenu.addEventListener('mouseup', () => isInteracting = false);
-        brandMenu.addEventListener('mouseleave', () => isInteracting = false);
-        brandMenu.addEventListener('scroll', () => {
-            isInteracting = true;
-            clearTimeout(window.scrollPauseTimeout);
-            window.scrollPauseTimeout = setTimeout(() => { isInteracting = false; }, 2000);
-        });
-
-        // AUTO SCROLL PREMIUM COM REQUESTANIMATIONFRAME (60FPS FLUIDO)
-        function smoothAutoScroll() {
-            if (brandMenu && !isInteracting) {
-                // Incremento calibrado para fluidez: 1.5px por frame
-                brandMenu.scrollLeft += 1.5 * scrollDirection; 
-                
-                if (brandMenu.scrollLeft >= (brandMenu.scrollWidth - brandMenu.clientWidth - 1)) {
-                    scrollDirection = -1;
-                } else if (brandMenu.scrollLeft <= 0) {
-                    scrollDirection = 1;
-                }
-            }
-            requestAnimationFrame(smoothAutoScroll);
-        }
-        requestAnimationFrame(smoothAutoScroll);
 
         window.onscroll = function() {
             let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
