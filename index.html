@@ -14,13 +14,14 @@
 
     <style>
         /* ============================================================
-           BIZU: CORES PRINCIPAIS DO SITE
+           BIZU: CORES PRINCIPAIS DO SITE (ALTERE AQUI)
            ============================================================ */
         :root {
             --verde-fundo: #00160f; 
             --verde-detalhe: #002419;
             --dourado-logo: #c5a059;
             --dourado-brilho: #e2c275;
+            --vermelho-esgotado: #ff0000;
         }
 
         html, body {
@@ -56,7 +57,7 @@
             z-index: 99999;
         }
 
-        /* BARRA DE PROGRESSO DOURADA */
+        /* BARRA DE PROGRESSO DOURADA NO TOPO */
         #scrollProgress {
             position: fixed;
             top: 0; left: 0;
@@ -69,7 +70,7 @@
 
         .font-luxury { font-family: 'Cinzel', serif; }
 
-        /* BADGE "SELO DE LACRE" */
+        /* BADGE "MAIS VENDIDO" NOS CARDS */
         .badge-best-seller {
             position: absolute;
             top: 10px;
@@ -87,11 +88,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             border: 1px solid rgba(0,0,0,0.15);
-            box-shadow: 
-                1px 2px 4px rgba(0,0,0,0.5), 
-                inset 1px 1px 1px rgba(255,255,255,0.4),
-                inset -1px -1px 1px rgba(0,0,0,0.2);
-            text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+            box-shadow: 1px 2px 4px rgba(0,0,0,0.5);
         }
 
         #splash-screen {
@@ -110,19 +107,12 @@
         .video-vignette {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle, transparent 20%, #000 95%),
-                linear-gradient(to bottom, transparent 80%, #000 100%),
-                linear-gradient(to top, transparent 80%, #000 100%);
+            background: radial-gradient(circle, transparent 20%, #000 95%);
             pointer-events: none;
             z-index: 10000;
         }
 
-        #introVideo {
-            width: 100%; height: 100%; object-fit: contain;
-            filter: contrast(1.1) brightness(0.9);
-            mix-blend-mode: lighten; 
-        }
+        #introVideo { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: lighten; }
 
         .header-container {
             position: relative;
@@ -132,554 +122,75 @@
             justify-content: space-between;
             align-items: center;
             z-index: 10;
-            overflow: hidden; 
             background: linear-gradient(to bottom, #001f15 0%, var(--verde-fundo) 100%);
             min-height: 85px; 
         }
 
-        .luxury-line-container {
-            flex-grow: 1;
-            margin-left: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-        }
+        .logo-main { width: 110px; cursor: pointer; transition: transform 0.3s ease; }
+        .logo-main:active { transform: scale(0.9); }
 
-        .luxury-line-text {
-            font-family: 'Cinzel', serif;
-            font-size: 7px;
-            letter-spacing: 4px;
-            color: var(--dourado-logo);
-            text-transform: uppercase;
-            margin-bottom: 4px;
-            opacity: 0.8;
-        }
-
-        .luxury-pulse-line {
-            height: 1px;
-            width: 100%;
-            background: linear-gradient(90deg, var(--dourado-logo) 0%, rgba(197, 160, 89, 0.1) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .luxury-pulse-line::after {
-            content: "";
-            position: absolute;
-            top: 0; left: -100%;
-            width: 40%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-            animation: linePulseMotion 4s infinite ease-in-out;
-        }
-
-        @keyframes linePulseMotion {
-            0% { left: -100%; opacity: 0; }
-            20% { opacity: 1; }
-            50% { left: 100%; opacity: 0; }
-            100% { left: 100%; opacity: 0; }
-        }
-
-        .logo-main { 
-            width: 110px; 
-            position: relative; 
-            z-index: 5; 
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.4));
-            transition: transform 0.4s ease;
-        }
-
-        .search-area { 
-            padding: 0rem 1.5rem 0.8rem; 
-            margin-top: -12px; 
-            position: relative; 
-            z-index: 11; 
-            max-width: 100%; 
-        }
-
+        .luxury-line-container { flex-grow: 1; margin-left: 20px; }
+        .luxury-line-text { font-family: 'Cinzel', serif; font-size: 7px; letter-spacing: 4px; color: var(--dourado-logo); text-transform: uppercase; }
+        .luxury-pulse-line { height: 1px; width: 100%; background: linear-gradient(90deg, var(--dourado-logo) 0%, rgba(197, 160, 89, 0.1) 100%); position: relative; overflow: hidden; }
+        
+        /* BIZU: BARRA DE PESQUISA ESTILO */
+        .search-area { padding: 0rem 1.5rem 0.8rem; margin-top: -12px; position: relative; z-index: 11; }
         .search-container {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 50px;
-            padding: 8px 20px; 
-            transition: all 0.3s ease;
+            padding: 8px 20px;
             display: flex;
-            align-items: center;
         }
+        .search-input { width: 100%; background: transparent; border: none; outline: none; text-transform: uppercase; font-size: 11px; color: #fff; text-align: center; }
 
-        .search-input {
-            width: 100%; 
-            background: transparent; 
-            border: none;
-            outline: none; 
-            text-transform: uppercase; 
-            font-size: 11px;
-            color: #fff; 
-            letter-spacing: 2px; 
-            text-align: center; 
-            font-weight: 300;
-        }
+        /* BIZU: MENU DE MARCAS (ALINHAMENTO) */
+        .brand-section-container { display: flex; align-items: flex-start; gap: 8px; padding: 0 15px; margin-bottom: 1rem; }
+        .menu-hamburger { width: 45px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid rgba(197, 160, 89, 0.2); border-radius: 4px; flex-shrink: 0; }
+        #brandMenu { display: flex; overflow-x: auto; gap: 8px; padding: 0 0 12px 0; max-width: 100%; scrollbar-width: thin; scrollbar-color: var(--dourado-logo) transparent; }
+        .brand-item { font-family: 'Cinzel', serif; border: 1px solid rgba(255, 255, 255, 0.1); padding: 0 12px; font-size: 10px; text-transform: uppercase; color: rgba(197, 160, 89, 0.7); background: rgba(255, 255, 255, 0.03); white-space: nowrap; height: 38px; display: flex; align-items: center; border-radius: 4px; cursor: pointer; }
+        .brand-item.active { background: rgba(197, 160, 89, 0.1); color: #fff; border-color: var(--dourado-logo); }
 
-        /* ALINHAMENTO DO MENU DE MARCAS MANUAL */
-        .brand-section-container {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px; 
-            padding: 0 15px;
-            margin-bottom: 1rem;
-        }
-
-        .menu-hamburger {
-            width: 45px; 
-            height: 38px;
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            cursor: pointer; 
-            border: 1px solid rgba(197, 160, 89, 0.2);
-            background: rgba(255,255,255,0.02); 
-            border-radius: 4px;
-            flex-shrink: 0;
-        }
-
-        #brandMenu {
-            display: flex; 
-            overflow-x: auto; 
-            gap: 8px; 
-            padding: 0 0 12px 0;
-            align-items: flex-start;
-            max-width: 100%;
-            scrollbar-width: thin;
-            scrollbar-color: var(--dourado-logo) transparent;
-            -webkit-overflow-scrolling: touch; /* ROLAGEM SUAVE NO IPHONE */
-        }
-
-        #brandMenu::-webkit-scrollbar { 
-            display: block; 
-            height: 4px; 
-        }
-        #brandMenu::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 10px;
-        }
-        #brandMenu::-webkit-scrollbar-thumb {
-            background: linear-gradient(90deg, var(--dourado-logo), var(--dourado-brilho));
-            border-radius: 10px;
-            cursor: pointer;
-        }
+        /* BIZU: CARDS DE PRODUTO */
+        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 0 15px; }
+        @media (min-width: 1024px) { .product-grid { grid-template-columns: repeat(4, 1fr); max-width: 1400px; margin: 0 auto; } }
+        .product-card { position: relative; background: rgba(255,255,255,0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 20px 15px; text-align: center; transition: all 0.4s; }
+        .product-card:hover { transform: translateY(-8px); border-color: var(--dourado-logo); background: rgba(0,0,0,0.3); }
+        .product-price { font-size: 16px; font-weight: 700; margin-bottom: 18px; color: var(--dourado-logo); display: block; }
         
-        .brand-item {
-            font-family: 'Cinzel', serif; 
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 0 12px;
-            font-size: 10px; 
-            text-transform: uppercase;
-            color: rgba(197, 160, 89, 0.7); 
-            background: rgba(255, 255, 255, 0.03); 
-            backdrop-filter: blur(8px);
-            white-space: nowrap;
-            letter-spacing: 1px;
-            transition: all 0.4s;
-            cursor: pointer;
-            border-radius: 4px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .brand-item.active { 
-            background: rgba(197, 160, 89, 0.1); 
-            color: #fff; 
-            border-color: var(--dourado-logo);
-        }
-
-        #sidebar {
-            position: fixed;
-            top: 0; left: -300px;
-            width: 280px; height: 100%;
-            background: rgba(0, 22, 15, 0.8);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            z-index: 3000;
-            transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            flex-direction: column;
-        }
-
-        #sidebar.open { left: 0; }
-
-        .sidebar-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(4px);
-            z-index: 2999;
-            display: none;
-        }
-
-        .product-grid { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 20px; padding: 0 15px; 
-            max-width: 100%;
-        }
-
-        @media (min-width: 1024px) {
-            .product-grid { grid-template-columns: repeat(4, 1fr); max-width: 1400px; margin: 0 auto; gap: 30px; }
-        }
-
-        .product-card {
-            position: relative;
-            background: rgba(255,255,255,0.02); 
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 20px 15px; 
-            text-align: center; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between;
-            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            box-shadow: 
-                inset 0 0 20px rgba(0,0,0,0.4), 
-                0 10px 30px rgba(0,10,5,0.8);
-            overflow: hidden;
-        }
-
-        .product-card:hover {
-            transform: translateY(-8px);
-            background: rgba(0, 0, 0, 0.35); 
-            box-shadow: 
-                inset 0 0 35px rgba(0,0,0,0.6), 
-                0 25px 50px rgba(0,5,2,1);
-            border-color: rgba(197, 160, 89, 0.4);
-            z-index: 10;
-        }
-
-        .card-animate {
-            opacity: 0;
-            animation: cardAppear 0.6s ease forwards;
-        }
-
-        @keyframes cardAppear {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .card-notes-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 4px;
-            margin-bottom: 12px;
-            min-height: 18px;
-        }
-
-        .card-note-tag {
-            font-size: 7px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 2px 6px;
-            border: 1px solid rgba(197, 160, 89, 0.3);
-            color: var(--dourado-logo);
-            background: rgba(197, 160, 89, 0.05);
-            border-radius: 2px;
-            white-space: nowrap;
-        }
-
-        .product-img { height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; cursor: pointer; overflow: hidden; }
-        .product-img img { max-height: 100%; object-fit: contain; transition: transform 0.6s cubic-bezier(0.33, 1, 0.68, 1); }
-        
-        .product-card:hover .product-img img {
-            transform: scale(1.12);
-        }
-
-        .product-brand { font-size: 9px; color: var(--dourado-logo); text-transform: uppercase; margin-bottom: 6px; letter-spacing: 2px; }
-        .product-name { font-size: 13px; font-weight: 400; text-transform: uppercase; line-height: 1.3; height: 2.6em; overflow: hidden; margin-bottom: 10px; color: #fff; letter-spacing: 1px; }
-        
-        .product-price { 
-            font-size: 16px; 
-            font-weight: 700; 
-            margin-bottom: 18px; 
-            letter-spacing: 1px; 
-            background: linear-gradient(90deg, #bf953f, #fcf6ba, #b38728, #fcf6ba, #bf953f);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: goldFoil 3s linear infinite;
-            display: block;
-            width: 100%;
-        }
-
-        /* TEXTO INDISPONÍVEL CORRIGIDO PARA VERMELHO HARMÔNICO */
+        /* BIZU: TEXTO INDISPONÍVEL CORRIGIDO */
         .status-unavailable {
-            color: #ff0000 !important;
-            -webkit-text-fill-color: #ff0000 !important;
+            color: var(--vermelho-esgotado) !important;
+            -webkit-text-fill-color: var(--vermelho-esgotado) !important;
             background: none !important;
-            -webkit-background-clip: initial !important;
-            background-clip: initial !important;
             font-size: 10px !important;
-            letter-spacing: 2px;
-            font-weight: 600;
-            text-transform: uppercase;
-            animation: none !important;
-        }
-
-        @keyframes goldFoil {
-            to { background-position: 200% center; }
-        }
-
-        .btn-add {
-            background: #ffffff; 
-            color: #000; 
-            width: 100%; 
-            padding: 14px 0; 
-            border: 1px solid rgba(197, 160, 89, 0.4); 
-            font-family: 'Cinzel', serif; 
-            font-weight: 700; 
-            font-size: 9px; 
-            text-transform: uppercase; 
-            letter-spacing: 2.5px; 
-            cursor: pointer; 
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative; 
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(197, 160, 89, 0.1);
-        }
-
-        .btn-add:active, .btn-add:hover {
-            transform: translateY(-2px);
-            border-color: var(--dourado-logo);
-            box-shadow: 0 0 20px rgba(197, 160, 89, 0.5); 
-            letter-spacing: 3px;
-        }
-
-        .btn-add::after {
-            content: "";
-            position: absolute;
-            top: -50%; left: -100%;
-            width: 50%; height: 200%;
-            background: linear-gradient(
-                to right, 
-                transparent, 
-                rgba(197, 160, 89, 0.1), 
-                rgba(255, 255, 255, 0.7), 
-                rgba(197, 160, 89, 0.1), 
-                transparent
-            );
-            transform: rotate(30deg);
-            animation: btnShine 5s infinite ease-in-out;
-        }
-
-        @keyframes btnShine {
-            0% { left: -100%; }
-            15% { left: 150%; }
-            100% { left: 150%; }
-        }
-
-        .qty-selector {
-            display: flex; align-items: center; justify-content: center; gap: 15px;
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 10px 5px;
-            backdrop-filter: blur(5px);
-        }
-
-        .qty-btn { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: #fff; color: #000; border-radius: 50%; font-weight: bold; }
-        
-        @keyframes liquidReveal {
-            0% { transform: scale(0.6) translateY(30px); opacity: 0; filter: blur(15px); }
-            100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); }
-        }
-
-        #productModal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); z-index: 200; backdrop-filter: blur(12px);
-            justify-content: center; align-items: center; padding: 20px;
-            transition: all 0.4s ease;
-        }
-
-        #productModal[style*="display: flex"] .modal-container {
-            animation: liquidReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .modal-container {
-            background: rgba(0, 22, 15, 0.75); 
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            width: 100%; max-width: 450px;
-            padding: 40px 25px; position: relative; max-height: 90vh; overflow-y: auto;
-            border-radius: 8px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.8);
-        }
-
-        #cartModal {
-            display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0); z-index: 200; 
-            justify-content: flex-end; align-items: center; 
-            pointer-events: none; transition: background 0.4s ease;
-        }
-
-        #cartModal.open {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(4px);
-            pointer-events: auto;
-        }
-
-        #cartModal .modal-container {
-            background: rgba(255, 255, 255, 0.85); 
-            color: #000; 
-            padding: 0; width: 100%; max-width: 400px; height: 100%; max-height: 100vh;
-            margin-right: -420px; transition: margin-right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            border: none; border-left: 1px solid rgba(197, 160, 89, 0.2);
-            display: flex; flex-direction: column;
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 0;
-            animation: none !important;
-        }
-
-        #cartModal.open .modal-container { margin-right: 0; }
-        
-        .pyramid-section {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 25px;
-            padding-top: 20px;
-            text-align: left;
-        }
-        .pyramid-title {
-            font-family: 'Cinzel', serif;
-            color: var(--dourado-logo);
-            font-size: 11px;
-            letter-spacing: 2px;
-            text-align: center;
-            margin-bottom: 15px;
-            display: block;
-        }
-        .note-item { margin-bottom: 12px; }
-        .note-label { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 3px; }
-        .note-content { font-size: 11px; color: #fff; font-weight: 300; }
-
-        #cartModal h2 { color: #fff; background-color: var(--verde-fundo); padding: 35px 20px; margin: 0; text-transform: uppercase; font-weight: 700; letter-spacing: 2px; }
-        .close-modal { position: absolute; top: 5px; right: 15px; color: #ff0000 !important; font-size: 45px; cursor: pointer; z-index: 300; line-height: 1; font-weight: bold; }
-
-        .cart-float { position: fixed; bottom: 30px; right: 20px; background: #fff; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 100; box-shadow: 0 6px 25px rgba(0,0,0,0.7); cursor: pointer; }
-        .cart-count { position: absolute; top: 0px; right: 0px; background: #ff0000; color: #fff; font-size: 11px; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; }
-
-        #luxuryToast { 
-            visibility: hidden; 
-            min-width: 300px; 
-            background-color: var(--verde-detalhe); 
-            color: #fff; 
-            text-align: center; 
-            border: 1px solid var(--dourado-logo); 
-            padding: 16px; 
-            position: fixed; 
-            z-index: 1000000; 
-            left: 50%; 
-            bottom: 80px; 
-            transform: translateX(-50%); 
-            font-family: 'Cinzel', serif; 
-        }
-        #luxuryToast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
-        @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 80px; opacity: 1; } }
-        @keyframes fadeout { from { bottom: 80px; opacity: 1; } to { bottom: 0; opacity: 0; } }
-
-        .premium-footer {
-            background-color: #000c08; 
-            border-top: 1px solid rgba(197, 160, 89, 0.2);
-            padding: 60px 20px 40px;
-            margin-top: 80px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .footer-content {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            align-items: flex-start;
-            gap: 40px;
-            text-align: center;
-        }
-
-        .footer-column {
-            flex: 1;
-            min-width: 250px;
-        }
-
-        .footer-column img.footer-logo-small {
-            width: 130px;
-            margin: 0 auto 20px;
-            opacity: 0.9;
-        }
-
-        .footer-slogan {
-            font-family: 'Cinzel', serif;
-            font-size: 11px;
-            color: var(--dourado-logo);
-            letter-spacing: 2px;
-            line-height: 1.8;
-            max-width: 250px;
-            margin: 0 auto;
-        }
-
-        .footer-title {
-            font-family: 'Cinzel', serif;
-            color: #fff;
-            font-size: 13px;
-            letter-spacing: 3px;
-            margin-bottom: 25px;
-            text-transform: uppercase;
-        }
-
-        .footer-column ul li { margin-bottom: 12px; }
-        .footer-column ul li a {
-            color: #888;
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            transition: color 0.3s;
-            cursor: pointer;
-        }
-        .footer-column ul li a:hover { color: var(--dourado-logo); }
-
-        .footer-bottom {
-            margin-top: 50px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.03);
-            text-align: center;
-        }
-
-        .footer-bottom p {
-            font-size: 9px;
-            letter-spacing: 2px;
-            color: #555;
-            text-transform: uppercase;
-        }
-
-        .promo-menu-bar {
-            background: linear-gradient(135deg, #c5a059 0%, #fcf6ba 50%, #b38728 100%);
-            color: #00160f;
-            font-family: 'Cinzel', serif;
             font-weight: 700;
-            font-size: 11px;
-            letter-spacing: 2px;
-            text-align: center;
-            padding: 12px;
-            margin: 15px;
-            border-radius: 50px;
-            cursor: pointer;
             text-transform: uppercase;
-            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
-            transition: transform 0.3s ease;
+            letter-spacing: 1px;
         }
-        .promo-menu-bar:active { transform: scale(0.95); }
 
+        .btn-add { background: #fff; color: #000; width: 100%; padding: 14px 0; font-family: 'Cinzel', serif; font-weight: 700; font-size: 9px; text-transform: uppercase; cursor: pointer; border-radius: 0; }
+
+        /* MODAIS E CARRINHO */
+        #productModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 200; backdrop-filter: blur(10px); justify-content: center; align-items: center; }
+        #cartModal { display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0); z-index: 200; justify-content: flex-end; pointer-events: none; transition: background 0.4s; }
+        #cartModal.open { background: rgba(0, 0, 0, 0.7); pointer-events: auto; }
+        .modal-container { background: var(--verde-fundo); border: 1px solid rgba(255,255,255,0.1); width: 100%; max-width: 450px; padding: 40px 25px; position: relative; border-radius: 8px; }
+        #cartModal .modal-container { background: #fff; color: #000; height: 100%; margin-right: -420px; transition: margin-right 0.4s; border-radius: 0; }
+        #cartModal.open .modal-container { margin-right: 0; }
+        .close-modal { position: absolute; top: 10px; right: 20px; color: #ff0000; font-size: 35px; cursor: pointer; font-weight: bold; }
+
+        .cart-float { position: fixed; bottom: 30px; right: 20px; background: #fff; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 100; box-shadow: 0 6px 20px rgba(0,0,0,0.5); cursor: pointer; }
+        .cart-count { position: absolute; top: 0; right: 0; background: #ff0000; color: #fff; font-size: 10px; width: 20px; height: 20px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; }
+
+        /* BIZU: FOOTER */
+        .premium-footer { background: #000c08; border-top: 1px solid rgba(197, 160, 89, 0.2); padding: 60px 20px 40px; margin-top: 80px; text-align: center; }
+        .footer-logo-small { width: 120px; margin: 0 auto 20px; cursor: pointer; }
+        .footer-title { font-family: 'Cinzel', serif; color: #fff; font-size: 12px; margin-bottom: 20px; letter-spacing: 2px; }
+        .footer-column ul li a { color: #888; font-size: 10px; text-transform: uppercase; cursor: pointer; transition: color 0.3s; }
+        .footer-column ul li a:hover { color: var(--dourado-logo); }
+        .no-click { cursor: default !important; color: #555 !important; }
     </style>
 </head>
 <body>
@@ -687,28 +198,25 @@
     <canvas id="magicDustCanvas"></canvas>
     <div class="noise-bg"></div>
     <div id="scrollProgress"></div>
-    <div id="luxuryToast"></div>
+    <div id="luxuryToast" style="visibility: hidden; position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--verde-detalhe); border: 1px solid var(--dourado-logo); padding: 15px; z-index: 1000000; font-family: 'Cinzel'; text-align: center;"></div>
 
-    <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
-    <nav id="sidebar">
-        <div class="sidebar-header flex justify-between items-center p-6 border-b border-[rgba(255,255,255,0.1)]">
-            <span class="font-luxury text-sm text-white tracking-widest">MENU</span>
-            <span class="text-2xl cursor-pointer text-white" onclick="toggleSidebar(false)">&times;</span>
+    <!-- MENU LATERAL -->
+    <div id="sidebarOverlay" class="sidebar-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:2999;" onclick="toggleSidebar(false)"></div>
+    <nav id="sidebar" style="position:fixed; top:0; left:-300px; width:280px; height:100%; background:var(--verde-fundo); z-index:3000; transition:0.4s; border-right:1px solid rgba(255,255,255,0.1);">
+        <div class="p-6 border-b border-gray-800 flex justify-between items-center">
+            <span class="font-luxury text-white tracking-widest text-sm">MENU</span>
+            <span class="text-white text-2xl cursor-pointer" onclick="toggleSidebar(false)">&times;</span>
         </div>
-        <div class="overflow-y-auto">
-            <div id="sidebarOriginsList"></div>
-        </div>
+        <div id="sidebarOriginsList"></div>
     </nav>
 
     <div id="splash-screen">
         <div class="video-vignette"></div>
-        <video id="introVideo" autoplay muted playsinline>
-            <source src="VideoEntrada.mp4" type="video/mp4">
-        </video>
+        <video id="introVideo" autoplay muted playsinline><source src="VideoEntrada.mp4" type="video/mp4"></video>
     </div>
 
     <header class="header-container">
-        <img src="assinatura.png" alt="Logo" class="logo-main">
+        <img src="assinatura.png" alt="Logo" class="logo-main" onclick="filterByBrand('Todos')">
         <div class="luxury-line-container">
             <span class="luxury-line-text">Perfumaria De Luxo</span>
             <div class="luxury-pulse-line"></div>
@@ -730,6 +238,7 @@
 
     <main class="product-grid" id="productGrid"></main>
 
+    <!-- MODAL DE PRODUTO -->
     <div id="productModal" onclick="closeModalExterno(event, 'productModal')">
         <div class="modal-container" onclick="event.stopPropagation()">
             <span class="close-modal" onclick="closeModal('productModal')">&times;</span>
@@ -737,146 +246,102 @@
         </div>
     </div>
 
+    <!-- MODAL DO CARRINHO -->
     <div id="cartModal" onclick="closeModalExterno(event, 'cartModal')">
         <div class="modal-container" onclick="event.stopPropagation()">
             <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
-            <h2 class="font-luxury text-xl text-center">RESUMO DO PEDIDO</h2>
-            <div class="flex-1 overflow-y-auto">
-                <div id="cartSummaryList" class="px-6"></div>
-                <div class="mt-6 flex justify-between items-center font-bold px-6">
-                    <span class="text-sm tracking-widest text-gray-500">TOTAL:</span>
-                    <span id="cartSummaryTotal" class="text-xl">R$ 0,00</span>
-                </div>
-                <div class="flex justify-center mt-6 px-6">
-                    <img src="pagamento.webp" alt="Pagamento" class="max-w-[80%]">
-                </div>
-                <div class="delivery-option-box px-6 p-4 mt-4 border-t border-gray-100">
-                    <p class="text-[10px] tracking-widest mb-4">OPÇÕES DE RECEBIMENTO</p>
-                    <label class="flex items-center gap-2 mb-2 cursor-pointer">
-                        <input type="radio" name="deliveryMethod" value="Retirar na Loja" checked onclick="toggleDeliveryWarning(false)">
-                        <span class="uppercase text-xs">Retirar na Loja</span>
-                    </label>
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="deliveryMethod" value="Entregar no Endereço" onclick="toggleDeliveryWarning(true)">
-                        <span class="uppercase text-xs">Entregar no Endereço</span>
-                    </label>
-                    <div id="feeWarning" class="text-[11px] text-red-500 mt-2 italic hidden">⚠️ Verificar taxa de entrega com o vendedor.</div>
-                </div>
-            </div>
-            <div class="px-6 pb-8">
-                <button class="btn-add mt-4 bg-black text-white" onclick="finalizeOrder()">FINALIZAR NO WHATSAPP</button>
+            <h2 class="font-luxury text-xl text-center py-8">RESUMO DO PEDIDO</h2>
+            <div id="cartSummaryList" class="px-6 overflow-y-auto" style="max-height: 50vh;"></div>
+            <div class="p-6 border-t">
+                <div class="flex justify-between font-bold mb-4"><span>TOTAL:</span><span id="cartSummaryTotal">R$ 0,00</span></div>
+                <button class="btn-add bg-black text-white" onclick="finalizeOrder()">FINALIZAR NO WHATSAPP</button>
             </div>
         </div>
     </div>
 
     <footer class="premium-footer">
-        <div class="footer-content">
+        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
             <div class="footer-column">
-                <img src="assinatura.png" class="footer-logo-small" alt="Logo">
-                <p class="footer-slogan">A arte da perfumaria fina, traduzida em frascos exclusivos.</p>
+                <img src="assinatura.png" class="footer-logo-small" alt="Logo" onclick="filterByBrand('Todos')">
+                <p class="text-[10px] text-gray-500 uppercase tracking-widest">A arte da perfumaria fina.</p>
             </div>
             <div class="footer-column">
                 <h3 class="footer-title">Coleções</h3>
-                <ul>
+                <ul class="space-y-2">
                     <li><a onclick="filterByBrand('Todos')">Ver Tudo</a></li>
                     <li><a onclick="filterByBestSellers()">Mais Vendidos</a></li>
-                    <li><a onclick="filterByOrigin('Nacional')">Nacionais</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h3 class="footer-title">Atendimento</h3>
-                <ul>
+                <ul class="space-y-2">
                     <li><a href="https://wa.me/5595991154395" target="_blank">Suporte WhatsApp</a></li>
-                    <li><a href="#">Boa Vista - Roraima</a></li>
+                    <li><span class="no-click text-[10px] uppercase tracking-widest text-gray-600">Boa Vista - Roraima</span></li>
                 </ul>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>© 2026 Assinatura Parfum - Todos os direitos reservados</p>
-        </div>
+        <p class="mt-10 text-[9px] text-gray-700 uppercase tracking-widest">© 2026 Assinatura Parfum</p>
     </footer>
 
     <div class="cart-float" onclick="openCartModal()">
-        <svg width="28" height="28" viewBox="0 0 16 16"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
+        <svg width="24" height="24" viewBox="0 0 16 16" fill="black"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5z"/></svg>
         <div class="cart-count" id="cartBadge">0</div>
     </div>
 
     <script>
+        /* BIZU: CONFIGURAÇÕES INICIAIS */
         const BASE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS0crXc21GaE7jllSoyZqiE5xIa7lGGvtKEFjbK-0oil1dQWdMwcz6cRpH70qPbWMwzZF1KlLEP8d83/pub?gid=0&single=true&output=csv'; 
-        
         let database = [];
         let cart = [];
-        let isMaintenance = false;
         const whatsappNumber = "5595991154395";
 
+        /* BIZU: EFEITO DE POEIRA DE OURO */
         const canvas = document.getElementById('magicDustCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
-
         class Particle {
             constructor(x, y) {
                 this.x = x; this.y = y;
-                this.size = Math.random() * 2.5 + 0.5;
-                this.speedX = Math.random() * 1.5 - 0.75;
-                this.speedY = Math.random() * 1.5 - 0.75;
-                this.color = Math.random() > 0.5 ? '#c5a059' : '#fcf6ba';
-                this.opacity = 1; this.life = 1; this.decay = Math.random() * 0.015 + 0.01;
+                this.size = Math.random() * 2;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.life = 1; this.decay = Math.random() * 0.02 + 0.01;
             }
-            update() { this.x += this.speedX; this.y += this.speedY; this.life -= this.decay; this.opacity = this.life; }
-            draw() {
-                ctx.globalAlpha = this.opacity; ctx.fillStyle = this.color; ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-                ctx.shadowBlur = Math.random() > 0.8 ? 10 : 0; ctx.shadowColor = this.color;
-            }
+            update() { this.x += this.speedX; this.y += this.speedY; this.life -= this.decay; }
+            draw() { ctx.globalAlpha = this.life; ctx.fillStyle = '#c5a059'; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
         }
-
         function handleParticles(e) {
             const x = e.touches ? e.touches[0].clientX : e.clientX;
             const y = e.touches ? e.touches[0].clientY : e.clientY;
-            for (let i = 0; i < 3; i++) particles.push(new Particle(x, y));
+            for (let i = 0; i < 2; i++) particles.push(new Particle(x, y));
         }
         window.addEventListener('mousemove', handleParticles);
         window.addEventListener('touchmove', handleParticles);
-
-        function animateParticles() {
+        function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update(); particles[i].draw();
-                if (particles[i].life <= 0) { particles.splice(i, 1); i--; }
-            }
-            requestAnimationFrame(animateParticles);
+            particles = particles.filter(p => p.life > 0);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
         }
-        animateParticles();
+        animate();
 
-        window.onscroll = function() {
-            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            let scrolled = (winScroll / height) * 100;
-            document.getElementById("scrollProgress").style.width = scrolled + "%";
-        };
+        /* BIZU: FUNÇÕES DE FILTRO E NAVEGAÇÃO */
+        function scrollToProducts() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
-        function toggleSidebar(open) {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebarOverlay');
-            if (open) { sidebar.classList.add('open'); overlay.style.display = 'block'; } 
-            else { sidebar.classList.remove('open'); overlay.style.display = 'none'; }
+        function filterByBestSellers() {
+            const filtered = database.filter(p => p.maisVendido);
+            displayProducts(filtered, true);
+            scrollToProducts();
         }
-
-        function toggleSubmenu(id) { const el = document.getElementById(id); if (el) el.classList.toggle('hidden'); }
-        function scrollToProducts() { const element = document.querySelector('.search-area'); if (element) element.scrollIntoView({ behavior: 'smooth' }); }
 
         async function loadSheetData() {
             try {
                 const response = await fetch(BASE_SHEET_URL + '&t=' + new Date().getTime());
                 const data = await response.text();
-                const allRows = data.split(/\r?\n/);
-                const headers = allRows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                if (headers[12]?.replace(/"/g, '').trim() === "0") { isMaintenance = true; return; }
-                const rows = allRows.slice(1); 
+                const rows = data.split(/\r?\n/).slice(1); 
                 database = rows.map(row => {
                     const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); 
                     return {
@@ -893,102 +358,121 @@
                         notasCoracao: columns[10]?.replace(/"/g, '').trim() || "",
                         notasBase: columns[11]?.replace(/"/g, '').trim() || ""
                     };
-                }).filter(p => p.nome && p.nome.length > 2);
-                generateMenus(database); displayProducts(database, true); 
-                return true; 
-            } catch (e) { console.error("Erro ao carregar dados:", e); return false; }
+                }).filter(p => p.nome);
+                generateMenus(database);
+                displayProducts(database, true);
+            } catch (e) { console.error("Erro planilha:", e); }
         }
 
         function generateMenus(data) {
-            const horizontalMenu = document.getElementById('brandMenu');
-            const sidebarOriginsList = document.getElementById('sidebarOriginsList');
-            const brands = [...new Set(data.map(p => p.marca))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
-            let hHtml = `<div class="brand-item active" onclick="filterByBrand('Todos', this)">TODOS</div>`;
-            brands.forEach(b => { hHtml += `<div class="brand-item" onclick="filterByBrand('${b}', this)">${b.toUpperCase()}</div>`; });
-            horizontalMenu.innerHTML = hHtml;
-            const origins = [...new Set(data.map(p => p.origem).filter(o => o))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
-            let oHtml = `<div class="promo-menu-bar" onclick="filterByPromotions()">PROMOÇÕES</div>`;
-            origins.forEach((origin, index) => {
-                const brandsInOrigin = [...new Set(data.filter(p => p.origem === origin).map(p => p.marca))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
-                const submenuId = `submenu_${index}`;
-                oHtml += `<div class="sidebar-item p-6 text-white font-luxury text-xs tracking-widest cursor-pointer border-b border-[rgba(255,255,255,0.05)] flex justify-between items-center" onclick="toggleSubmenu('${submenuId}')">${origin.toUpperCase()}<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div id="${submenuId}" class="hidden bg-[rgba(0,0,0,0.2)]"><div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(255,255,255,0.03)]" onclick="filterByOrigin('${origin}'); toggleSidebar(false)">VER TODOS</div>${brandsInOrigin.map(brand => `<div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(255,255,255,0.03)]" onclick="filterByBrand('${brand}'); toggleSidebar(false)">${brand.toUpperCase()}</div>`).join('')}</div>`;
-            });
-            sidebarOriginsList.innerHTML = oHtml;
+            const menu = document.getElementById('brandMenu');
+            const brands = [...new Set(data.map(p => p.marca))].sort();
+            let html = `<div class="brand-item active" onclick="filterByBrand('Todos', this)">TODOS</div>`;
+            brands.forEach(b => html += `<div class="brand-item" onclick="filterByBrand('${b}', this)">${b.toUpperCase()}</div>`);
+            menu.innerHTML = html;
         }
 
+        function filterByBrand(brand, element) {
+            document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active'));
+            if(element) element.classList.add('active');
+            else document.querySelector('.brand-item')?.classList.add('active');
+            
+            const filtered = brand === 'Todos' ? database : database.filter(p => p.marca === brand);
+            displayProducts(filtered, true);
+            scrollToProducts();
+        }
+
+        function filterProducts() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = database.filter(p => p.nome.toLowerCase().includes(term) || p.marca.toLowerCase().includes(term));
+            displayProducts(filtered, false);
+        }
+
+        /* BIZU: LÓGICA DE EXIBIÇÃO */
         function getPriceDisplay(p) {
             if (p.preco <= 0) return '<span class="status-unavailable">INDISPONÍVEL</span>';
-            if (p.promocao > 0) return `<span style="text-decoration: line-through; opacity: 0.5; font-size: 0.9em; -webkit-text-fill-color: rgba(255,255,255,0.4);">R$ ${p.preco.toFixed(2).replace('.', ',')}</span><br><span>R$ ${p.promocao.toFixed(2).replace('.', ',')}</span>`;
-            return `<span>R$ ${p.preco.toFixed(2).replace('.', ',')}</span>`;
+            if (p.promocao > 0) return `<span class="line-through opacity-40 text-xs">R$ ${p.preco.toFixed(2)}</span><br>R$ ${p.promocao.toFixed(2)}`;
+            return `R$ ${p.preco.toFixed(2)}`;
         }
 
-        function displayProducts(products, shouldAnimate = false) {
+        function displayProducts(products, animate) {
             const grid = document.getElementById('productGrid');
-            grid.innerHTML = products.map((p, index) => {
-                const itemInCart = cart.find(i => i.id === p.id);
-                const qty = itemInCart ? itemInCart.qty : 0;
-                const precoDisplay = getPriceDisplay(p);
-                const highlightTags = (p.notasTopo ? p.notasTopo.split(',') : []).slice(0, 3).map(tag => `<span class="card-note-tag">${tag.trim()}</span>`).join('');
-                const animationDelay = shouldAnimate ? (index % 12) * 0.1 : 0;
-                let controlsHtml = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector"><button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button><span class="qty-value">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR AO CARRINHO</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`;
-                return `<div class="product-card ${shouldAnimate ? 'card-animate' : ''}" style="animation-delay: ${animationDelay}s">${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}<div onclick="openModal('${p.id}')"><div class="product-img"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div><p class="product-brand">${p.marca}</p><h2 class="product-name font-luxury">${p.nome}</h2><div class="card-notes-container">${highlightTags}</div></div><div><p class="product-price">${precoDisplay}</p>${controlsHtml}</div></div>`;
+            grid.innerHTML = products.map(p => {
+                const inCart = cart.find(c => c.id === p.id);
+                const qty = inCart ? inCart.qty : 0;
+                return `
+                <div class="product-card ${animate ? 'card-animate' : ''}">
+                    ${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}
+                    <div onclick="openModal('${p.id}')">
+                        <img src="${p.imagem}" class="h-40 mx-auto mb-4 object-contain">
+                        <p class="text-[8px] text-gray-500 uppercase">${p.marca}</p>
+                        <h2 class="font-luxury text-xs mb-4 h-8 overflow-hidden">${p.nome}</h2>
+                        <span class="product-price">${getPriceDisplay(p)}</span>
+                    </div>
+                    ${p.preco > 0 ? (qty > 0 ? `<div class="flex items-center justify-center gap-4 bg-gray-100 p-2 text-black"><button onclick="changeQty('${p.id}',-1)">-</button><span>${qty}</span><button onclick="changeQty('${p.id}',1)">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}')">ADICIONAR</button>`) : `<button class="btn-add opacity-30" disabled>ESGOTADO</button>`}
+                </div>`;
             }).join('');
         }
 
-        function filterByBrand(brand, element) { if (element) { document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active')); element.classList.add('active'); } const filtered = brand === 'Todos' ? database : database.filter(p => p.marca === brand); displayProducts(filtered, true); scrollToProducts(); }
-        function filterByOrigin(origin) { toggleSidebar(false); const filtered = database.filter(p => p.origem.toLowerCase() === origin.toLowerCase()); displayProducts(filtered, true); scrollToProducts(); }
-        function filterByPromotions() { toggleSidebar(false); const filtered = database.filter(p => p.promocao > 0); displayProducts(filtered, true); scrollToProducts(); }
-        function filterProducts() { const term = document.getElementById('searchInput').value.toLowerCase(); displayProducts(database.filter(p => p.nome.toLowerCase().includes(term) || p.marca.toLowerCase().includes(term)), true); }
-
-        function addToCart(id) { const p = database.find(i => i.id === id); cart.push({ ...p, qty: 1 }); updateBadge(); displayProducts(database, false); showLuxuryToast("Boas compras", "item adicionado ao carrinho"); }
-        function changeQty(id, delta) { const idx = cart.findIndex(i => i.id === id); if (idx > -1) { cart[idx].qty = Math.max(0, cart[idx].qty + delta); if (cart[idx].qty === 0) cart.splice(idx, 1); } updateBadge(); displayProducts(database, false); if (document.getElementById('cartModal').classList.contains('open')) renderCartSummary(); }
-        function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateBadge(); displayProducts(database, false); if (cart.length === 0) closeModal('cartModal'); else renderCartSummary(); }
-        function updateBadge() { document.getElementById('cartBadge').innerText = cart.reduce((s, i) => s + i.qty, 0); }
-        function openCartModal() { if (cart.length === 0) return showLuxuryToast("CARRINHO VAZIO", "Adicione itens"); renderCartSummary(); document.getElementById('cartModal').classList.add('open'); }
-        
-        function renderCartSummary() { 
-            let total = 0; 
-            document.getElementById('cartSummaryList').innerHTML = cart.map(i => { 
-                const precoEfetivo = i.promocao > 0 ? i.promocao : i.preco;
-                const sub = precoEfetivo * i.qty; total += sub; 
-                return `<div class="flex justify-between items-center py-6 border-b relative"><div class="flex items-center gap-3"><img src="${i.imagem}" class="w-12 h-12 object-contain" onerror="this.src='assinatura.png'"><div><p class="text-[10px] font-bold uppercase pr-8 leading-tight">${i.nome}</p><div class="flex items-center gap-3 mt-2"><button class="qty-btn" onclick="changeQty('${i.id}', -1)">-</button><span class="text-xs">${i.qty}</span><button class="qty-btn" onclick="changeQty('${i.id}', 1)">+</button></div></div></div><div class="text-right flex flex-col items-end"><span class="text-red-500 cursor-pointer text-2xl leading-none font-bold absolute top-2 right-0" onclick="removeFromCart('${i.id}')">&times;</span><p class="text-sm font-bold whitespace-nowrap mt-4">R$ ${sub.toFixed(2).replace('.', ',')}</p></div></div>`; 
-            }).join(''); 
-            document.getElementById('cartSummaryTotal').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`; 
+        /* BIZU: LÓGICA DO CARRINHO */
+        function addToCart(id) {
+            const p = database.find(i => i.id === id);
+            cart.push({...p, qty: 1});
+            updateBadge();
+            displayProducts(database, false);
+        }
+        function changeQty(id, delta) {
+            const idx = cart.findIndex(i => i.id === id);
+            if(idx > -1) {
+                cart[idx].qty += delta;
+                if(cart[idx].qty <= 0) cart.splice(idx, 1);
+            }
+            updateBadge();
+            displayProducts(database, false);
+            if(document.getElementById('cartModal').classList.contains('open')) renderCart();
+        }
+        function updateBadge() { document.getElementById('cartBadge').innerText = cart.reduce((a, b) => a + b.qty, 0); }
+        function openCartModal() { renderCart(); document.getElementById('cartModal').classList.add('open'); }
+        function renderCart() {
+            let total = 0;
+            document.getElementById('cartSummaryList').innerHTML = cart.map(i => {
+                const price = i.promocao > 0 ? i.promocao : i.preco;
+                total += price * i.qty;
+                return `<div class="flex justify-between py-4 border-b"><span>${i.qty}x ${i.nome}</span><span>R$ ${(price*i.qty).toFixed(2)}</span></div>`;
+            }).join('');
+            document.getElementById('cartSummaryTotal').innerText = `R$ ${total.toFixed(2)}`;
+        }
+        function finalizeOrder() {
+            let msg = "Olá! Gostaria de encomendar:\n\n";
+            cart.forEach(i => msg += `• ${i.qty}x ${i.nome}\n`);
+            window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        function openModal(id) { 
-            const p = database.find(item => item.id === id); 
-            const itemInCart = cart.find(i => i.id === p.id); 
-            const qty = itemInCart ? itemInCart.qty : 0; 
-            const precoDisplay = getPriceDisplay(p);
-            let pyramidHtml = (p.notasTopo || p.notasCoracao || p.notasBase) ? `<div class="pyramid-section"><span class="pyramid-title">PIRÂMIDE OLFATIVA</span>${p.notasTopo ? `<div class="note-item"><span class="note-label">Notas de Topo</span><p class="note-content">${p.notasTopo}</p></div>` : ''}${p.notasCoracao ? `<div class="note-item"><span class="note-label">Notas de Coração</span><p class="note-content">${p.notasCoracao}</p></div>` : ''}${p.notasBase ? `<div class="note-item"><span class="note-label">Notas de Base</span><p class="note-content">${p.notasBase}</p></div>` : ''}</div>` : "";
-            let controls = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector mx-auto w-max mb-4"><button class="qty-btn" onclick="changeQty('${p.id}', -1); openModal('${p.id}')">-</button><span class="qty-value text-center">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1); openModal('${p.id}')">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}'); openModal('${p.id}')">ADICIONAR AO CARRINHO</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`; 
-            document.getElementById('modalContent').innerHTML = `<div class="flex justify-center mb-6 relative">${p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : ''}<img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'"></div><p class="product-brand text-center">${p.marca}</p><h2 class="font-luxury text-2xl text-center text-white mb-3">${p.nome}</h2><div class="w-12 h-[1px] bg-[#c5a059] mx-auto mb-6"></div><p class="text-sm italic text-center text-gray-400 mb-6 px-4">"${p.descricao}"</p><p class="text-center text-white font-semibold text-xl mb-6">${precoDisplay}</p>${controls}${pyramidHtml}`; 
-            document.getElementById('productModal').style.display = 'flex'; 
+        /* BIZU: MODAIS */
+        function openModal(id) {
+            const p = database.find(i => i.id === id);
+            document.getElementById('modalContent').innerHTML = `
+                <img src="${p.imagem}" class="h-60 mx-auto mb-6">
+                <h2 class="font-luxury text-2xl text-center mb-2">${p.nome}</h2>
+                <p class="text-center text-gray-500 mb-6 italic">"${p.descricao}"</p>
+                <div class="text-center text-xl mb-6">${getPriceDisplay(p)}</div>
+            `;
+            document.getElementById('productModal').style.display = 'flex';
         }
-
-        function closeModal(id) { if(id === 'cartModal') { document.getElementById(id).classList.remove('open'); } else { document.getElementById(id).style.display = 'none'; } }
-        function closeModalExterno(e, id) { if (e.target.id === id) closeModal(id); }
-        function toggleDeliveryWarning(show) { document.getElementById('feeWarning').style.display = show ? 'block' : 'none'; }
-        
-        function finalizeOrder() { 
-            const method = document.querySelector('input[name="deliveryMethod"]:checked').value; 
-            let msg = "Olá! Gostaria de fazer um pedido:\n\n"; let total = 0; 
-            cart.forEach((i, index) => { 
-                const precoEfetivo = i.promocao > 0 ? i.promocao : i.preco;
-                let sub = precoEfetivo * i.qty; msg += `• *${i.qty}x ${i.nome}* - R$ ${sub.toFixed(2).replace('.', ',')}\n`; total += sub; 
-            }); 
-            msg += `\n*TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*\n*OPÇÃO:* ${method}`; 
-            window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank'); 
+        function closeModal(id) { if(id === 'cartModal') document.getElementById(id).classList.remove('open'); else document.getElementById(id).style.display = 'none'; }
+        function closeModalExterno(e, id) { if(e.target.id === id) closeModal(id); }
+        function toggleSidebar(open) {
+            document.getElementById('sidebar').style.left = open ? '0' : '-300px';
+            document.getElementById('sidebarOverlay').style.display = open ? 'block' : 'none';
         }
-
-        function showLuxuryToast(title, subtext) { const toast = document.getElementById("luxuryToast"); toast.innerHTML = `<span style="color:var(--dourado-logo)">${title}</span><br>${subtext}`; toast.className = "show"; setTimeout(() => { toast.className = ""; }, 3000); }
 
         window.addEventListener('load', () => {
-            const splash = document.getElementById('splash-screen'); const video = document.getElementById('introVideo');
-            const closeSplash = () => { splash.style.opacity = '0'; splash.style.transform = 'scale(1.1)'; setTimeout(() => splash.remove(), 800); };
-            video.play().catch(e => { closeSplash(); }); video.onended = closeSplash;
-            loadSheetData(); setTimeout(closeSplash, 1500); 
+            loadSheetData();
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.remove(), 800);
+            }, 2000);
         });
     </script>
 </body>
