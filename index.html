@@ -221,10 +221,9 @@
             font-weight: 300;
         }
 
-        /* CORREÇÃO DO ALINHAMENTO DO MENU DE MARCAS E HAMBÚRGUER */
         .brand-section-container {
             display: flex;
-            align-items: flex-start; /* Força o alinhamento pelo topo para casar com os botões */
+            align-items: flex-start;
             gap: 8px; 
             padding: 0 15px;
             margin-bottom: 1rem;
@@ -232,7 +231,7 @@
 
         .menu-hamburger {
             width: 45px; 
-            height: 38px; /* Altura exata dos botões de marca */
+            height: 38px;
             display: flex; 
             align-items: center; 
             justify-content: center;
@@ -247,7 +246,7 @@
             display: flex; 
             overflow-x: auto; 
             gap: 8px; 
-            padding: 0 0 12px 0; /* Espaço para a barra de rolagem */
+            padding: 0 0 12px 0;
             align-items: flex-start;
             max-width: 100%;
             scrollbar-width: thin;
@@ -271,18 +270,18 @@
         .brand-item {
             font-family: 'Cinzel', serif; 
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 0 12px; /* Diminuído de 20px para 12px para ser mais compacto */
+            padding: 0 12px;
             font-size: 10px; 
             text-transform: uppercase;
             color: rgba(197, 160, 89, 0.7); 
             background: rgba(255, 255, 255, 0.03); 
             backdrop-filter: blur(8px);
             white-space: nowrap;
-            letter-spacing: 1px; /* Diminuído para caber melhor */
+            letter-spacing: 1px;
             transition: all 0.4s;
             cursor: pointer;
             border-radius: 4px;
-            height: 38px; /* Altura fixa para alinhar com hambúrguer */
+            height: 38px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -411,6 +410,17 @@
             animation: goldFoil 3s linear infinite;
             display: block;
             width: 100%;
+        }
+
+        /* AJUSTE PARA O TEXTO INDISPONÍVEL FICAR VERMELHO E HARMÔNICO */
+        .status-unavailable {
+            color: #ff3b3b !important;
+            -webkit-text-fill-color: #ff3b3b !important;
+            background: none !important;
+            font-size: 11px !important;
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-transform: uppercase;
         }
 
         @keyframes goldFoil {
@@ -852,9 +862,10 @@
             window.scrollPauseTimeout = setTimeout(() => { isInteracting = false; }, 2000);
         });
 
+        // AUTO SCROLL CALIBRADO PARA VELOCIDADE PREMIUM (0.7)
         function autoScrollMenu() {
             if (!brandMenu || isInteracting) return;
-            brandMenu.scrollLeft += 0.4 * scrollDirection;
+            brandMenu.scrollLeft += 0.7 * scrollDirection;
             if (brandMenu.scrollLeft >= (brandMenu.scrollWidth - brandMenu.clientWidth)) {
                 scrollDirection = -1;
             } else if (brandMenu.scrollLeft <= 0) {
@@ -927,9 +938,8 @@
             sidebarOriginsList.innerHTML = oHtml;
         }
 
-        /* FUNÇÃO PARA EXIBIR PREÇO OU INDISPONÍVEL EM VERMELHO */
         function getPriceDisplay(p) {
-            if (p.preco <= 0) return '<span style="color: #ff0000; font-weight: 700; text-shadow: none;">INDISPONÍVEL</span>';
+            if (p.preco <= 0) return '<span class="status-unavailable">INDISPONÍVEL</span>';
             if (p.promocao > 0) return `<span style="text-decoration: line-through; opacity: 0.5; font-size: 0.9em; -webkit-text-fill-color: rgba(255,255,255,0.4);">R$ ${p.preco.toFixed(2).replace('.', ',')}</span><br><span>R$ ${p.promocao.toFixed(2).replace('.', ',')}</span>`;
             return `<span>R$ ${p.preco.toFixed(2).replace('.', ',')}</span>`;
         }
