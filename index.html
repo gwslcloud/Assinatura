@@ -1050,6 +1050,7 @@
         const BASE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS0crXc21GaE7jllSoyZqiE5xIa7lGGvtKEFjbK-0oil1dQWdMwcz6cRpH70qPbWMwzZF1KlLEP8d83/pub?gid=0&single=true&output=csv'; 
         
         let database = [];
+        let currentView = [];
         let cart = [];
         let isMaintenance = false;
         let quizAnswers = { family: '', occasion: '', vibe: '' };
@@ -1142,7 +1143,8 @@
                         notasBase: columns[11]?.replace(/"/g, '').trim() || ""
                     };
                 }).filter(p => p.nome && p.nome.length > 2);
-                generateMenus(database); displayProducts(database, true); 
+                currentView = database;
+                generateMenus(database); displayProducts(currentView, true); 
                 return true; 
             } catch (e) { console.error("Erro ao carregar dados:", e); return false; }
         }
@@ -1185,15 +1187,15 @@
             }).join('');
         }
 
-        function filterByBrand(brand, element) { if (element) { document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active')); element.classList.add('active'); } const filtered = brand === 'Todos' ? database : database.filter(p => p.marca === brand); displayProducts(filtered, true); scrollToProducts(); }
-        function filterByOrigin(origin) { toggleSidebar(false); const filtered = database.filter(p => p.origem.toLowerCase() === origin.toLowerCase()); displayProducts(filtered, true); scrollToProducts(); }
-        function filterByBestSellers() { const filtered = database.filter(p => p.maisVendido); displayProducts(filtered, true); scrollToProducts(); }
-        function filterByPromotions() { toggleSidebar(false); const filtered = database.filter(p => p.promocao > 0); displayProducts(filtered, true); scrollToProducts(); }
-        function filterProducts() { const term = document.getElementById('searchInput').value.toLowerCase(); displayProducts(database.filter(p => p.nome.toLowerCase().includes(term) || p.marca.toLowerCase().includes(term)), true); }
+        function filterByBrand(brand, element) { if (element) { document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active')); element.classList.add('active'); } currentView = brand === 'Todos' ? database : database.filter(p => p.marca === brand); displayProducts(currentView, true); scrollToProducts(); }
+        function filterByOrigin(origin) { toggleSidebar(false); currentView = database.filter(p => p.origem.toLowerCase() === origin.toLowerCase()); displayProducts(currentView, true); scrollToProducts(); }
+        function filterByBestSellers() { currentView = database.filter(p => p.maisVendido); displayProducts(currentView, true); scrollToProducts(); }
+        function filterByPromotions() { toggleSidebar(false); currentView = database.filter(p => p.promocao > 0); displayProducts(currentView, true); scrollToProducts(); }
+        function filterProducts() { const term = document.getElementById('searchInput').value.toLowerCase(); currentView = database.filter(p => p.nome.toLowerCase().includes(term) || p.marca.toLowerCase().includes(term)); displayProducts(currentView, true); }
 
-        function addToCart(id) { const p = database.find(i => i.id === id); cart.push({ ...p, qty: 1 }); updateBadge(); saveCart(); displayProducts(database, false); showLuxuryToast("Boas compras", "item adicionado à sacola"); }
-        function changeQty(id, delta) { const idx = cart.findIndex(i => i.id === id); if (idx > -1) { cart[idx].qty = Math.max(0, cart[idx].qty + delta); if (cart[idx].qty === 0) cart.splice(idx, 1); } updateBadge(); saveCart(); displayProducts(database, false); if (document.getElementById('cartModal').classList.contains('open')) renderCartSummary(); }
-        function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateBadge(); saveCart(); displayProducts(database, false); if (cart.length === 0) closeModal('cartModal'); else renderCartSummary(); }
+        function addToCart(id) { const p = database.find(i => i.id === id); cart.push({ ...p, qty: 1 }); updateBadge(); saveCart(); displayProducts(currentView, false); showLuxuryToast("Boas compras", "item adicionado à sacola"); }
+        function changeQty(id, delta) { const idx = cart.findIndex(i => i.id === id); if (idx > -1) { cart[idx].qty = Math.max(0, cart[idx].qty + delta); if (cart[idx].qty === 0) cart.splice(idx, 1); } updateBadge(); saveCart(); displayProducts(currentView, false); if (document.getElementById('cartModal').classList.contains('open')) renderCartSummary(); }
+        function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateBadge(); saveCart(); displayProducts(currentView, false); if (cart.length === 0) closeModal('cartModal'); else renderCartSummary(); }
         function updateBadge() { document.getElementById('cartBadge').innerText = cart.reduce((s, i) => s + i.qty, 0); }
         function openCartModal() { if (cart.length === 0) return showLuxuryToast("CARRINHO VAZIO", "Adicione itens"); renderCartSummary(); document.getElementById('cartModal').classList.add('open'); }
         
@@ -1271,7 +1273,7 @@
             video.play().catch(e => { /* ignore */ });
             await loadSheetData();
             loadCart();
-            displayProducts(database, true);
+            displayProducts(currentView, true);
             closeSplash();
         });
     </script>
