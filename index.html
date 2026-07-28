@@ -824,7 +824,7 @@
                 <h3 class="footer-title">Atendimento</h3>
                 <ul>
                     <li><a href="https://wa.me/5595991154395" target="_blank">Suporte WhatsApp</a></li>
-                    <li><a href="#">Boa Vista - Roraima</a></li>
+                    <li><a style="cursor: default; color: #555;">Boa Vista - Roraima</a></li>
                 </ul>
             </div>
         </div>
@@ -976,6 +976,7 @@
 
         function filterByBrand(brand, element) { if (element) { document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active')); element.classList.add('active'); } const filtered = brand === 'Todos' ? database : database.filter(p => p.marca === brand); displayProducts(filtered, true); scrollToProducts(); }
         function filterByOrigin(origin) { toggleSidebar(false); const filtered = database.filter(p => p.origem.toLowerCase() === origin.toLowerCase()); displayProducts(filtered, true); scrollToProducts(); }
+        function filterByBestSellers() { const filtered = database.filter(p => p.maisVendido); displayProducts(filtered, true); scrollToProducts(); }
         function filterByPromotions() { toggleSidebar(false); const filtered = database.filter(p => p.promocao > 0); displayProducts(filtered, true); scrollToProducts(); }
         function filterProducts() { const term = document.getElementById('searchInput').value.toLowerCase(); displayProducts(database.filter(p => p.nome.toLowerCase().includes(term) || p.marca.toLowerCase().includes(term)), true); }
 
@@ -1025,11 +1026,12 @@
 
         function showLuxuryToast(title, subtext) { const toast = document.getElementById("luxuryToast"); toast.innerHTML = `<span style="color:var(--dourado-logo)">${title}</span><br>${subtext}`; toast.className = "show"; setTimeout(() => { toast.className = ""; }, 3000); }
 
-        window.addEventListener('load', () => {
+        window.addEventListener('load', async () => {
             const splash = document.getElementById('splash-screen'); const video = document.getElementById('introVideo');
             const closeSplash = () => { splash.style.opacity = '0'; splash.style.transform = 'scale(1.1)'; setTimeout(() => splash.remove(), 800); };
-            video.play().catch(e => { closeSplash(); }); video.onended = closeSplash;
-            loadSheetData(); setTimeout(closeSplash, 1500); 
+            video.play().catch(e => { /* ignore */ });
+            await loadSheetData();
+            closeSplash();
         });
     </script>
 </body>
