@@ -107,22 +107,22 @@
             overflow: hidden;
         }
 
-        /* MÁSCARA MELHORADA PARA ESCONDER BORDAS (CENTRO TRANSPARENTE, BORDAS PRETO ABSOLUTO) */
+        /* MÁSCARA PREMIUM PARA ESCONDER QUALQUER BORDA DO ARQUIVO */
         .video-vignette {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle, transparent 20%, #000 95%),
-                linear-gradient(to bottom, transparent 80%, #000 100%),
-                linear-gradient(to top, transparent 80%, #000 100%);
+            background: radial-gradient(circle, transparent 30%, #000 100%);
             pointer-events: none;
-            z-index: 10000;
+            z-index: 10001;
         }
 
         #introVideo {
             width: 100%; height: 100%; object-fit: contain;
-            filter: contrast(1.1) brightness(0.9);
-            transform: scale(1.05); /* Zoom leve para esconder as bordas do arquivo de video */
+            /* A MÁSCARA ABAIXO APAGA AS BORDAS DO VÍDEO DEFINITIVAMENTE */
+            -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 98%), linear-gradient(to top, black 80%, transparent 98%);
+            mask-image: linear-gradient(to bottom, black 80%, transparent 98%), linear-gradient(to top, black 80%, transparent 98%);
+            -webkit-mask-composite: source-in;
+            mask-composite: intersect;
         }
 
         .header-container {
@@ -639,7 +639,7 @@
         </div>
     </nav>
 
-    <!-- SPLASH SCREEN COM VÍDEO E MÁSCARA DE VINHETA -->
+    <!-- SPLASH SCREEN COM VÍDEO E MÁSCARA DE MÁXIMA PRECISÃO -->
     <div id="splash-screen">
         <div class="video-vignette"></div>
         <video id="introVideo" autoplay muted playsinline>
@@ -1100,7 +1100,7 @@
             setTimeout(() => { toast.className = ""; }, 3000); 
         }
 
-        // LÓGICA DE ENTRADA COM VÍDEO (AJUSTADO PARA 1 SEGUNDO COM FAIL-SAFE)
+        // LÓGICA DE ENTRADA COM VÍDEO (REVISADO PARA 1 SEGUNDO COM FAIL-SAFE)
         window.addEventListener('load', () => {
             const splash = document.getElementById('splash-screen');
             const video = document.getElementById('introVideo');
