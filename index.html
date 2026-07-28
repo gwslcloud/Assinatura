@@ -1119,6 +1119,13 @@
         function loadCart() { const saved = localStorage.getItem('ap_cart'); if(saved) cart = JSON.parse(saved); updateBadge(); }
 
         async function loadSheetData() {
+            const cached = localStorage.getItem('ap_sheet_cache');
+            if (cached) {
+                database = JSON.parse(cached);
+                currentView = database;
+                generateMenus(database);
+                displayProducts(currentView, false);
+            }
             try {
                 const response = await fetch(BASE_SHEET_URL + '&t=' + new Date().getTime());
                 const data = await response.text();
@@ -1143,8 +1150,9 @@
                         notasBase: columns[11]?.replace(/"/g, '').trim() || ""
                     };
                 }).filter(p => p.nome && p.nome.length > 2);
+                localStorage.setItem('ap_sheet_cache', JSON.stringify(database));
                 currentView = database;
-                generateMenus(database); displayProducts(currentView, true); 
+                generateMenus(database); displayProducts(currentView, !cached); 
                 return true; 
             } catch (e) { console.error("Erro ao carregar dados:", e); return false; }
         }
@@ -1218,7 +1226,7 @@
             const promoTag = p.promocao > 0 ? `<div class="badge-promo" style="${p.maisVendido ? 'top:32px' : 'top:10px'}">Promoção</div>` : '';
             let pyramidHtml = (p.notasTopo || p.notasCoracao || p.notasBase) ? `<div class="pyramid-section"><span class="pyramid-title">PIRÂMIDE OLFATIVA</span>${p.notasTopo ? `<div class="note-item"><span class="note-label">Notas de Topo</span><p class="note-content">${p.notasTopo}</p></div>` : ''}${p.notasCoracao ? `<div class="note-item"><span class="note-label">Notas de Coração</span><p class="note-content">${p.notasCoracao}</p></div>` : ''}${p.notasBase ? `<div class="note-item"><span class="note-label">Notas de Base</span><p class="note-content">${p.notasBase}</p></div>` : ''}</div>` : "";
             let controls = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector mx-auto w-max mb-4"><button class="qty-btn" onclick="changeQty('${p.id}', -1); openModal('${p.id}')">-</button><span class="qty-value text-center">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1); openModal('${p.id}')">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}'); openModal('${p.id}')">ADQUIRIR FRAGRÂNCIA</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`; 
-            document.getElementById('modalContent').innerHTML = `<div class="flex justify-center mb-6 relative">${bestSellerTag}${promoTag}<img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'"></div><p class="product-brand text-center">${p.marca}</p><h2 class="font-luxury text-2xl text-center text-white mb-3">${p.nome}</h2><div class="w-12 h-[1px] bg-[#c5a059] mx-auto mb-6"></div><p class="text-sm italic text-center text-gray-400 mb-6 px-4">"${p.descricao}"</p><p class="text-center text-white font-semibold text-xl mb-6">${precoDisplay}</p>${controls}${pyramidHtml}`; 
+            document.getElementById('modalContent').innerHTML = `<div class="flex justify-center mb-6 relative">${bestSellerTag}${promoTag}<img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'"></div><p class="product-brand text-center">${p.marca}</p><h2 class="font-luxury text-2xl text-center text-white mb-3">${p.nome}</h2><div class="w-12 h-[1px] bg-[#c5a059] mx-auto mb-6"></div><p class="text-sm italic text-center text-gray-400 mb-6 px-4">"${p.descricao}"</p><p class="product-price text-center mb-6">${precoDisplay}</p>${controls}${pyramidHtml}`; 
             document.getElementById('productModal').style.display = 'flex'; 
         }
 
