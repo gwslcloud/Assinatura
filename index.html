@@ -125,28 +125,22 @@
             mix-blend-mode: lighten; /* Remove bordas acinzentadas fundindo o vídeo com o fundo preto */
         }
 
+        /* ALTERADO: Header mais baixo e alinhado horizontalmente */
         .header-container {
             position: relative;
-            padding: 3rem 1rem 1rem 1rem;
+            padding: 1.5rem 1.5rem 0.5rem 1.5rem;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+            justify-content: space-between;
             align-items: center;
             z-index: 10;
-            overflow: hidden; 
             background: linear-gradient(to bottom, #001f15 0%, var(--verde-fundo) 100%);
-            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.05);
         }
 
+        /* ALTERADO: Brilho central removido para limpar espaço */
         .header-container::before {
-            content: "";
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 250px; height: 100px;
-            background: radial-gradient(circle, rgba(197, 160, 89, 0.15) 0%, transparent 75%);
-            filter: blur(30px);
-            z-index: 1;
-            pointer-events: none;
+            display: none;
         }
 
         .header-container::after {
@@ -166,8 +160,9 @@
             100% { left: 250%; }
         }
 
+        /* ALTERADO: Logo redimensionada para o canto */
         .logo-main { 
-            width: 170px; 
+            width: 120px; 
             position: relative; 
             z-index: 5; 
             filter: drop-shadow(0 5px 15px rgba(0,0,0,0.4));
@@ -183,7 +178,8 @@
             z-index: 1;
         }
 
-        .search-area { padding: 1.5rem 1.5rem 1rem; position: relative; z-index: 11; max-width: 100%; }
+        /* ALTERADO: Reduzido padding da busca para eliminar espaço vazio */
+        .search-area { padding: 0.5rem 1.5rem 0.5rem; position: relative; z-index: 11; max-width: 100%; }
 
         .search-container {
             background: rgba(255, 255, 255, 0.05);
@@ -274,12 +270,12 @@
             display: none;
         }
 
+        /* ALTERADO: Estilo do hambúrguer mais refinado */
         .menu-hamburger {
-            min-width: 45px; height: 38px;
+            min-width: 40px; height: 40px;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; border: 1px solid rgba(197, 160, 89, 0.2);
-            background: rgba(255,255,255,0.02); border-radius: 4px;
-            margin-left: 15px;
+            cursor: pointer; border: none;
+            background: transparent;
         }
 
         .product-grid { 
@@ -515,11 +511,6 @@
         .cart-float { position: fixed; bottom: 30px; right: 20px; background: #fff; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 100; box-shadow: 0 6px 25px rgba(0,0,0,0.7); cursor: pointer; }
         .cart-count { position: absolute; top: 0px; right: 0px; background: #ff0000; color: #fff; font-size: 11px; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; }
 
-        #luxuryToast { visibility: hidden; min-width: 300px; background-color: var(--verde-detalhe); color: #fff; text-align: center; border: 1px solid var(--dourado-logo); padding: 16px; position: fixed; z-index: 1000; left: 50%; bottom: 100px; transform: translateX(-50%); font-family: 'Cinzel', serif; }
-        #luxuryToast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
-        @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 100px; opacity: 1; } }
-        @keyframes fadeout { from { bottom: 100px; opacity: 1; } to { bottom: 0; opacity: 0; } }
-
         /* ============================================================
            AJUSTE FOOTER PREMIUM (CELULAR E NOTEBOOK)
            ============================================================ */
@@ -647,9 +638,12 @@
         </video>
     </div>
 
-    <!-- HEADER -->
+    <!-- HEADER ALTERADO: Logo na esquerda, menu na direita -->
     <header class="header-container">
         <img src="assinatura.png" alt="Logo" class="logo-main">
+        <div class="menu-hamburger" onclick="toggleSidebar(true)">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#c5a059" stroke-width="1.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </div>
         <div class="golden-line-bg"></div>
     </header>
 
@@ -660,9 +654,6 @@
     </div>
 
     <div class="flex items-center mb-4">
-        <div class="menu-hamburger" onclick="toggleSidebar(true)">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c5a059" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-        </div>
         <div id="brandMenu" class="flex-1"></div>
     </div>
 
