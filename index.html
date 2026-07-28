@@ -608,6 +608,25 @@
             text-transform: uppercase;
         }
 
+        /* BARRA DOURADA DE PROMOÇÕES NO MENU */
+        .promo-menu-bar {
+            background: linear-gradient(135deg, #c5a059 0%, #fcf6ba 50%, #b38728 100%);
+            color: #00160f;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-align: center;
+            padding: 12px;
+            margin: 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
+            transition: transform 0.3s ease;
+        }
+        .promo-menu-bar:active { transform: scale(0.95); }
+
     </style>
 </head>
 <body>
@@ -893,7 +912,14 @@
             horizontalMenu.innerHTML = hHtml;
 
             const origins = [...new Set(data.map(p => p.origem).filter(o => o))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
-            let oHtml = "";
+            
+            // BOTÃO DE PROMOÇÕES FIXO NO TOPO
+            let oHtml = `
+                <div class="promo-menu-bar" onclick="filterByPromotions()">
+                    PROMOÇÕES
+                </div>
+            `;
+
             origins.forEach((origin, index) => {
                 const brandsInOrigin = [...new Set(data.filter(p => p.origem === origin).map(p => p.marca))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
                 const submenuId = `submenu_${index}`;
@@ -971,6 +997,13 @@
 
         function filterByBestSellers() {
             const filtered = database.filter(p => p.maisVendido);
+            displayProducts(filtered, true);
+            scrollToProducts();
+        }
+
+        function filterByPromotions() {
+            toggleSidebar(false);
+            const filtered = database.filter(p => p.promocao > 0);
             displayProducts(filtered, true);
             scrollToProducts();
         }
