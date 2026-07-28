@@ -21,6 +21,18 @@
             --verde-detalhe: #002419;
             --dourado-logo: #c5a059;
             --dourado-brilho: #e2c275;
+            --texto-principal: #ffffff;
+            --bg-card: rgba(255,255,255,0.02);
+            --border-ui: rgba(255,255,255,0.1);
+        }
+
+        /* MODO CLARO LUXUOSO */
+        body.light-mode {
+            --verde-fundo: #fcfcfc; 
+            --verde-detalhe: #f4f4f4;
+            --texto-principal: #1a1a1a;
+            --bg-card: #ffffff;
+            --border-ui: rgba(197, 160, 89, 0.3);
         }
 
         /* BARRA DE NAVEGAÇÃO PREMIUM (BROWSER) */
@@ -44,14 +56,29 @@
             overflow-x: hidden;
             margin: 0;
             padding: 0;
+            transition: background-color 0.5s ease;
         }
 
         body { 
             font-family: 'Montserrat', sans-serif; 
             background-color: var(--verde-fundo); 
-            color: #fff;
+            color: var(--texto-principal);
             -webkit-tap-highlight-color: transparent;
         }
+
+        /* AJUSTES ESPECÍFICOS MODO CLARO */
+        body.light-mode .header-container { background: linear-gradient(to bottom, #ffffff 0%, #fcfcfc 100%); }
+        body.light-mode .product-card { box-shadow: 0 10px 40px rgba(0,0,0,0.05); border: 1px solid #eee; }
+        body.light-mode .product-name { color: #1a1a1a; }
+        body.light-mode .modal-container { background: #ffffff; border: 1px solid var(--dourado-logo); }
+        body.light-mode .premium-footer { background-color: #f8f8f8; border-top: 1px solid var(--dourado-logo); }
+        body.light-mode .footer-title, body.light-mode .footer-slogan { color: #333; }
+        body.light-mode .note-content { color: #444; }
+        body.light-mode #cartModal .modal-container { background: #ffffff; }
+        body.light-mode .search-container { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.1); }
+        body.light-mode .search-input { color: #000; }
+        body.light-mode .brand-item { color: #666; background: #fff; border-color: #eee; }
+        body.light-mode .brand-item.active { color: var(--dourado-logo); border-color: var(--dourado-logo); background: #fff9f0; }
 
         /* TEXTURA DE RUÍDO (GRAIN) */
         .noise-bg {
@@ -369,8 +396,8 @@
 
         .product-card {
             position: relative;
-            background: rgba(255,255,255,0.02); 
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--bg-card); 
+            border: 1px solid var(--border-ui);
             padding: 20px 15px; 
             text-align: center; 
             display: flex; 
@@ -385,10 +412,8 @@
 
         .product-card:hover {
             transform: translateY(-8px);
-            background: rgba(0, 0, 0, 0.35); 
-            box-shadow: 
-                inset 0 0 35px rgba(0,0,0,0.6), 
-                0 25px 50px rgba(0,5,2,1);
+            background: rgba(0, 0, 0, 0.05); 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
             border-color: rgba(197, 160, 89, 0.4);
             z-index: 10;
         }
@@ -432,7 +457,7 @@
         }
 
         .product-brand { font-size: 9px; color: var(--dourado-logo); text-transform: uppercase; margin-bottom: 6px; letter-spacing: 2px; }
-        .product-name { font-size: 13px; font-weight: 400; text-transform: uppercase; line-height: 1.3; height: 2.6em; overflow: hidden; margin-bottom: 10px; color: #fff; letter-spacing: 1px; }
+        .product-name { font-size: 13px; font-weight: 400; text-transform: uppercase; line-height: 1.3; height: 2.6em; overflow: hidden; margin-bottom: 10px; color: var(--texto-principal); letter-spacing: 1px; }
         
         .product-price { 
             font-size: 16px; 
@@ -598,7 +623,7 @@
         }
         .note-item { margin-bottom: 12px; }
         .note-label { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 3px; }
-        .note-content { font-size: 11px; color: #fff; font-weight: 300; }
+        .note-content { font-size: 11px; color: var(--texto-principal); font-weight: 300; }
 
         #cartModal h2 { color: #fff; background-color: var(--verde-fundo); padding: 35px 20px; margin: 0; text-transform: uppercase; font-weight: 700; letter-spacing: 2px; }
         .close-modal { position: absolute; top: 5px; right: 15px; color: #ff0000 !important; font-size: 45px; cursor: pointer; z-index: 300; line-height: 1; font-weight: bold; }
@@ -630,7 +655,7 @@
             flex-shrink: 0;
         }
         .seller-info { flex-grow: 1; overflow: hidden; }
-        .seller-name { font-family: 'Cinzel', serif; font-size: 16px; color: #fff; margin-bottom: 6px; text-transform: uppercase; }
+        .seller-name { font-family: 'Cinzel', serif; font-size: 16px; color: var(--texto-principal); margin-bottom: 6px; text-transform: uppercase; }
         .btn-finalize-seller {
             background: #c5a059;
             color: #fff;
@@ -686,7 +711,7 @@
             text-align: left;
         }
         .quiz-opt:hover { background: rgba(197, 160, 89, 0.1); border-color: var(--dourado-logo); }
-        .quiz-opt b { display: block; color: #fff; font-size: 12px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
+        .quiz-opt b { display: block; color: var(--texto-principal); font-size: 12px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
         .quiz-opt p { color: #aaa; font-size: 10px; line-height: 1.4; }
 
         #luxuryToast { 
@@ -802,6 +827,22 @@
         }
         .promo-menu-bar:active { transform: scale(0.95); }
 
+        /* BOTÃO MODO CLARO/ESCURO */
+        .theme-toggle {
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--dourado-logo);
+            border-radius: 50%;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        .theme-toggle svg { stroke: var(--dourado-logo); }
+
     </style>
 </head>
 <body>
@@ -834,6 +875,9 @@
         <div class="luxury-line-container">
             <span class="luxury-line-text">Perfumaria De Luxo</span>
             <div class="luxury-pulse-line"></div>
+        </div>
+        <div class="theme-toggle" onclick="toggleTheme()">
+            <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v1m0 16v1m9-9h1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
         </div>
     </header>
 
@@ -1226,7 +1270,7 @@
             const promoTag = p.promocao > 0 ? `<div class="badge-promo" style="${p.maisVendido ? 'top:32px' : 'top:10px'}">Promoção</div>` : '';
             let pyramidHtml = (p.notasTopo || p.notasCoracao || p.notasBase) ? `<div class="pyramid-section"><span class="pyramid-title">PIRÂMIDE OLFATIVA</span>${p.notasTopo ? `<div class="note-item"><span class="note-label">Notas de Topo</span><p class="note-content">${p.notasTopo}</p></div>` : ''}${p.notasCoracao ? `<div class="note-item"><span class="note-label">Notas de Coração</span><p class="note-content">${p.notasCoracao}</p></div>` : ''}${p.notasBase ? `<div class="note-item"><span class="note-label">Notas de Base</span><p class="note-content">${p.notasBase}</p></div>` : ''}</div>` : "";
             let controls = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector mx-auto w-max mb-4"><button class="qty-btn" onclick="changeQty('${p.id}', -1); openModal('${p.id}')">-</button><span class="qty-value text-center">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1); openModal('${p.id}')">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}'); openModal('${p.id}')">ADQUIRIR FRAGRÂNCIA</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`; 
-            document.getElementById('modalContent').innerHTML = `<div class="flex justify-center mb-6 relative">${bestSellerTag}${promoTag}<img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'"></div><p class="product-brand text-center">${p.marca}</p><h2 class="font-luxury text-2xl text-center text-white mb-3">${p.nome}</h2><div class="w-12 h-[1px] bg-[#c5a059] mx-auto mb-6"></div><p class="text-sm italic text-center text-gray-400 mb-6 px-4">"${p.descricao}"</p><p class="product-price text-center mb-6">${precoDisplay}</p>${controls}${pyramidHtml}`; 
+            document.getElementById('modalContent').innerHTML = `<div class="flex justify-center mb-6 relative">${bestSellerTag}${promoTag}<img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'"></div><p class="product-brand text-center">${p.marca}</p><h2 class="font-luxury text-2xl text-center mb-3">${p.nome}</h2><div class="w-12 h-[1px] bg-[#c5a059] mx-auto mb-6"></div><p class="text-sm italic text-center text-gray-400 mb-6 px-4">"${p.descricao}"</p><p class="product-price text-center mb-6">${precoDisplay}</p>${controls}${pyramidHtml}`; 
             document.getElementById('productModal').style.display = 'flex'; 
         }
 
@@ -1249,7 +1293,7 @@
 
             const container = document.getElementById('quizMatchContainer');
             if (matches.length > 0) {
-                container.innerHTML = matches.map(m => `<div class="flex items-center gap-4 bg-white/5 p-4 rounded border border-white/10 cursor-pointer" onclick="closeModal('quizModal'); openModal('${m.product.id}')"><img src="${m.product.imagem}" class="w-16 h-16 object-contain"><div class="text-left"><p class="text-[8px] text-[#c5a059] uppercase tracking-widest">${m.product.marca}</p><h3 class="font-luxury text-xs text-white uppercase">${m.product.nome}</h3><p class="text-[9px] text-gray-500 mt-1 line-clamp-1 italic">"${m.product.descricao}"</p></div></div>`).join('');
+                container.innerHTML = matches.map(m => `<div class="flex items-center gap-4 bg-white/5 p-4 rounded border border-white/10 cursor-pointer" onclick="closeModal('quizModal'); openModal('${m.product.id}')"><img src="${m.product.imagem}" class="w-16 h-16 object-contain"><div class="text-left"><p class="text-[8px] text-[#c5a059] uppercase tracking-widest">${m.product.marca}</p><h3 class="font-luxury text-xs uppercase">${m.product.nome}</h3><p class="text-[9px] text-gray-500 mt-1 line-clamp-1 italic">"${m.product.descricao}"</p></div></div>`).join('');
             } else {
                 container.innerHTML = `<p class="text-xs text-gray-500 italic">Não encontramos um match exato, mas nossa coleção de "Mais Vendidos" pode te encantar.</p>`;
             }
@@ -1275,7 +1319,19 @@
 
         function showLuxuryToast(title, subtext) { const toast = document.getElementById("luxuryToast"); toast.innerHTML = `<span style="color:var(--dourado-logo)">${title}</span><br>${subtext}`; toast.className = "show"; setTimeout(() => { toast.className = ""; }, 3000); }
 
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('themeIcon');
+            body.classList.toggle('light-mode');
+            const isLight = body.classList.contains('light-mode');
+            localStorage.setItem('ap_theme', isLight ? 'light' : 'dark');
+            icon.innerHTML = isLight 
+                ? '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>' 
+                : '<path d="M12 3v1m0 16v1m9-9h1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"/>';
+        }
+
         window.addEventListener('load', async () => {
+            if (localStorage.getItem('ap_theme') === 'light') toggleTheme();
             const splash = document.getElementById('splash-screen'); const video = document.getElementById('introVideo');
             const closeSplash = () => { splash.style.opacity = '0'; splash.style.transform = 'scale(1.1)'; setTimeout(() => splash.remove(), 800); };
             video.play().catch(e => { /* ignore */ });
