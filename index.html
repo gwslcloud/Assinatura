@@ -23,6 +23,22 @@
             --dourado-brilho: #e2c275;
         }
 
+        /* BARRA DE NAVEGAÇÃO PREMIUM (BROWSER) */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--verde-fundo);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--dourado-logo), var(--dourado-brilho));
+            border-radius: 10px;
+            border: 2px solid var(--verde-fundo);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--dourado-brilho);
+        }
+
         html, body {
             max-width: 100%;
             overflow-x: hidden;
@@ -204,6 +220,7 @@
             z-index: 5; 
             filter: drop-shadow(0 5px 15px rgba(0,0,0,0.4));
             transition: transform 0.4s ease;
+            cursor: pointer;
         }
 
         .search-area { 
@@ -507,19 +524,19 @@
         .qty-btn { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: #fff; color: #000; border-radius: 50%; font-weight: bold; }
         
         @keyframes liquidReveal {
-            0% { transform: scale(0.6) translateY(30px); opacity: 0; filter: blur(15px); }
-            100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); }
+            0% { transform: scale(0.95); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         #productModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); z-index: 200; backdrop-filter: blur(12px);
             justify-content: center; align-items: center; padding: 20px;
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
         }
 
         #productModal[style*="display: flex"] .modal-container {
-            animation: liquidReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: liquidReveal 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .modal-container {
@@ -531,6 +548,7 @@
             padding: 40px 25px; position: relative; max-height: 90vh; overflow-y: auto;
             border-radius: 8px;
             box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+            will-change: transform, opacity;
         }
 
         #cartModal {
@@ -634,6 +652,7 @@
             width: 130px;
             margin: 0 auto 20px;
             opacity: 0.9;
+            cursor: pointer;
         }
 
         .footer-slogan {
@@ -726,7 +745,7 @@
     </div>
 
     <header class="header-container">
-        <img src="assinatura.png" alt="Logo" class="logo-main">
+        <img src="assinatura.png" alt="Logo" class="logo-main" onclick="filterByBrand('Todos'); window.scrollTo({top: 0, behavior: 'smooth'})">
         <div class="luxury-line-container">
             <span class="luxury-line-text">Perfumaria De Luxo</span>
             <div class="luxury-pulse-line"></div>
@@ -790,7 +809,7 @@
     <footer class="premium-footer">
         <div class="footer-content">
             <div class="footer-column">
-                <img src="assinatura.png" class="footer-logo-small" alt="Logo">
+                <img src="assinatura.png" class="footer-logo-small" alt="Logo" onclick="filterByBrand('Todos'); window.scrollTo({top: 0, behavior: 'smooth'})">
                 <p class="footer-slogan">A arte da perfumaria fina, traduzida em frascos exclusivos.</p>
             </div>
             <div class="footer-column">
