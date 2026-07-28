@@ -98,41 +98,13 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background-color: var(--verde-fundo);
+            background-color: #000000; /* Fundo preto para combinar com o vídeo */
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
             transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .mist-effect {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 220px; height: 220px;
-            background: radial-gradient(circle, rgba(197, 160, 89, 0.4) 0%, transparent 70%);
-            filter: blur(15px);
-            border-radius: 50%;
-            z-index: 1;
-            animation: mist-breathe 2.5s infinite ease-in-out;
-        }
-
-        @keyframes mist-breathe {
-            0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.3; }
-            50% { transform: translate(-50%, -50%) scale(1.4); opacity: 0.7; }
-        }
-
-        .welcome-text {
-            color: var(--dourado-logo);
-            letter-spacing: 0.6em;
-            font-size: 11px;
-            font-weight: 400;
-            z-index: 11;
-            margin-top: -135px; 
-            text-shadow: 0 0 10px rgba(197, 160, 89, 0.4);
-            text-align: center;
-            padding: 0 20px;
+            overflow: hidden;
         }
 
         .header-container {
@@ -649,14 +621,11 @@
         </div>
     </nav>
 
+    <!-- SPLASH SCREEN COM VÍDEO -->
     <div id="splash-screen">
-        <div class="splash-wrapper relative flex flex-col items-center justify-center w-full">
-            <div class="mist-effect"></div>
-            <div class="flex flex-col items-center">
-                <img src="assinatura.png" alt="Logo" class="w-[280px] z-10 relative splash-logo">
-                <h1 class="font-luxury welcome-text">SEJA BEM VINDO</h1>
-            </div>
-        </div>
+        <video id="introVideo" autoplay muted playsinline style="width: 100%; height: 100%; object-fit: contain;">
+            <source src="Videoentrada.mp4" type="video/mp4">
+        </video>
     </div>
 
     <!-- HEADER -->
@@ -874,7 +843,6 @@
                 
                 if (headers[12]?.replace(/"/g, '').trim() === "0") {
                     isMaintenance = true;
-                    document.querySelector('.welcome-text').innerText = "Desculpe! Site em manutenção";
                     return; 
                 }
 
@@ -1113,16 +1081,22 @@
             setTimeout(() => { toast.className = ""; }, 3000); 
         }
 
+        // LÓGICA DE ENTRADA COM VÍDEO
         window.addEventListener('load', () => {
-            loadSheetData().then((success) => {
-                if (!isMaintenance) {
-                    const splash = document.getElementById('splash-screen');
-                    setTimeout(() => {
-                        splash.style.opacity = '0'; 
-                        splash.style.transform = 'scale(1.1)'; 
-                        setTimeout(() => splash.remove(), 800);
-                    }, 500); 
-                }
+            loadSheetData().then(() => {
+                const splash = document.getElementById('splash-screen');
+                const video = document.getElementById('introVideo');
+
+                // Função para fechar a splash screen
+                const closeSplash = () => {
+                    splash.style.opacity = '0'; 
+                    splash.style.transform = 'scale(1.1)'; 
+                    setTimeout(() => splash.remove(), 800);
+                };
+
+                // Quando o vídeo acabar, fecha a tela (ou após 2.5 segundos por segurança)
+                video.onended = closeSplash;
+                setTimeout(closeSplash, 2500); 
             });
         });
     </script>
