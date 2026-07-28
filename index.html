@@ -224,8 +224,8 @@
         /* AJUSTE MENU DE MARCAS E HAMBÚRGUER (FIX ALIGNMENT) */
         .brand-section-container {
             display: flex;
-            align-items: center; /* Alinhamento vertical perfeito */
-            gap: 8px; /* Espaço reduzido entre hambúrguer e botões */
+            align-items: center; 
+            gap: 8px; 
             padding: 0 15px;
             margin-bottom: 1rem;
         }
@@ -235,14 +235,14 @@
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; border: 1px solid rgba(197, 160, 89, 0.2);
             background: rgba(255,255,255,0.02); border-radius: 4px;
-            flex-shrink: 0; /* Não espreme */
+            flex-shrink: 0;
         }
 
         #brandMenu {
             display: flex; 
             overflow-x: auto; 
             gap: 8px; 
-            padding: 0 0 12px 0; /* Espaço inferior para a barra interativa */
+            padding: 0 0 12px 0; 
             align-items: center;
             max-width: 100%;
             scrollbar-width: thin;
@@ -252,7 +252,7 @@
         /* BARRA DOURADA TOTALMENTE INTERATIVA */
         #brandMenu::-webkit-scrollbar { 
             display: block; 
-            height: 4px; /* Altura ideal para ser clicável */
+            height: 4px; 
         }
         #brandMenu::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.03);
@@ -290,7 +290,6 @@
             border-color: var(--dourado-logo);
         }
 
-        /* RESTANTE DOS ESTILOS MANTIDOS */
         #sidebar {
             position: fixed;
             top: 0; left: -300px;
@@ -550,6 +549,26 @@
         .cart-float { position: fixed; bottom: 30px; right: 20px; background: #fff; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 100; box-shadow: 0 6px 25px rgba(0,0,0,0.7); cursor: pointer; }
         .cart-count { position: absolute; top: 0px; right: 0px; background: #ff0000; color: #fff; font-size: 11px; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; }
 
+        /* ALTERADO: Z-INDEX AUMENTADO PARA O TOPO ABSOLUTO */
+        #luxuryToast { 
+            visibility: hidden; 
+            min-width: 300px; 
+            background-color: var(--verde-detalhe); 
+            color: #fff; 
+            text-align: center; 
+            border: 1px solid var(--dourado-logo); 
+            padding: 16px; 
+            position: fixed; 
+            z-index: 1000000; /* Camada superior a qualquer elemento */
+            left: 50%; 
+            bottom: 80px; 
+            transform: translateX(-50%); 
+            font-family: 'Cinzel', serif; 
+        }
+        #luxuryToast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+        @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 80px; opacity: 1; } }
+        @keyframes fadeout { from { bottom: 80px; opacity: 1; } to { bottom: 0; opacity: 0; } }
+
         .premium-footer {
             background-color: #000c08; 
             border-top: 1px solid rgba(197, 160, 89, 0.2);
@@ -647,13 +666,11 @@
 </head>
 <body>
 
-    <!-- POEIRA DE OURO -->
     <canvas id="magicDustCanvas"></canvas>
     <div class="noise-bg"></div>
     <div id="scrollProgress"></div>
     <div id="luxuryToast"></div>
 
-    <!-- SIDEBAR -->
     <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
     <nav id="sidebar">
         <div class="sidebar-header flex justify-between items-center p-6 border-b border-[rgba(255,255,255,0.1)]">
@@ -665,7 +682,6 @@
         </div>
     </nav>
 
-    <!-- SPLASH SCREEN -->
     <div id="splash-screen">
         <div class="video-vignette"></div>
         <video id="introVideo" autoplay muted playsinline>
@@ -673,7 +689,6 @@
         </video>
     </div>
 
-    <!-- HEADER -->
     <header class="header-container">
         <img src="assinatura.png" alt="Logo" class="logo-main">
         <div class="luxury-line-container">
@@ -682,14 +697,12 @@
         </div>
     </header>
 
-    <!-- BUSCA -->
     <div class="search-area">
         <div class="search-container">
             <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="BUSQUE SUA FRAGRÂNCIA..." class="search-input">
         </div>
     </div>
 
-    <!-- SEÇÃO DE MARCAS ALINHADA -->
     <div class="brand-section-container">
         <div class="menu-hamburger" onclick="toggleSidebar(true)">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c5a059" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
@@ -699,7 +712,6 @@
 
     <main class="product-grid" id="productGrid"></main>
 
-    <!-- MODAIS E CARRINHO -->
     <div id="productModal" onclick="closeModalExterno(event, 'productModal')">
         <div class="modal-container" onclick="event.stopPropagation()">
             <span class="close-modal" onclick="closeModal('productModal')">&times;</span>
@@ -822,7 +834,6 @@
         }
         animateParticles();
 
-        // LÓGICA DE MOVIMENTO AUTOMÁTICO COM PAUSA INTELIGENTE
         let scrollDirection = 1;
         let isInteracting = false;
         const brandMenu = document.getElementById('brandMenu');
@@ -833,7 +844,6 @@
         brandMenu.addEventListener('mouseup', () => isInteracting = false);
         brandMenu.addEventListener('mouseleave', () => isInteracting = false);
         brandMenu.addEventListener('scroll', () => {
-            // Se o usuário estiver mexendo na barra manual, pausar o auto-scroll temporariamente
             isInteracting = true;
             clearTimeout(window.scrollPauseTimeout);
             window.scrollPauseTimeout = setTimeout(() => { isInteracting = false; }, 2000);
