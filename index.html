@@ -691,7 +691,6 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             transition: all 0.3s ease;
         }
-        .discovery-float:hover { transform: scale(1.05); background: rgba(255, 255, 255, 0.1); }
         .discovery-float span { font-family: 'Cinzel', serif; font-size: 9px; color: var(--dourado-logo); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; }
 
         /* ESTILOS DO QUIZ */
@@ -1263,9 +1262,13 @@
             const origins = [...new Set(data.map(p => p.origem).filter(o => o))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
             let oHtml = `<div class="promo-menu-bar" onclick="filterByPromotions()">PROMOÇÕES</div>`;
             origins.forEach((origin, index) => {
-                const brandsInOrigin = [...new Set(data.filter(p => p.origem === origin).map(p => p.marca))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
-                const submenuId = `submenu_${index}`;
-                oHtml += `<div class="sidebar-item p-6 text-white font-luxury text-xs tracking-widest cursor-pointer border-b border-[rgba(255,255,255,0.05)] flex justify-between items-center" onclick="toggleSubmenu('${submenuId}')">${origin.toUpperCase()}<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div id="${submenuId}" class="hidden bg-[rgba(0,0,0,0.2)]"><div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(255,255,255,0.03)]" onclick="filterByOrigin('${origin}'); toggleSidebar(false)">VER TODOS</div>${brandsInOrigin.map(brand => `<div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(255,255,255,0.03)]" onclick="filterByBrand('${brand}'); toggleSidebar(false)">${brand.toUpperCase()}</div>`).join('')}</div>`;
+                if (origin.toLowerCase() === 'perfumes de nicho') {
+                    oHtml += `<div class="sidebar-item p-6 text-white font-luxury text-xs tracking-widest cursor-pointer border-b border-[rgba(255,255,255,0.05)] flex justify-between items-center" onclick="filterByOrigin('${origin}'); toggleSidebar(false)">${origin.toUpperCase()}</div>`;
+                } else {
+                    const brandsInOrigin = [...new Set(data.filter(p => p.origem === origin).map(p => p.marca))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+                    const submenuId = `submenu_${index}`;
+                    oHtml += `<div class="sidebar-item p-6 text-white font-luxury text-xs tracking-widest cursor-pointer border-b border-[rgba(255,255,255,0.05)] flex justify-between items-center" onclick="toggleSubmenu('${submenuId}')">${origin.toUpperCase()}<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div id="${submenuId}" class="hidden bg-[rgba(0,0,0,0.2)]"><div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(255,255,255,0.03)]" onclick="filterByOrigin('${origin}'); toggleSidebar(false)">VER TODOS</div>${brandsInOrigin.map(brand => `<div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(255,255,255,0.03)]" onclick="filterByBrand('${brand}'); toggleSidebar(false)">${brand.toUpperCase()}</div>`).join('')}</div>`;
+                }
             });
             sidebarOriginsList.innerHTML = oHtml;
         }
