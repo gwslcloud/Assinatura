@@ -10,6 +10,7 @@
     
     <!-- FRAMEWORKS E FONTES -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
@@ -874,6 +875,16 @@
             cursor: pointer;
         }
 
+        .dna-chart-container {
+            width: 100%;
+            max-width: 280px;
+            margin: 30px auto 10px;
+            background: rgba(255,255,255,0.02);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
     </style>
 </head>
 <body>
@@ -1242,7 +1253,13 @@
                         notasTopo: columns[9]?.replace(/"/g, '').trim() || "",
                         notasCoracao: columns[10]?.replace(/"/g, '').trim() || "",
                         notasBase: columns[11]?.replace(/"/g, '').trim() || "",
-                        cupom: columns[13]?.replace(/"/g, '').trim() || ""
+                        cupom: columns[13]?.replace(/"/g, '').trim() || "",
+                        dna: {
+                            doce: parseInt(columns[14]) || 0,
+                            amadeirado: parseInt(columns[15]) || 0,
+                            citrico: parseInt(columns[16]) || 0,
+                            especiado: parseInt(columns[17]) || 0
+                        }
                     };
                 }).filter(p => p.nome && p.nome.length > 2);
                 localStorage.setItem('ap_sheet_cache', JSON.stringify(database));
@@ -1358,9 +1375,52 @@
             const bestSellerTag = p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : '';
             const promoTag = p.promocao > 0 ? `<div class="badge-promo" style="${p.maisVendido ? 'top:32px' : 'top:10px'}">Promoção</div>` : '';
             let pyramidHtml = (p.notasTopo || p.notasCoracao || p.notasBase) ? `<div class="pyramid-section"><span class="pyramid-title">PIRÂMIDE OLFATIVA</span>${p.notasTopo ? `<div class="note-item"><span class="note-label">Notas de Topo</span><p class="note-content">${p.notasTopo}</p></div>` : ''}${p.notasCoracao ? `<div class="note-item"><span class="note-label">Notas de Coração</span><p class="note-content">${p.notasCoracao}</p></div>` : ''}${p.notasBase ? `<div class="note-item"><span class="note-label">Notas de Base</span><p class="note-content">${p.notasBase}</p></div>` : ''}</div>` : "";
+            
+            // DNA CHART HTML
+            const dnaHtml = `<div class="dna-chart-container">
+                                <span class="pyramid-title">DNA DA FRAGRÂNCIA</span>
+                                <canvas id="dnaChart"></canvas>
+                             </div>`;
+
             let controls = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector mx-auto w-max mb-4"><button class="qty-btn" onclick="changeQty('${p.id}', -1); openModal('${p.id}')">-</button><span class="qty-value text-center">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1); openModal('${p.id}')">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}'); openModal('${p.id}')">ADQUIRIR FRAGRÂNCIA</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`; 
-            document.getElementById('modalContent').innerHTML = `<div class="flex justify-center mb-6 relative">${bestSellerTag}${promoTag}<img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'"></div><p class="product-brand text-center">${p.marca}</p><h2 class="font-luxury text-2xl text-center mb-3">${p.nome}</h2><div class="w-12 h-[1px] bg-[#c5a059] mx-auto mb-6"></div><p class="text-sm italic text-center text-gray-400 mb-6 px-4">"${p.descricao}"</p><p class="product-price text-center mb-6">${precoDisplay}</p>${controls}${pyramidHtml}`; 
-            document.getElementById('productModal').style.display = 'flex'; 
+            
+            document.getElementById('modalContent').innerHTML = `<div class="flex justify-center mb-6 relative">${bestSellerTag}${promoTag}<img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'"></div><p class="product-brand text-center">${p.marca}</p><h2 class="font-luxury text-2xl text-center mb-3">${p.nome}</h2><div class="w-12 h-[1px] bg-[#c5a059] mx-auto mb-6"></div><p class="text-sm italic text-center text-gray-400 mb-6 px-4">"${p.descricao}"</p><p class="product-price text-center mb-6">${precoDisplay}</p>${controls}${dnaHtml}${pyramidHtml}`; 
+            document.getElementById('productModal').style.display = 'flex';
+
+            // INITIALIZE CHART
+            setTimeout(() => {
+                const ctxDna = document.getElementById('dnaChart').getContext('2d');
+                new Chart(ctxDna, {
+                    type: 'radar',
+                    data: {
+                        labels: ['DOCE', 'AMADEIRADO', 'CÍTRICO', 'ESPECIADO'],
+                        datasets: [{
+                            data: [p.dna.doce || 40, p.dna.amadeirado || 40, p.dna.citrico || 40, p.dna.especiado || 40],
+                            backgroundColor: 'rgba(197, 160, 89, 0.2)',
+                            borderColor: '#c5a059',
+                            borderWidth: 1.5,
+                            pointRadius: 2,
+                            pointBackgroundColor: '#c5a059'
+                        }]
+                    },
+                    options: {
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            r: {
+                                min: 0, max: 100,
+                                ticks: { display: false },
+                                grid: { color: 'rgba(197, 160, 89, 0.1)' },
+                                angleLines: { color: 'rgba(197, 160, 89, 0.1)' },
+                                pointLabels: { 
+                                    color: document.body.classList.contains('light-mode') ? '#666' : '#999', 
+                                    font: { size: 8, family: 'Montserrat' },
+                                    backdropColor: 'transparent'
+                                }
+                            }
+                        }
+                    }
+                });
+            }, 100);
         }
 
         function openQuiz() { resetQuiz(); document.getElementById('quizModal').style.display = 'flex'; }
