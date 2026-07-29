@@ -1235,8 +1235,6 @@
                 const response = await fetch(BASE_SHEET_URL + '&t=' + new Date().getTime());
                 const data = await response.text();
                 const allRows = data.split(/\r?\n/);
-                const headers = allRows[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                if (headers[12]?.replace(/"/g, '').trim() === "0") { isMaintenance = true; return; }
                 const rows = allRows.slice(1); 
                 database = rows.map(row => {
                     const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); 
@@ -1253,12 +1251,12 @@
                         notasTopo: columns[9]?.replace(/"/g, '').trim() || "",
                         notasCoracao: columns[10]?.replace(/"/g, '').trim() || "",
                         notasBase: columns[11]?.replace(/"/g, '').trim() || "",
-                        cupom: columns[13]?.replace(/"/g, '').trim() || "",
+                        cupom: columns[12]?.replace(/"/g, '').trim() || "",
                         dna: {
-                            doce: parseInt(columns[14]) || 0,
-                            amadeirado: parseInt(columns[15]) || 0,
-                            citrico: parseInt(columns[16]) || 0,
-                            especiado: parseInt(columns[17]) || 0
+                            doce: parseInt(columns[13]) || 0,
+                            amadeirado: parseInt(columns[14]) || 0,
+                            citrico: parseInt(columns[15]) || 0,
+                            especiado: parseInt(columns[16]) || 0
                         }
                     };
                 }).filter(p => p.nome && p.nome.length > 2);
