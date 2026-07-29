@@ -209,7 +209,7 @@
 
         .luxury-line-text {
             font-family: 'Cinzel', serif;
-            font-size: 9px;
+            font-size: 7px;
             letter-spacing: 4px;
             color: var(--dourado-logo);
             text-transform: uppercase;
@@ -242,7 +242,7 @@
         }
 
         .logo-main { 
-            width: 140px; 
+            width: 110px; 
             position: relative; 
             z-index: 5; 
             filter: drop-shadow(0 5px 15px rgba(0,0,0,0.4));
@@ -1260,25 +1260,12 @@
             let hHtml = `<div class="brand-item active" onclick="filterByBrand('Todos', this)">TODOS</div>`;
             brands.forEach(b => { hHtml += `<div class="brand-item" onclick="filterByBrand('${b}', this)">${b.toUpperCase()}</div>`; });
             horizontalMenu.innerHTML = hHtml;
-            
-            let origins = [...new Set(data.map(p => p.origem).filter(o => o))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
-            const nichoIdx = origins.findIndex(o => o.toLowerCase().includes('nicho'));
-            if (nichoIdx > -1) {
-                const nichoItem = origins.splice(nichoIdx, 1)[0];
-                origins.push(nichoItem);
-            }
-
+            const origins = [...new Set(data.map(p => p.origem).filter(o => o))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
             let oHtml = `<div class="promo-menu-bar" onclick="filterByPromotions()">PROMOÇÕES</div>`;
             origins.forEach((origin, index) => {
                 const brandsInOrigin = [...new Set(data.filter(p => p.origem === origin).map(p => p.marca))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
                 const submenuId = `submenu_${index}`;
-                const isNicho = origin.toLowerCase().includes('nicho');
-
-                if (isNicho) {
-                    oHtml += `<div class="sidebar-item p-6 text-white font-luxury text-xs tracking-widest border-b border-[rgba(255,255,255,0.05)] flex justify-between items-center">${origin.toUpperCase()}</div><div id="${submenuId}" class="bg-[rgba(0,0,0,0.2)]"><div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(255,255,255,0.03)]" onclick="filterByOrigin('${origin}'); toggleSidebar(false)">VER TODOS</div>${brandsInOrigin.map(brand => `<div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(255,255,255,0.03)]" onclick="filterByBrand('${brand}'); toggleSidebar(false)">${brand.toUpperCase()}</div>`).join('')}</div>`;
-                } else {
-                    oHtml += `<div class="sidebar-item p-6 text-white font-luxury text-xs tracking-widest cursor-pointer border-b border-[rgba(255,255,255,0.05)] flex justify-between items-center" onclick="toggleSubmenu('${submenuId}')">${origin.toUpperCase()}<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div id="${submenuId}" class="hidden bg-[rgba(0,0,0,0.2)]"><div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(255,255,255,0.03)]" onclick="filterByOrigin('${origin}'); toggleSidebar(false)">VER TODOS</div>${brandsInOrigin.map(brand => `<div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(255,255,255,0.03)]" onclick="filterByBrand('${brand}'); toggleSidebar(false)">${brand.toUpperCase()}</div>`).join('')}</div>`;
-                }
+                oHtml += `<div class="sidebar-item p-6 text-white font-luxury text-xs tracking-widest cursor-pointer border-b border-[rgba(255,255,255,0.05)] flex justify-between items-center" onclick="toggleSubmenu('${submenuId}')">${origin.toUpperCase()}<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div id="${submenuId}" class="hidden bg-[rgba(0,0,0,0.2)]"><div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(255,255,255,0.03)]" onclick="filterByOrigin('${origin}'); toggleSidebar(false)">VER TODOS</div>${brandsInOrigin.map(brand => `<div class="p-4 pl-10 text-[10px] text-gray-400 uppercase cursor-pointer border-b border-[rgba(255,255,255,0.03)]" onclick="filterByBrand('${brand}'); toggleSidebar(false)">${brand.toUpperCase()}</div>`).join('')}</div>`;
             });
             sidebarOriginsList.innerHTML = oHtml;
         }
@@ -1341,10 +1328,11 @@
             const input = document.getElementById('couponInput').value.trim().toUpperCase();
             if (!input) return;
 
+            // Procura na database se algum produto contém esse cupom na coluna 14
             const found = database.find(p => p.cupom === input);
 
             if (found) {
-                const percent = parseInt(found.cupom.replace(/\D/g, '')); 
+                const percent = parseInt(found.cupom.replace(/\D/g, '')); // Pega os números, ex: "PAI35" vira 35
                 if (!isNaN(percent)) {
                     appliedCoupon = { code: input, percent: percent };
                     showLuxuryToast("CUPOM ATIVADO", `${percent}% DE DESCONTO`);
