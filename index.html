@@ -1444,7 +1444,7 @@
         function trackRecent(id) {
             recentViewed = recentViewed.filter(rid => rid !== id);
             recentViewed.unshift(id);
-            if (recentViewed.length > 5) recentViewed.pop();
+            if (recentViewed.length > 3) recentViewed.pop();
             saveUserData();
             renderRecentViewed();
         }
