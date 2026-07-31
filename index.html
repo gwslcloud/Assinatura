@@ -284,6 +284,24 @@
             font-weight: 300;
         }
 
+        /* ESTILO DO FILTRO ELEGANTE */
+        .filter-select {
+            background: transparent;
+            border: none;
+            color: var(--dourado-logo);
+            font-size: 8px;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+            outline: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            padding-left: 10px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        .filter-select:hover { opacity: 1; }
+        body.light-mode .filter-select { color: #1a1a1a; }
+
         /* ALINHAMENTO DO MENU DE MARCAS MANUAL */
         .brand-section-container {
             display: flex;
@@ -925,7 +943,15 @@
 
     <div class="search-area">
         <div class="search-container">
-            <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="BUSQUE SUA FRAGRÂNCIA..." class="search-input">
+            <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="BUSQUE SUA FRAGRÂNCIA..." class="search-input flex-1">
+            <div class="h-4 w-[1px] bg-[rgba(255,255,255,0.1)] mx-2"></div>
+            <select id="quickFilter" onchange="applyQuickFilter(this.value)" class="filter-select">
+                <option value="todos">FILTRAR</option>
+                <option value="vendidos">MAIS VENDIDOS</option>
+                <option value="promo">PROMOÇÃO</option>
+                <option value="recentes">RECENTES</option>
+                <option value="esgotados">ESGOTADOS</option>
+            </select>
         </div>
     </div>
 
@@ -1331,6 +1357,24 @@
 
         function changePage(page) {
             currentPage = page;
+            displayProducts(currentView, true);
+            scrollToProducts();
+        }
+
+        // FUNÇÃO DE FILTRO RÁPIDO
+        function applyQuickFilter(val) {
+            currentPage = 1;
+            if (val === 'todos') {
+                currentView = database;
+            } else if (val === 'vendidos') {
+                currentView = database.filter(p => p.maisVendido === true);
+            } else if (val === 'promo') {
+                currentView = database.filter(p => p.promocao > 0);
+            } else if (val === 'recentes') {
+                currentView = [...database].reverse().slice(0, 20);
+            } else if (val === 'esgotados') {
+                currentView = database.filter(p => p.preco <= 0);
+            }
             displayProducts(currentView, true);
             scrollToProducts();
         }
