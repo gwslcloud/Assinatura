@@ -922,6 +922,49 @@
             border: 1px solid rgba(197, 160, 89, 0.1);
         }
 
+        /* ------------------------------------------------------------
+           NOVOS ESTILOS: FAVORITOS E VISTOS RECENTES
+           ------------------------------------------------------------ */
+        .fav-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 30;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            background: rgba(0,0,0,0.2);
+            padding: 5px;
+            border-radius: 50%;
+            backdrop-filter: blur(4px);
+        }
+        .fav-btn:hover { transform: scale(1.2); }
+        .fav-btn svg { fill: transparent; stroke: #fff; transition: all 0.3s ease; }
+        .fav-btn.active svg { fill: #ff0000; stroke: #ff0000; }
+
+        .recent-viewed-section {
+            margin-top: 60px;
+            padding: 0 15px;
+        }
+        .recent-viewed-title {
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--dourado-logo);
+            text-transform: uppercase;
+        }
+        .recent-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        @media (min-width: 1024px) {
+            .recent-grid { grid-template-columns: repeat(5, 1fr); }
+        }
+
     </style>
 </head>
 <body>
@@ -987,6 +1030,12 @@
     </div>
 
     <main class="product-grid" id="productGrid"></main>
+
+    <!-- ESPAÇO VISTOS RECENTES -->
+    <div id="recentViewedContainer" class="recent-viewed-section hidden">
+        <h3 class="recent-viewed-title">Vistos Recentemente</h3>
+        <div id="recentGrid" class="recent-grid"></div>
+    </div>
 
     <div id="productModal" onclick="closeModalExterno(event, 'productModal')">
         <div class="modal-container" onclick="event.stopPropagation()">
@@ -1206,6 +1255,8 @@
         let database = [];
         let currentView = [];
         let cart = [];
+        let favorites = []; // LISTA DE IDs FAVORITADOS
+        let recentViewed = []; // LISTA DE IDs VISTOS RECENTEMENTE
         let isMaintenance = false;
         let quizAnswers = { family: '', occasion: '', vibe: '' };
         let appliedCoupon = null;
@@ -1275,6 +1326,16 @@
         function saveCart() { localStorage.setItem('ap_cart', JSON.stringify(cart)); }
         function loadCart() { const saved = localStorage.getItem('ap_cart'); if(saved) cart = JSON.parse(saved); updateBadge(); }
 
+        /* PERSISTENCIA DE FAVORITOS E RECENTES */
+        function saveUserData() {
+            localStorage.setItem('ap_favorites', JSON.stringify(favorites));
+            localStorage.setItem('ap_recent', JSON.stringify(recentViewed));
+        }
+        function loadUserData() {
+            const f = localStorage.getItem('ap_favorites'); if(f) favorites = JSON.parse(f);
+            const r = localStorage.getItem('ap_recent'); if(r) recentViewed = JSON.parse(r);
+        }
+
         async function loadSheetData() {
             const cached = localStorage.getItem('ap_sheet_cache');
             if (cached) {
@@ -1282,6 +1343,7 @@
                 currentView = database;
                 generateMenus(database);
                 displayProducts(currentView, false);
+                renderRecentViewed();
             }
             try {
                 const response = await fetch(BASE_SHEET_URL + '&t=' + new Date().getTime());
@@ -1315,6 +1377,7 @@
                 localStorage.setItem('ap_sheet_cache', JSON.stringify(database));
                 currentView = database;
                 generateMenus(database); displayProducts(currentView, !cached); 
+                renderRecentViewed();
                 return true; 
             } catch (e) { console.error("Erro ao carregar dados:", e); return false; }
         }
@@ -1327,7 +1390,11 @@
             brands.forEach(b => { hHtml += `<div class="brand-item" onclick="filterByBrand('${b}', this)">${b.toUpperCase()}</div>`; });
             horizontalMenu.innerHTML = hHtml;
             const origins = [...new Set(data.map(p => p.origem).filter(o => o))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
-            let oHtml = `<div class="promo-menu-bar" onclick="filterByPromotions()">PROMOÇÕES</div>`;
+            
+            /* ADIÇÃO: MEUS FAVORITOS FIXADO EM PRIMEIRO */
+            let oHtml = `<div class="p-6 text-[#c5a059] font-luxury text-sm tracking-widest cursor-pointer border-b border-[rgba(197,160,89,0.3)] flex justify-between items-center bg-[rgba(197,160,89,0.05)]" onclick="filterByFavorites()">MEUS FAVORITOS <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>`;
+            
+            oHtml += `<div class="promo-menu-bar" onclick="filterByPromotions()">PROMOÇÕES</div>`;
             origins.forEach((origin, index) => {
                 if (origin.toLowerCase() === 'perfumes de nicho') {
                     oHtml += `<div class="sidebar-item p-6 text-white font-luxury text-xs tracking-widest cursor-pointer border-b border-[rgba(255,255,255,0.05)] flex justify-between items-center" onclick="filterByOrigin('${origin}'); toggleSidebar(false)">${origin.toUpperCase()}</div>`;
@@ -1346,6 +1413,65 @@
             return `<span>R$ ${p.preco.toFixed(2).replace('.', ',')}</span>`;
         }
 
+        /* FUNÇÕES DE FAVORITOS */
+        function toggleFavorite(id, event) {
+            if(event) event.stopPropagation();
+            const index = favorites.indexOf(id);
+            if (index > -1) {
+                favorites.splice(index, 1);
+            } else {
+                favorites.push(id);
+                showLuxuryToast("Favoritado", "Item adicionado a sua lista");
+            }
+            saveUserData();
+            displayProducts(currentView, false);
+            renderRecentViewed(); // Atualiza cor do coração se estiver no recentes
+        }
+
+        function filterByFavorites() {
+            toggleSidebar(false);
+            currentPage = 1;
+            currentView = database.filter(p => favorites.includes(p.id));
+            if (currentView.length === 0) {
+                showLuxuryToast("LISTA VAZIA", "Você ainda não favoritou nada.");
+                currentView = database;
+            }
+            displayProducts(currentView, true);
+            scrollToProducts();
+        }
+
+        /* FUNÇÃO DE VISTOS RECENTES */
+        function trackRecent(id) {
+            recentViewed = recentViewed.filter(rid => rid !== id);
+            recentViewed.unshift(id);
+            if (recentViewed.length > 5) recentViewed.pop();
+            saveUserData();
+            renderRecentViewed();
+        }
+
+        function renderRecentViewed() {
+            const container = document.getElementById('recentViewedContainer');
+            const grid = document.getElementById('recentGrid');
+            if (recentViewed.length === 0) { container.classList.add('hidden'); return; }
+            container.classList.remove('hidden');
+            
+            const recentProducts = recentViewed.map(id => database.find(p => p.id === id)).filter(p => p);
+            grid.innerHTML = recentProducts.map(p => {
+                const isFav = favorites.includes(p.id) ? 'active' : '';
+                return `
+                <div class="product-card" style="padding: 10px;">
+                    <div class="fav-btn ${isFav}" onclick="toggleFavorite('${p.id}', event)">
+                        <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </div>
+                    <div onclick="openModal('${p.id}')">
+                        <div class="product-img" style="height: 100px;"><img src="${p.imagem}" style="max-height: 100%"></div>
+                        <p class="product-brand" style="font-size: 7px;">${p.marca}</p>
+                        <h2 class="product-name font-luxury" style="font-size: 9px; height: 1.2em;">${p.nome}</h2>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
         function displayProducts(products, shouldAnimate = false) {
             const grid = document.getElementById('productGrid');
             const totalPages = Math.ceil(products.length / productsPerPage);
@@ -1360,8 +1486,15 @@
                 const animationDelay = shouldAnimate ? (index % 12) * 0.1 : 0;
                 const bestSellerTag = p.maisVendido ? '<div class="badge-best-seller">★ Mais vendido</div>' : '';
                 const promoTag = p.promocao > 0 ? `<div class="badge-promo" style="${p.maisVendido ? 'top:32px' : 'top:10px'}">Promoção</div>` : '';
+                
+                /* CORAÇÃO DE FAVORITO */
+                const isFav = favorites.includes(p.id) ? 'active' : '';
+                const favHeart = `<div class="fav-btn ${isFav}" onclick="toggleFavorite('${p.id}', event)">
+                                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                                 </div>`;
+
                 let controlsHtml = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector"><button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button><span class="qty-value">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}')">ADQUIRIR FRAGRÂNCIA</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`;
-                return `<div class="product-card ${shouldAnimate ? 'card-animate' : ''}" style="animation-delay: ${animationDelay}s">${bestSellerTag}${promoTag}<div onclick="openModal('${p.id}')"><div class="product-img"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div><p class="product-brand">${p.marca}</p><h2 class="product-name font-luxury">${p.nome}</h2><div class="card-notes-container">${highlightTags}</div></div><div><p class="product-price">${precoDisplay}</p>${controlsHtml}</div></div>`;
+                return `<div class="product-card ${shouldAnimate ? 'card-animate' : ''}" style="animation-delay: ${animationDelay}s">${bestSellerTag}${promoTag}${favHeart}<div onclick="openModal('${p.id}')"><div class="product-img"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div><p class="product-brand">${p.marca}</p><h2 class="product-name font-luxury">${p.nome}</h2><div class="card-notes-container">${highlightTags}</div></div><div><p class="product-price">${precoDisplay}</p>${controlsHtml}</div></div>`;
             }).join('');
 
             // ADICIONA NAVEGAÇÃO DE PÁGINAS SE NECESSÁRIO
@@ -1526,6 +1659,9 @@
             const promoTag = p.promocao > 0 ? `<div class="badge-promo" style="${p.maisVendido ? 'top:32px' : 'top:10px'}">Promoção</div>` : '';
             let pyramidHtml = (p.notasTopo || p.notasCoracao || p.notasBase) ? `<div class="pyramid-section"><span class="pyramid-title">PIRÂMIDE OLFATIVA</span>${p.notasTopo ? `<div class="note-item"><span class="note-label">Notas de Topo</span><p class="note-content">${p.notasTopo}</p></div>` : ''}${p.notasCoracao ? `<div class="note-item"><span class="note-label">Notas de Coração</span><p class="note-content">${p.notasCoracao}</p></div>` : ''}${p.notasBase ? `<div class="note-item"><span class="note-label">Notas de Base</span><p class="note-content">${p.notasBase}</p></div>` : ''}</div>` : "";
             
+            /* REGISTRA QUE FOI VISTO */
+            trackRecent(id);
+
             // DNA CHART HTML
             const dnaHtml = `<div class="dna-chart-container">
                                 <span class="pyramid-title">DNA DA FRAGRÂNCIA</span>
@@ -1643,6 +1779,7 @@
             const splash = document.getElementById('splash-screen'); const video = document.getElementById('introVideo');
             const closeSplash = () => { splash.style.opacity = '0'; splash.style.transform = 'scale(1.1)'; setTimeout(() => splash.remove(), 800); };
             video.play().catch(e => { /* ignore */ });
+            loadUserData(); // Carrega favoritos e vistos recentes
             await loadSheetData();
             loadCart();
             displayProducts(currentView, true);
