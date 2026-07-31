@@ -1159,6 +1159,8 @@
         let isMaintenance = false;
         let quizAnswers = { family: '', occasion: '', vibe: '' };
         let appliedCoupon = null;
+        let currentPage = 1;
+        const productsPerPage = 20;
 
         const canvas = document.getElementById('magicDustCanvas');
         const ctx = canvas.getContext('2d');
@@ -1296,7 +1298,11 @@
 
         function displayProducts(products, shouldAnimate = false) {
             const grid = document.getElementById('productGrid');
-            grid.innerHTML = products.map((p, index) => {
+            const totalPages = Math.ceil(products.length / productsPerPage);
+            const startIndex = (currentPage - 1) * productsPerPage;
+            const pagedProducts = products.slice(startIndex, startIndex + productsPerPage);
+
+            grid.innerHTML = pagedProducts.map((p, index) => {
                 const itemInCart = cart.find(i => i.id === p.id);
                 const qty = itemInCart ? itemInCart.qty : 0;
                 const precoDisplay = getPriceDisplay(p);
@@ -1307,13 +1313,33 @@
                 let controlsHtml = p.preco > 0 ? (qty > 0 ? `<div class="qty-selector"><button class="qty-btn" onclick="changeQty('${p.id}', -1)">-</button><span class="qty-value">${qty}</span><button class="qty-btn" onclick="changeQty('${p.id}', 1)">+</button></div>` : `<button class="btn-add" onclick="addToCart('${p.id}')">ADQUIRIR FRAGRÂNCIA</button>`) : `<button class="btn-add opacity-50" disabled>ESGOTADO</button>`;
                 return `<div class="product-card ${shouldAnimate ? 'card-animate' : ''}" style="animation-delay: ${animationDelay}s">${bestSellerTag}${promoTag}<div onclick="openModal('${p.id}')"><div class="product-img"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div><p class="product-brand">${p.marca}</p><h2 class="product-name font-luxury">${p.nome}</h2><div class="card-notes-container">${highlightTags}</div></div><div><p class="product-price">${precoDisplay}</p>${controlsHtml}</div></div>`;
             }).join('');
+
+            // ADICIONA NAVEGAÇÃO DE PÁGINAS SE NECESSÁRIO
+            if (totalPages > 1) {
+                let paginationHtml = `<div class="col-span-full flex justify-center items-center gap-4 mt-8 pb-10">`;
+                if (currentPage > 1) {
+                    paginationHtml += `<button class="brand-item" onclick="changePage(${currentPage - 1})">ANTERIOR</button>`;
+                }
+                paginationHtml += `<span class="font-luxury text-[10px] tracking-widest text-[#c5a059]">PÁGINA ${currentPage} DE ${totalPages}</span>`;
+                if (currentPage < totalPages) {
+                    paginationHtml += `<button class="brand-item" onclick="changePage(${currentPage + 1})">PRÓXIMA</button>`;
+                }
+                paginationHtml += `</div>`;
+                grid.innerHTML += paginationHtml;
+            }
         }
 
-        function filterByBrand(brand, element) { if (element) { document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active')); element.classList.add('active'); } currentView = brand === 'Todos' ? database : database.filter(p => p.marca === brand); displayProducts(currentView, true); scrollToProducts(); }
-        function filterByOrigin(origin) { toggleSidebar(false); currentView = database.filter(p => p.origem.toLowerCase() === origin.toLowerCase()); displayProducts(currentView, true); scrollToProducts(); }
-        function filterByBestSellers() { currentView = database.filter(p => p.maisVendido); displayProducts(currentView, true); scrollToProducts(); }
-        function filterByPromotions() { toggleSidebar(false); currentView = database.filter(p => p.promocao > 0); displayProducts(currentView, true); scrollToProducts(); }
-        function filterProducts() { const term = document.getElementById('searchInput').value.toLowerCase(); currentView = database.filter(p => p.nome.toLowerCase().includes(term) || p.marca.toLowerCase().includes(term)); displayProducts(currentView, true); }
+        function changePage(page) {
+            currentPage = page;
+            displayProducts(currentView, true);
+            scrollToProducts();
+        }
+
+        function filterByBrand(brand, element) { if (element) { document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active')); element.classList.add('active'); } currentPage = 1; currentView = brand === 'Todos' ? database : database.filter(p => p.marca === brand); displayProducts(currentView, true); scrollToProducts(); }
+        function filterByOrigin(origin) { toggleSidebar(false); currentPage = 1; currentView = database.filter(p => p.origem.toLowerCase() === origin.toLowerCase()); displayProducts(currentView, true); scrollToProducts(); }
+        function filterByBestSellers() { currentPage = 1; currentView = database.filter(p => p.maisVendido); displayProducts(currentView, true); scrollToProducts(); }
+        function filterByPromotions() { toggleSidebar(false); currentPage = 1; currentView = database.filter(p => p.promocao > 0); displayProducts(currentView, true); scrollToProducts(); }
+        function filterProducts() { const term = document.getElementById('searchInput').value.toLowerCase(); currentPage = 1; currentView = database.filter(p => p.nome.toLowerCase().includes(term) || p.marca.toLowerCase().includes(term)); displayProducts(currentView, true); }
 
         function addToCart(id) { const p = database.find(i => i.id === id); cart.push({ ...p, qty: 1 }); updateBadge(); saveCart(); displayProducts(currentView, false); showLuxuryToast("Boas compras", "item adicionado à sacola"); }
         function changeQty(id, delta) { const idx = cart.findIndex(i => i.id === id); if (idx > -1) { cart[idx].qty = Math.max(0, cart[idx].qty + delta); if (cart[idx].qty === 0) cart.splice(idx, 1); } updateBadge(); saveCart(); displayProducts(currentView, false); if (document.getElementById('cartModal').classList.contains('open')) renderCartSummary(); }
