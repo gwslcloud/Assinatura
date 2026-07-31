@@ -269,6 +269,7 @@
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
+            justify-content: space-between;
         }
 
         .search-input {
@@ -280,26 +281,27 @@
             font-size: 11px;
             color: #fff; 
             letter-spacing: 2px; 
-            text-align: center; 
+            text-align: left; 
             font-weight: 300;
+            flex: 1;
         }
 
-        /* ESTILO DO FILTRO ELEGANTE */
         .filter-select {
             background: transparent;
             border: none;
             color: var(--dourado-logo);
-            font-size: 8px;
+            font-size: 14px;
             font-family: 'Cinzel', serif;
-            letter-spacing: 1px;
             outline: none;
             cursor: pointer;
             text-transform: uppercase;
             padding-left: 10px;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
+            transition: transform 0.3s ease;
+            -webkit-appearance: none;
+            appearance: none;
+            text-align: center;
+            min-width: 30px;
         }
-        .filter-select:hover { opacity: 1; }
         body.light-mode .filter-select { color: #1a1a1a; }
 
         /* ALINHAMENTO DO MENU DE MARCAS MANUAL */
@@ -357,7 +359,7 @@
             font-size: 10px; 
             text-transform: uppercase;
             color: rgba(197, 160, 89, 0.7); 
-            background: rgba(255, 255, 255, 0.03); 
+            background: rgba(255,255,255,0.03); 
             backdrop-filter: blur(8px);
             white-space: nowrap;
             letter-spacing: 1px;
@@ -943,10 +945,9 @@
 
     <div class="search-area">
         <div class="search-container">
-            <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="BUSQUE SUA FRAGRÂNCIA..." class="search-input flex-1">
-            <div class="h-4 w-[1px] bg-[rgba(255,255,255,0.1)] mx-2"></div>
+            <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="BUSQUE SUA FRAGRÂNCIA..." class="search-input">
             <select id="quickFilter" onchange="applyQuickFilter(this.value)" class="filter-select">
-                <option value="todos">FILTRAR</option>
+                <option value="todos" selected>▼</option>
                 <option value="vendidos">MAIS VENDIDOS</option>
                 <option value="promo">PROMOÇÃO</option>
                 <option value="recentes">RECENTES</option>
@@ -1340,7 +1341,6 @@
                 return `<div class="product-card ${shouldAnimate ? 'card-animate' : ''}" style="animation-delay: ${animationDelay}s">${bestSellerTag}${promoTag}<div onclick="openModal('${p.id}')"><div class="product-img"><img src="${p.imagem}" onerror="this.src='assinatura.png'"></div><p class="product-brand">${p.marca}</p><h2 class="product-name font-luxury">${p.nome}</h2><div class="card-notes-container">${highlightTags}</div></div><div><p class="product-price">${precoDisplay}</p>${controlsHtml}</div></div>`;
             }).join('');
 
-            // ADICIONA NAVEGAÇÃO DE PÁGINAS SE NECESSÁRIO
             if (totalPages > 1) {
                 let paginationHtml = `<div class="col-span-full flex justify-center items-center gap-4 mt-8 pb-10">`;
                 if (currentPage > 1) {
@@ -1361,7 +1361,6 @@
             scrollToProducts();
         }
 
-        // FUNÇÃO DE FILTRO RÁPIDO
         function applyQuickFilter(val) {
             currentPage = 1;
             if (val === 'todos') {
@@ -1416,11 +1415,10 @@
             const input = document.getElementById('couponInput').value.trim().toUpperCase();
             if (!input) return;
 
-            // Procura na database se algum produto contém esse cupom na coluna 14
             const found = database.find(p => p.cupom === input);
 
             if (found) {
-                const percent = parseInt(found.cupom.replace(/\D/g, '')); // Pega os números, ex: "PAI35" vira 35
+                const percent = parseInt(found.cupom.replace(/\D/g, '')); 
                 if (!isNaN(percent)) {
                     appliedCoupon = { code: input, percent: percent };
                     showLuxuryToast("CUPOM ATIVADO", `${percent}% DE DESCONTO`);
@@ -1444,7 +1442,6 @@
             const promoTag = p.promocao > 0 ? `<div class="badge-promo" style="${p.maisVendido ? 'top:32px' : 'top:10px'}">Promoção</div>` : '';
             let pyramidHtml = (p.notasTopo || p.notasCoracao || p.notasBase) ? `<div class="pyramid-section"><span class="pyramid-title">PIRÂMIDE OLFATIVA</span>${p.notasTopo ? `<div class="note-item"><span class="note-label">Notas de Topo</span><p class="note-content">${p.notasTopo}</p></div>` : ''}${p.notasCoracao ? `<div class="note-item"><span class="note-label">Notas de Coração</span><p class="note-content">${p.notasCoracao}</p></div>` : ''}${p.notasBase ? `<div class="note-item"><span class="note-label">Notas de Base</span><p class="note-content">${p.notasBase}</p></div>` : ''}</div>` : "";
             
-            // DNA CHART HTML
             const dnaHtml = `<div class="dna-chart-container">
                                 <span class="pyramid-title">DNA DA FRAGRÂNCIA</span>
                                 <canvas id="dnaChart"></canvas>
@@ -1455,7 +1452,6 @@
             document.getElementById('modalContent').innerHTML = `<div class="flex justify-center mb-6 relative">${bestSellerTag}${promoTag}<img src="${p.imagem}" class="h-56 object-contain" onerror="this.src='assinatura.png'"></div><p class="product-brand text-center">${p.marca}</p><h2 class="font-luxury text-2xl text-center mb-3">${p.nome}</h2><div class="w-12 h-[1px] bg-[#c5a059] mx-auto mb-6"></div><p class="text-sm italic text-center text-gray-400 mb-6 px-4">"${p.descricao}"</p><p class="product-price text-center mb-6">${precoDisplay}</p>${controls}${dnaHtml}${pyramidHtml}`; 
             document.getElementById('productModal').style.display = 'flex';
 
-            // INITIALIZE CHART
             setTimeout(() => {
                 const ctxDna = document.getElementById('dnaChart').getContext('2d');
                 new Chart(ctxDna, {
