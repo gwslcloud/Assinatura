@@ -216,6 +216,7 @@
             text-transform: uppercase;
             margin-bottom: 4px;
             opacity: 0.8;
+            animation: textGlowPulse 4s infinite ease-in-out;
         }
 
         .luxury-pulse-line {
@@ -242,6 +243,18 @@
             100% { left: 100%; opacity: 0; }
         }
 
+        @keyframes textGlowPulse {
+    0%, 100% {
+        color: var(--dourado-logo);
+        text-shadow: 0 0 0px transparent;
+        opacity: 0.8;
+    }
+    50% {
+        color: var(--dourado-brilho); /* Cor mais clara para o brilho */
+        text-shadow: 0 0 8px rgba(226, 194, 117, 0.5); /* Sombra suave dourada */
+        opacity: 1;
+    }
+}
         .logo-main { 
             width: 110px; 
             position: relative; 
