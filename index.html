@@ -184,7 +184,7 @@
             width: 100%; height: 100%; object-fit: contain;
             filter: contrast(1.1) brightness(0.9);
             mix-blend-mode: lighten; 
-            pointer-events: none; /* EVITA INTERAÇÃO QUE PODE TRAVAR NO SAFARI */
+            pointer-events: none;
         }
 
         .header-container {
@@ -214,6 +214,7 @@
             letter-spacing: 4px;
             text-transform: uppercase;
             animation: textGlowPulse 4s infinite ease-in-out;
+            color: var(--dourado-logo); /* Cor base para fallback */
         }
 
         .luxury-pulse-line {
@@ -242,13 +243,13 @@
 
         @keyframes textGlowPulse {
             0%, 100% {
-                color: var(--dourado-logo) !important;
+                color: var(--dourado-logo);
                 text-shadow: 0 0 0px transparent;
-                opacity: 0.8;
+                opacity: 0.7;
             }
             50% {
-                color: var(--dourado-brilho) !important; /* Cor mais clara para o brilho */
-                text-shadow: 0 0 8px rgba(226, 194, 117, 0.5); /* Sombra suave dourada */
+                color: var(--dourado-brilho);
+                text-shadow: 0 0 12px rgba(226, 194, 117, 0.5);
                 opacity: 1;
             }
         }
@@ -1007,7 +1008,7 @@
     <header class="header-container">
         <img src="assinatura.png" alt="Logo" class="logo-main" onclick="filterByBrand('Todos'); window.scrollTo({top: 0, behavior: 'smooth'})">
         <div class="luxury-line-container">
-            <span class="luxury-line-text" style="font-size: 7px; margin-bottom: 4px; opacity: 0.8;">Perfumaria De Luxo</span>
+            <span class="luxury-line-text" style="font-size: 7px; margin-bottom: 4px;">Perfumaria De Luxo</span>
             <div class="luxury-pulse-line"></div>
         </div>
         <div class="theme-toggle" onclick="toggleTheme()">
@@ -1015,10 +1016,10 @@
         </div>
     </header>
 
-    <!-- ALTERAÇÃO 2: AUMENTADO O PADDING INFERIOR (De 5px para 35px) PARA DAR ESPAÇO -->
+    <!-- ALTERAÇÃO 2: APLICADA CLASSE DE EFEITO NO SLOGAN E REMOVIDA COR INLINE FIXA -->
     <div style="padding: 25px 20px 35px 20px; text-align: center; background: linear-gradient(to right, transparent, rgba(197, 160, 89, 0.1), transparent);">
         <div style="width: 50px; height: 1px; background: #c5a059; margin: 0 auto 10px;"></div>
-        <p class="luxury-line-text" style="font-family: 'Cinzel', serif; font-size: 14px; color: #c5a059; letter-spacing: 4px; line-height: 1.8; max-width: 600px; margin: 0 auto; text-transform: uppercase; font-weight: 400;">
+        <p class="luxury-line-text" style="font-size: 14px; letter-spacing: 4px; line-height: 1.8; max-width: 600px; margin: 0 auto; font-weight: 400;">
             "Com a Assinatura Parfum, sua presença chega antes de você e permanece após sua partida."
         </p>
         <div style="width: 50px; height: 1px; background: #c5a059; margin: 10px auto 0;"></div>
