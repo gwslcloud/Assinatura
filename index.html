@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#00160f">
     <meta name="description" content="Assinatura Parfum — curadoria de fragrâncias e atendimento personalizado em Boa Vista, Roraima.">
     <title>Assinatura Parfum | Curadoria de Fragrâncias</title>
-    <!-- Versão 4: hero cinematográfico + experiência mobile-first + verde original da marca -->
+    <!-- Versão 5: mobile-first, vídeo completo no celular, sem logo redundante sobre o vídeo -->
 
     <link rel="icon" type="image/png" href="assinatura.png">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -536,7 +536,11 @@
             }
             .header-side { gap: 0; }
             .header-side.right { justify-content: flex-end; }
-            .header-logo { width: 94px; margin-inline: auto; }
+            /* No celular, a marca já aparece no vídeo/apresentação.
+               Removemos a logo central do header para evitar redundância. */
+            .header-logo { display: none; }
+            .header-side:first-child { grid-column: 1; }
+            .header-side.right { grid-column: 3; }
             .icon-btn, .concierge-link {
                 width: 40px;
                 height: 40px;
@@ -549,125 +553,82 @@
             }
             .header-caption, .concierge-link span { display: none; }
 
-            /* Hero V4: vídeo volta a ser o fundo do letreiro, como na V2,
-               mas com composição e altura pensadas especificamente para celular. */
+            /* Hero: vídeo inteiro em cima + mensagem abaixo. Sem crop. */
             .hero {
-                position: relative;
-                min-height: clamp(580px, 86svh, 680px);
-                display: flex;
-                align-items: flex-end;
+                min-height: 0;
+                display: block;
                 background: var(--forest-950);
                 overflow: hidden;
-                isolation: isolate;
             }
             .hero-media {
-                position: absolute;
-                inset: 0;
+                position: relative;
+                inset: auto;
                 width: 100%;
-                height: 100%;
-                background: var(--forest-950);
+                height: clamp(350px, 55svh, 500px);
+                min-height: 350px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #000;
                 overflow: hidden;
             }
             .hero-media video {
                 width: 100%;
                 height: 100%;
-                object-fit: cover;
-                object-position: 50% 50%;
-                opacity: .78;
-                filter: contrast(1.05) brightness(.72) saturate(.82);
-                transform: scale(1.01);
-            }
-            .hero-media::before {
-                content: "";
-                position: absolute;
-                inset: 0;
-                z-index: 1;
-                pointer-events: none;
-                background: radial-gradient(ellipse at 50% 38%, transparent 25%, rgba(0,22,15,.12) 58%, rgba(0,22,15,.48) 100%);
+                object-fit: contain;
+                object-position: center;
+                opacity: 1;
+                filter: contrast(1.04) brightness(.92) saturate(.92);
             }
             .hero-media::after {
-                z-index: 2;
                 background:
-                    linear-gradient(180deg,
-                        rgba(0,22,15,.18) 0%,
-                        rgba(0,22,15,.14) 24%,
-                        rgba(0,22,15,.28) 48%,
-                        rgba(0,22,15,.72) 72%,
-                        rgba(0,22,15,.96) 92%,
-                        var(--forest-950) 100%);
+                    linear-gradient(180deg, rgba(0,0,0,.18) 0%, transparent 22%, transparent 74%, rgba(0,22,15,.92) 100%);
             }
             .hero-content {
                 position: relative;
-                z-index: 3;
                 width: calc(100% - 32px);
+                padding: 28px 0 42px;
                 margin: 0 auto;
-                padding: 132px 0 48px;
                 background: transparent;
             }
-            .hero-copy {
-                max-width: 390px;
-                text-align: left;
-            }
-            .hero-copy .eyebrow {
-                display: block;
-                color: var(--champagne-soft);
-                font-size: 8px;
-                letter-spacing: .28em;
-            }
+            .hero-copy { max-width: none; text-align: center; }
+            .hero-copy .eyebrow { display: block; }
             .hero-copy h1 {
-                max-width: 355px;
-                margin: 13px 0 16px;
-                font-size: clamp(31px, 9.1vw, 39px);
-                line-height: 1.04;
-                letter-spacing: -.025em;
-                text-shadow: 0 8px 28px rgba(0,0,0,.28);
-            }
-            .hero-copy h1 em {
-                color: var(--champagne-soft);
+                max-width: 360px;
+                margin: 13px auto 16px;
+                font-size: clamp(29px, 8.8vw, 37px);
+                line-height: 1.06;
+                letter-spacing: -.02em;
             }
             .hero-copy p {
                 width: 100%;
-                max-width: 355px;
-                margin: 0;
-                font-size: 11.5px;
-                line-height: 1.72;
-                color: rgba(245,240,231,.76);
-                text-shadow: 0 4px 18px rgba(0,0,0,.34);
+                max-width: 380px;
+                margin-inline: auto;
+                font-size: 12px;
+                line-height: 1.75;
+                color: rgba(245,240,231,.68);
             }
             .hero-actions {
-                max-width: 355px;
-                margin: 23px 0 0;
+                max-width: 380px;
+                margin: 24px auto 0;
                 display: grid;
                 grid-template-columns: 1fr;
-                gap: 8px;
+                gap: 9px;
             }
             .btn-primary, .btn-secondary {
-                min-height: 47px;
+                min-height: 48px;
                 width: 100%;
-                padding: 0 17px;
+                padding: 0 18px;
                 font-size: 8px;
-                letter-spacing: .18em;
-            }
-            .hero .btn-primary {
-                background: var(--ivory);
-                color: var(--forest-950);
-                border-color: var(--ivory);
-            }
-            .hero .btn-secondary {
-                background: rgba(0,22,15,.24);
-                color: var(--ivory);
-                border-color: rgba(245,240,231,.28);
-                backdrop-filter: blur(8px);
-                -webkit-backdrop-filter: blur(8px);
+                letter-spacing: .19em;
             }
             .hero-footnote {
-                justify-content: flex-start;
-                margin-top: 22px;
-                font-size: 6.8px;
+                justify-content: center;
+                margin-top: 24px;
+                font-size: 7px;
                 letter-spacing: .14em;
-                color: rgba(245,240,231,.52);
             }
-            .hero-footnote .hairline { width: 30px; }
+            .hero-footnote .hairline { width: 28px; }
 
             /* Diferenciais em trilho horizontal para não empurrar catálogo */
             .value-strip { overflow: hidden; }
@@ -911,11 +872,6 @@
 
         /* Pequenos celulares: ainda preserva 2 colunas, sem esmagar textos */
         @media (max-width: 365px) {
-            .hero { min-height: 570px; }
-            .hero-content { width: calc(100% - 26px); padding-bottom: 38px; }
-            .hero-copy h1 { font-size: 29px; max-width: 310px; }
-            .hero-copy p, .hero-actions { max-width: 315px; }
-            .hero-media video { object-position: 50% 50%; }
             .section-shell, .recent-viewed-section { width: calc(100% - 18px); }
             .product-grid { gap: 6px; }
             .product-card { padding: 12px 8px 10px; }
