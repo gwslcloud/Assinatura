@@ -570,16 +570,25 @@
             .header-inner {
                 width: calc(100% - 24px);
                 min-height: 68px;
-                grid-template-columns: 44px 1fr 44px;
+                grid-template-columns: 1fr auto 1fr;
                 gap: 8px;
             }
-            .header-side { gap: 0; }
+
+            /* Mobile igual ao tablet: menu + legenda à esquerda,
+               logo centralizada e consultor à direita. */
+            .header-side { gap: 7px; min-width: 0; }
             .header-side.right { justify-content: flex-end; }
-            /* No celular, a marca já aparece no vídeo/apresentação.
-               Removemos a logo central do header para evitar redundância. */
-            .header-logo { display: none; }
+
+            .header-logo {
+                display: block;
+                width: 96px;
+                justify-self: center;
+            }
+
             .header-side:first-child { grid-column: 1; }
+            .header-logo { grid-column: 2; }
             .header-side.right { grid-column: 3; }
+
             .icon-btn, .concierge-link {
                 width: 40px;
                 height: 40px;
@@ -590,7 +599,18 @@
                 background: rgba(0,22,15,.42);
                 border-color: rgba(226,194,117,.28);
             }
-            .header-caption, .concierge-link span { display: none; }
+
+            .header-caption {
+                display: inline-block;
+                max-width: 105px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                font-size: 6.5px;
+                letter-spacing: .16em;
+            }
+
+            .concierge-link span { display: none; }
 
             /* Hero: vídeo inteiro em cima + mensagem abaixo. Sem crop. */
             .hero {
