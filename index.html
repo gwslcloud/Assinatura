@@ -1382,7 +1382,7 @@
         function trackRecent(id) {
             recentViewed = recentViewed.filter(recentId => recentId !== id);
             recentViewed.unshift(id);
-            recentViewed = recentViewed.slice(0, 5);
+            recentViewed = recentViewed.slice(0, 2);
             saveUserData();
             renderRecentViewed();
         }
