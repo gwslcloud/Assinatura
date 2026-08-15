@@ -601,13 +601,9 @@
             }
 
             .header-caption {
-                display: inline-block;
-                max-width: 105px;
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                font-size: 6.5px;
-                letter-spacing: .16em;
+                /* No celular, ocultamos apenas o texto ao lado do botão de menu.
+                   Tablet e desktop continuam usando a legenda normalmente. */
+                display: none;
             }
 
             .concierge-link span { display: none; }
