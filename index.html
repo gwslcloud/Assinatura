@@ -554,76 +554,18 @@
            catálogo, modais, carrinho e rodapé são redesenhados.
            ============================================================ */
         @media (max-width: 760px) {
-            html { scroll-padding-top: 72px; }
+            html { scroll-padding-top: 0; }
             body {
                 background: var(--forest-950);
                 padding-bottom: env(safe-area-inset-bottom);
             }
             button, a, .brand-item, .quiz-opt, .seller-card { touch-action: manipulation; }
 
-            /* Header compacto sobre o vídeo */
+            /* No celular, o vídeo é a abertura da página.
+               O cabeçalho completo permanece disponível apenas em tablet/desktop. */
             .site-header {
-                /* Mobile na mesma linguagem visual do tablet:
-                   cabeçalho integrado ao topo do vídeo, sem faixa sólida separada. */
-                position: absolute;
-                inset: 0 0 auto;
-                background:
-                    linear-gradient(
-                        180deg,
-                        rgba(0,22,15,.88) 0%,
-                        rgba(0,22,15,.52) 56%,
-                        rgba(0,22,15,0) 100%
-                    );
-                border-bottom: 0;
-            }
-            .header-inner {
-                /* Mantém a logo geometricamente centralizada entre os dois botões. */
-                width: calc(100% - 28px);
-                min-height: 72px;
-                padding-top: max(4px, env(safe-area-inset-top));
-                grid-template-columns: 44px 1fr 44px;
-                gap: 8px;
-            }
-
-            /* Mobile igual ao tablet: menu + legenda à esquerda,
-               logo centralizada e consultor à direita. */
-            .header-side { gap: 7px; min-width: 0; }
-            .header-side.right { justify-content: flex-end; }
-
-            .header-logo {
-                display: block;
-                width: 100px;
-                max-height: 48px;
-                object-fit: contain;
-                justify-self: center;
-                filter: drop-shadow(0 8px 18px rgba(0,0,0,.34));
-            }
-
-            .header-side:first-child { grid-column: 1; }
-            .header-logo { grid-column: 2; }
-            .header-side.right { grid-column: 3; }
-
-            .icon-btn, .concierge-link {
-                width: 40px;
-                height: 40px;
-                min-height: 40px;
-                padding: 0;
-                justify-content: center;
-                border-radius: 50%;
-                background: rgba(0,22,15,.54);
-                border-color: rgba(226,194,117,.34);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                box-shadow: 0 8px 22px rgba(0,0,0,.18);
-            }
-
-            .header-caption {
-                /* No celular, ocultamos apenas o texto ao lado do botão de menu.
-                   Tablet e desktop continuam usando a legenda normalmente. */
                 display: none;
             }
-
-            .concierge-link span { display: none; }
 
             /* Hero: vídeo inteiro em cima + mensagem abaixo. Sem crop. */
             .hero {
@@ -653,8 +595,9 @@
                 filter: contrast(1.04) brightness(.92) saturate(.92);
             }
             .hero-media::after {
+                /* Topo mais limpo; mantém apenas uma transição elegante para o verde abaixo. */
                 background:
-                    linear-gradient(180deg, rgba(0,0,0,.18) 0%, transparent 22%, transparent 74%, rgba(0,22,15,.92) 100%);
+                    linear-gradient(180deg, rgba(0,0,0,.05) 0%, transparent 18%, transparent 74%, rgba(0,22,15,.92) 100%);
             }
             .hero-content {
                 position: relative;
