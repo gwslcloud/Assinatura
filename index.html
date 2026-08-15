@@ -891,6 +891,88 @@
             #luxuryToast { bottom: calc(74px + env(safe-area-inset-bottom)); }
         }
 
+
+        /* ============================================================
+           TABLET — VÍDEO COMPLETO SEM CORTE
+           - 761px a 1079px: tablets em geral.
+           - 1080px a 1366px + pointer: coarse: tablets touch em landscape.
+           - Celular e notebook/desktop permanecem com seus estilos atuais.
+           ============================================================ */
+        @media (min-width: 761px) and (max-width: 1079px),
+               (min-width: 1080px) and (max-width: 1366px) and (pointer: coarse) {
+
+            /* No tablet, o hero segue a lógica segura do mobile:
+               vídeo inteiro primeiro e conteúdo logo abaixo. */
+            .hero {
+                min-height: 0;
+                display: block;
+                background: var(--forest-950);
+                overflow: hidden;
+            }
+
+            .hero-media {
+                position: relative;
+                inset: auto;
+                width: 100%;
+                height: clamp(430px, 58svh, 640px);
+                min-height: 430px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #000;
+                overflow: hidden;
+            }
+
+            .hero-media video {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                object-position: center;
+                opacity: 1;
+                filter: contrast(1.04) brightness(.92) saturate(.92);
+            }
+
+            /* Gradiente apenas suaviza a transição do vídeo para o verde do site. */
+            .hero-media::after {
+                background:
+                    linear-gradient(
+                        180deg,
+                        rgba(0,0,0,.14) 0%,
+                        transparent 20%,
+                        transparent 76%,
+                        rgba(0,22,15,.90) 100%
+                    );
+            }
+
+            .hero-content {
+                position: relative;
+                width: min(920px, calc(100% - 64px));
+                margin: 0 auto;
+                padding: 38px 0 44px;
+            }
+
+            .hero-copy {
+                max-width: 760px;
+                margin: 0 auto;
+                text-align: center;
+            }
+
+            .hero-copy h1 {
+                max-width: 680px;
+                margin: 16px auto 20px;
+                font-size: clamp(40px, 6vw, 60px);
+                line-height: 1.02;
+            }
+
+            .hero-copy p {
+                margin-inline: auto;
+            }
+
+            .hero-actions {
+                justify-content: center;
+            }
+        }
+
         /* Pequenos celulares: ainda preserva 2 colunas, sem esmagar textos */
         @media (max-width: 365px) {
             .section-shell, .recent-viewed-section { width: calc(100% - 18px); }
@@ -937,7 +1019,7 @@
             </div>
             <img src="assinatura.png" alt="Assinatura Parfum" class="header-logo" onclick="filterByBrand('Todos'); window.scrollTo({top:0,behavior:'smooth'})">
             <div class="header-side right">
-                <a class="concierge-link" href="https://wa.me/5595991575389" target="_blank" rel="noopener">
+                <a class="concierge-link" href="https://wa.me/5595991154395" target="_blank" rel="noopener">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 11.5a8.5 8.5 0 01-12.85 7.3L3 20l1.2-4.9A8.5 8.5 0 1121 11.5z"/></svg>
                     <span>Falar com consultor</span>
                 </a>
